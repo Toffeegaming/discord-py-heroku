@@ -12,7 +12,7 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 OWNER = os.getenv("OWNER")
 
 
-guild_ids = [os.getenv("GUILD1"), os.getenv("GUILD2"), os.getenv("GUILD3")]
+guild_ids = [ int(os.getenv("GUILD1")), int(os.getenv("GUILD2")), int(os.getenv("GUILD3")) ]
 
 bot = commands.Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True)
