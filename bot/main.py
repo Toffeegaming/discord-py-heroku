@@ -60,7 +60,7 @@ async def _Bonk(ctx, victim=None):
     else:
         target = await bot.fetch_user(victim.id)
         
-        embed = discord.Embed(title="You got bonked!", description= f"{ctx.author} sent you to horny jail!", timestamp=datetime.datetime.utcfromtimestamp(1631973547), color=int(0xffffff,16))
+        embed = discord.Embed(title="You got bonked!", description= "someone sent you to horny jail!", color=int(0xffffff,16))
         embed.set_image(url="https://c.tenor.com/_ZvbLvrT_QcAAAAC/horny-jail-bonk.gif")
 
         await target.send(embed=embed)
