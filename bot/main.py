@@ -19,7 +19,8 @@ slash = SlashCommand(bot, sync_commands=True)
 
 @bot.event # ready messages
 async def on_ready():
-    print('Logged in as:\n' + bot.user.name + '\n' + bot.user.id + '\n' + '------')
+    print(f"Logged in as {bot.user.name}({bot.user.id})")
+    print()
     await bot.change_presence(activity=discord.Game(name='with my feelings'),status=discord.Status.online)
     owner = await bot.fetch_user(OWNER)
     rawtime = datetime.now()
