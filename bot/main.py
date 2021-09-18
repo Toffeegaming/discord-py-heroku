@@ -58,12 +58,10 @@ async def _Bonk(ctx, victim=None):
     if victim is None:
         await ctx.send("https://tenor.com/view/horny-jail-bonk-dog-hit-head-stop-being-horny-gif-17298755")
     else:
+        # TODO: make embed
+        sender = ctx.author.mention
         target = await bot.fetch_user(victim.id)
-        
-        embed = discord.Embed(title="You got bonked!", description= "someone sent you to horny jail!", color=int(0xffffff,16))
-        embed.set_image(url="https://c.tenor.com/_ZvbLvrT_QcAAAAC/horny-jail-bonk.gif")
-
-        await target.send(embed=embed)
+        await target.send("You got bonked by " + sender +"!\nhttps://tenor.com/view/horny-jail-bonk-dog-hit-head-stop-being-horny-gif-17298755")
         await ctx.send("BONK!")
 
 
