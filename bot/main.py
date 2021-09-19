@@ -59,7 +59,7 @@ async def _Bonk(ctx, victim=None):
         await ctx.send("https://tenor.com/view/horny-jail-bonk-dog-hit-head-stop-being-horny-gif-17298755")
     else:
         # TODO: make embed
-        sender = ctx.author.mention
+        sender = ctx.author.name
         target = await bot.fetch_user(victim.id)
         await target.send("You got bonked by " + sender +"!\nhttps://tenor.com/view/horny-jail-bonk-dog-hit-head-stop-being-horny-gif-17298755")
         await ctx.send("BONK!")
