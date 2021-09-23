@@ -61,7 +61,7 @@ async def _Shame(ctx, victim=None):
         # TODO: make embed
         sender = ctx.author.name
         target = await bot.fetch_user(victim.id)
-        await target.send("" + sender + " finds you shameful!\nhttps://tenor.com/view/shame-go-t-game-of-thrones-walk-of-shame-shameful-gif-4949558")
+        await target.send("You got shamed by " + sender +"!\nhttps://tenor.com/view/shame-go-t-game-of-thrones-walk-of-shame-shameful-gif-4949558")
         await ctx.send("Shame has been delivered!")
 
 
