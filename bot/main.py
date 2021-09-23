@@ -43,6 +43,29 @@ async def _Ping(ctx):
     await ctx.send(f"Pong! ({bot.latency*1000}ms)")
 
 @slash.slash(
+    name='Shame',
+    description='Shame those who deserve it',
+    options=[
+        create_option(
+                 name="target",
+                 description="Who needs to be publicly shamed?",
+                 option_type=6,
+                 required=False
+               )
+    ],
+    guild_ids=guild_ids)
+async def _Shame(ctx, victim=None):
+    if victim is None:
+        await ctx.send("https://tenor.com/view/shame-go-t-game-of-thrones-walk-of-shame-shameful-gif-4949558")
+    else:
+        # TODO: make embed
+        sender = ctx.author.name
+        target = await bot.fetch_user(victim.id)
+        await target.send(sender +" finds you shameful!\nhttps://tenor.com/view/shame-go-t-game-of-thrones-walk-of-shame-shameful-gif-4949558")
+        await ctx.send("Shame has been delivered!")
+
+
+@slash.slash(
     name='Bonk',
     description='Bonk the horny people',
     options=[
