@@ -25,7 +25,7 @@ async def on_ready():
     owner = await bot.fetch_user(OWNER)
     rawtime = datetime.now()
     formatTime = rawtime.strftime("%d-%b-%Y (%H:%M:%S)")
-    await owner.send('Bot is online @' + formatTime)
+    #await owner.send('Bot is online @' + formatTime)
 
 
 @bot.event # error handler
