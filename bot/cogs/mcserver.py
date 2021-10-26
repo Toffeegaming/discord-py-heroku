@@ -1,10 +1,10 @@
-from discord.ext import commands
+from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
 
 from mcstatus import MinecraftServer
 
-class Minecraft(commands.Cog)
-    def __init__(self, bot):
+class Minecraft(Cog)
+    def __init__(self, bot: Bot):
         self.bot = bot
     
     MCServer = [int(os.getenv("GUILD2")),int(os.getenv("GUILD3"))]
@@ -13,7 +13,7 @@ class Minecraft(commands.Cog)
     name='Server',
     description='Check of de minecraft server online is.',
     guild_ids = MCServer)
-    async def _Server(ctx):
+    async def _Server(ctx: SlashContext):
         print(f"Started running server command")
         try:
             ip = os.getenv("SERVER")
@@ -32,5 +32,5 @@ class Minecraft(commands.Cog)
         except:
             await ctx.send("Server is offline")
 
-def setup(bot):
+def setup(bot: Bot):
     bot.add_cog( Minecraft(bot) )
