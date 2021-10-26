@@ -122,9 +122,9 @@ async def _Server(ctx):
 
         test = placeholder.format( names = ", ".join(query.players.names) )
 
-        if test
+        if test:
             names = "Deze mensen zijn op de server: " + test
-        else
+        else:
             names = "Niemand is online"
 
         intro = "De server is online!\n"
