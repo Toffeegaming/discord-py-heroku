@@ -114,10 +114,10 @@ async def _Server(ctx):
         ip = os.getenv("SERVER")
         server = MinecraftServer(ip,25565)
         query = server.query()
-        string = f"De server is online!\nDeze mensen zijn op de server: {0}".format(join(query.players.names) )
-        await ctx.send(string)
+        string = "De server is online!\nDeze mensen zijn op de server: {names}"
+        await ctx.send(string.format(names = join(query.players.names) ) )
     except:
-        await ctx.send(f"Server is offline")
+        await ctx.send("Server is offline")
 
 #Create bot
 bot.run(TOKEN)
