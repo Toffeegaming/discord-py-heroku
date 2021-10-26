@@ -114,7 +114,8 @@ async def _Server(ctx):
         ip = os.getenv("SERVER")
         server = MinecraftServer(ip,25565)
         query = server.query()
-        await ctx.send( f"De server is online!\nDeze mensen zijn op de server: {0}".format(join(query.players.names) ) )
+        string = f"De server is online!\nDeze mensen zijn op de server: {0}".format(join(query.players.names) )
+        await ctx.send(string)
     except:
         await ctx.send(f"Server is offline")
 
