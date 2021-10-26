@@ -9,7 +9,13 @@ from datetime import datetime
 from mcstatus import MinecraftServer
 
 import os
-import sys
+from flask import Flask
+
+app = Flask(__name__) # create Flask server
+# get instance of logger and set log severity as defined by the cli parameter
+gunicorn_logger = logging.getLogger('gunicorn.error')
+app.logger.handlers = gunicorn_logger.handlers
+app.logger.setLevel(gunicorn_logger.level)
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 OWNER = os.getenv("OWNER")
@@ -113,23 +119,20 @@ MCServer = [int(os.getenv("GUILD2"))]
 async def _Server(ctx):
     try:
         ip = os.getenv("SERVER")
-        print("Got ip")sys.stdout.flush()
+        app.logger.debug("Got ip")
 
         server = MinecraftServer(ip,25565)
-        print("Got server")
-        sys.stdout.flush()
-
+        app.logger.debug("Got server")
+  
         query = server.query()
-        print("Got query")
-        sys.stdout.flush()
+        app.logger.debug("Got query")
 
         string = "De server is online!\nDeze mensen zijn op de server: {names}"
-        print("Got string")
-        sys.stdout.flush()
-        
+        app.logger.debug("Got string")
+
         await ctx.send(string.format(names = join(query.players.names) ) )
-        print("Sent message")
-        sys.stdout.flush()
+        app.logger.debug("Sent message")
+
     except:
         await ctx.send("Server is offline")
 
