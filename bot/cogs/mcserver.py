@@ -2,7 +2,7 @@
 from discord_slash import SlashCommand, cog_ext, SlashContext
 from mcstatus import MinecraftServer
 
-class Minecraft(command.Cog)
+class Minecraft(commands.Cog)
     def __init__(self, bot):
         self.bot = bot
     
