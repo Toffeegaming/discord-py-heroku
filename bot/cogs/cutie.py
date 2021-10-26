@@ -10,7 +10,7 @@ class Cutie(Cog):
         self.bot = bot
 
     @cog_ext.cog_slash( name='Cute', description='Hoe cute ben je?', guild_ids=guild_ids)
-    async def _Cute(self,ctx):
+    async def _Cute(self,ctx: SlashContext):
         id = ctx.author_id
         mention = ctx.author.mention
         if id == os.getenv("BEAST"):
@@ -18,7 +18,7 @@ class Cutie(Cog):
         if id == os.getenv("CUTIE"):
             await ctx.send(mention + " is de beste cutie van Nederland :)")
         else:
-            await ctx.send(mention + " is een cute")
+            await ctx.send(mention + " is een cutie")
 
 def setup(bot: Bot):
     bot.add_cog( Cutie(bot) )
