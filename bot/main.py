@@ -124,7 +124,7 @@ async def _Server(ctx):
         string = "De server is online!\nDeze mensen zijn op de server: {names}"
         print(f"Got string")
 
-        await ctx.send(string.format(names = join(query.players.names) ) )
+        await ctx.send(string.format(names = ", ".join(query.players.names) ) )
         print(f"Sent message")
 
     except:
