@@ -108,7 +108,7 @@ MCServer = [int(os.getenv("GUILD2"))]
 @slash.slash( #server status
     name='Server',
     description='Check of de minecraft server online is.',
-    MCServer)
+    guild_ids = MCServer)
 async def _Server(ctx):
     try:
         ip = os.getenv("SERVER")
