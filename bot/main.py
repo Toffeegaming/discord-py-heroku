@@ -11,12 +11,6 @@ from mcstatus import MinecraftServer
 import os
 import sys
 
-app = Flask(__name__) # create Flask server
-# get instance of logger and set log severity as defined by the cli parameter
-gunicorn_logger = logging.getLogger('gunicorn.error')
-app.logger.handlers = gunicorn_logger.handlers
-app.logger.setLevel(gunicorn_logger.level)
-
 TOKEN = os.getenv("DISCORD_TOKEN")
 OWNER = os.getenv("OWNER")
 
