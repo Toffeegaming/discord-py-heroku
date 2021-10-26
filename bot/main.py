@@ -129,7 +129,11 @@ async def _Geil(ctx):
 #         await ctx.send("Server is offline")
 
 # Load cogs
-bot.load_extension("cogs.mcserver")
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        bot.load_extension(f'cogs.{filename[:-3]}')
+    else:
+        print(f'Unable to load {filename[:-3]}')
 
 # Create bot
 bot.run(TOKEN)
