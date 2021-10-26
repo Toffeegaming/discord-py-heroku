@@ -5,7 +5,7 @@ from mcstatus import MinecraftServer
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
 
-class Minecraft(Cog)
+class Minecraft(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
     
