@@ -112,6 +112,7 @@ MCServer = [int(os.getenv("GUILD2"))]
 async def _Server(ctx):
     try:
         ip = os.getenv("SERVER")
+        server = MinecraftServer(ip,25565)
         query = server.query()
         await ctx.send( f"De server is online!\nDeze mensen zijn op de server: {0}".format(", ".join(query.players.names) ) )
     except:
