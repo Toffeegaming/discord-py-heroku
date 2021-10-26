@@ -3,6 +3,8 @@ import os
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
 
+from discord_slash.utils.manage_commands import create_option
+
 guild_ids = [ int(os.getenv("GUILD1")), int(os.getenv("GUILD2")), int(os.getenv("GUILD3")) ]
 
 class Bonk(Cog):
