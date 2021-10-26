@@ -113,19 +113,25 @@ async def _Server(ctx):
     print(f"Started running server command")
     try:
         ip = os.getenv("SERVER")
-        print(f"Got ip")
 
         server = MinecraftServer(ip,25565)
-        print(f"Got server")
   
         query = server.query()
-        print(f"Got query")
 
-        string = "De server is online!\nDeze mensen zijn op de server: {names}"
-        print(f"Got string")
+        placeholder = "{names}"
 
-        await ctx.send(string.format(names = ", ".join(query.players.names) ) )
-        print(f"Sent message")
+        test = placeholder.format( names = ", ".join(query.players.names) )
+
+        if test
+            names = "Deze mensen zijn op de server: " + test
+        else
+            names = "Niemand is online"
+
+        intro = "De server is online!\n"
+
+        message = intro + names
+
+        await ctx.send( message )
 
     except:
         await ctx.send("Server is offline")
