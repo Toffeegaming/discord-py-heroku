@@ -6,6 +6,8 @@ class Minecraft(command.Cog)
     def __init__(self, bot):
         self.bot = bot
     
+    MCServer = [int(os.getenv("GUILD2")),int(os.getenv("GUILD3"))]
+
     @cog_ext.cog_slash(
     name='Server',
     description='Check of de minecraft server online is.',
