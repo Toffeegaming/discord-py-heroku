@@ -13,7 +13,6 @@ import os
 TOKEN = os.getenv("DISCORD_TOKEN")
 OWNER = os.getenv("OWNER")
 
-
 guild_ids = [ int(os.getenv("GUILD1")), int(os.getenv("GUILD2")), int(os.getenv("GUILD3")) ]
 
 bot = commands.Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
@@ -106,9 +105,10 @@ async def _Geil(ctx):
 @slash.slash( #server status
     name='Server',
     description='Check of de minecraft server online is.',
-    831642131986776125)
+    int(os.getenv("GUILD2")))
 async def _Server(ctx):
-    server = MinecraftServer("84.31.105.79",25565)
+    ip = os.getenv("SERVER")
+    server = MinecraftServer(ip,25565)
     latency = server.ping()
     if latency.format == 0
         await ctx.send(f"Server is offline")
