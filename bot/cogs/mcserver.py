@@ -8,8 +8,7 @@ from discord_slash import cog_ext, SlashContext
 class Minecraft(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
-    
-    MCServer = [int(os.getenv("GUILD2")),int(os.getenv("GUILD3"))]
+        self.MCServer = [int(os.getenv("GUILD2")),int(os.getenv("GUILD3"))]
 
     @cog_ext.cog_slash(
     name='Server',
