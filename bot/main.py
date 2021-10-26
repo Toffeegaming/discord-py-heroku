@@ -110,7 +110,8 @@ async def _Server(ctx):
     ip = os.getenv("SERVER")
     server = MinecraftServer(ip,25565)
     latency = server.ping()
-    if latency.format == 0
+    ms = int(latency)
+    if ms == 0
         await ctx.send(f"Server is offline")
     else
         query = server.query()
