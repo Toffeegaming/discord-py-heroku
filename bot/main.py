@@ -1,15 +1,14 @@
 import discord
-from discord.ext import commands
+#from discord.ext import commands
 
 from discord_slash import SlashCommand
 from discord_slash.utils.manage_commands import create_option
 
 from datetime import datetime
 
-from mcstatus import MinecraftServer
+# from mcstatus import MinecraftServer
 
 import os
-import sys
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 OWNER = os.getenv("OWNER")
@@ -103,38 +102,33 @@ async def _Geil(ctx):
         await ctx.send(mention + " is een sexy beast")
 
 
-MCServer = [int(os.getenv("GUILD2"))]
+# MCServer = [int(os.getenv("GUILD2"))]
 
-@slash.slash( #server status
-    name='Server',
-    description='Check of de minecraft server online is.',
-    guild_ids = MCServer)
-async def _Server(ctx):
-    print(f"Started running server command")
-    try:
-        ip = os.getenv("SERVER")
+# @slash.slash( #server status
+#     name='Server',
+#     description='Check of de minecraft server online is.',
+#     guild_ids = MCServer)
+# async def _Server(ctx):
+#     print(f"Started running server command")
+#     try:
+#         ip = os.getenv("SERVER")
+#         server = MinecraftServer(ip,25565)
+#         query = server.query()
+#         placeholder = "{names}"
+#         test = placeholder.format( names = ", ".join(query.players.names) )
+#         if test:
+#             names = "Deze mensen zijn op de server: " + test
+#         else:
+#             names = "Niemand is online"
+#         intro = "De server is online!\n"
+#         message = intro + names
+#         await ctx.send( message )
 
-        server = MinecraftServer(ip,25565)
-  
-        query = server.query()
+#     except:
+#         await ctx.send("Server is offline")
 
-        placeholder = "{names}"
+# Load cogs
+bot.load_extension("cogs.mcserver")
 
-        test = placeholder.format( names = ", ".join(query.players.names) )
-
-        if test:
-            names = "Deze mensen zijn op de server: " + test
-        else:
-            names = "Niemand is online"
-
-        intro = "De server is online!\n"
-
-        message = intro + names
-
-        await ctx.send( message )
-
-    except:
-        await ctx.send("Server is offline")
-
-#Create bot
+# Create bot
 bot.run(TOKEN)
