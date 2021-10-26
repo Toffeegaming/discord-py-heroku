@@ -110,7 +110,7 @@ async def _Geil(ctx):
 async def _Server(ctx):
     server = MinecraftServer("84.31.105.79",25565)
     latency = server.ping()
-    if latency == 0
+    if latency.format == 0
         await ctx.send(f"Server is offline")
     else
         query = server.query()
