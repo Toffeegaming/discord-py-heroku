@@ -10,7 +10,7 @@ class Cutie(Cog):
         self.bot = bot
 
     @cog_ext.cog_slash( name='Cute', description='Hoe cute ben je?', guild_ids=guild_ids)
-    async def _Geil(ctx):
+    async def _Cute(self,ctx):
         id = ctx.author_id
         mention = ctx.author.mention
         if id == os.getenv("BEAST"):
