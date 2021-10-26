@@ -22,7 +22,6 @@ slash = SlashCommand(bot, sync_commands=True)
 @bot.event # ready messages
 async def on_ready():
     print(f"Logged in as {bot.user.name}({bot.user.id})")
-    print()
     await bot.change_presence(activity=discord.Game(name='with my feelings'),status=discord.Status.online)
     owner = await bot.fetch_user(OWNER)
     rawtime = datetime.now()
@@ -111,21 +110,22 @@ MCServer = [int(os.getenv("GUILD2"))]
     description='Check of de minecraft server online is.',
     guild_ids = MCServer)
 async def _Server(ctx):
+    print(f"Started running server command")
     try:
         ip = os.getenv("SERVER")
-        sys.stdout.write("Got ip")
+        print(f"Got ip")
 
         server = MinecraftServer(ip,25565)
-        sys.stdout.write("Got server")
+        print(f"Got server")
   
         query = server.query()
-        sys.stdout.write("Got query")
+        print(f"Got query")
 
         string = "De server is online!\nDeze mensen zijn op de server: {names}"
-        sys.stdout.write("Got string")
+        print(f"Got string")
 
         await ctx.send(string.format(names = join(query.players.names) ) )
-        sys.stdout.write("Sent message")
+        print(f"Sent message")
 
     except:
         await ctx.send("Server is offline")
