@@ -18,7 +18,7 @@ class Shame(Cog):
                     description="Who needs to be publicly shamed?",
                     option_type=6,
                     required=False)] )
-    async def _Shame(ctx, victim=None):
+    async def _Shame(self,ctx: SlashContext, victim=None):
         if victim is None:
             await ctx.send("https://tenor.com/view/shame-go-t-game-of-thrones-walk-of-shame-shameful-gif-4949558")
         else:
