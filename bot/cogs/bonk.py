@@ -20,7 +20,7 @@ class Bonk(Cog):
                     required=False
                 )
         ])
-    async def _Bonk(ctx, victim=None):
+    async def _Bonk(self,ctx: SlashContext, victim=None):
         if victim is None:
             await ctx.send("https://tenor.com/view/horny-jail-bonk-dog-hit-head-stop-being-horny-gif-17298755")
         else:
