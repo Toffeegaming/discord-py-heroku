@@ -10,7 +10,7 @@ class Ping(Cog):
         self.bot = bot
 
     @cog_ext.cog_slash(name='Ping', description='Pong!', guild_ids=guild_ids)
-    async def _Ping(ctx):
+    async def _Ping(self,ctx: SlashContext):
         await ctx.send(f"Pong! ({bot.latency*1000}ms)")
 
 def setup(bot: Bot):
