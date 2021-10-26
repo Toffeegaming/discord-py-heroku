@@ -107,14 +107,13 @@ async def _Geil(ctx):
     description='Check of de minecraft server online is.',
     int(os.getenv("GUILD2")))
 async def _Server(ctx):
-    ip = os.getenv("SERVER")
-    server = MinecraftServer(ip,25565)
-    latency = server.ping()
-    ms = int(latency)
-    if ms == 0
-        await ctx.send(f"Server is offline")
-    else
+    try:
+        ip = os.getenv("SERVER")
+        server = MinecraftServer(ip,25565)
         query = server.query()
+    except:
+        await ctx.send(f"Server is offline")
+    else:
         print("The server has the following players online: {0}".format(", ".join(query.players.names)))
         await ctx.send( f"De server is online!\nDeze mensen zijn op de server: {0}".format(", ".join(query.players.names) ) )
 
