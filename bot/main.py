@@ -9,7 +9,7 @@ from datetime import datetime
 from mcstatus import MinecraftServer
 
 import os
-from flask import Flask
+import sys
 
 app = Flask(__name__) # create Flask server
 # get instance of logger and set log severity as defined by the cli parameter
@@ -119,19 +119,19 @@ MCServer = [int(os.getenv("GUILD2"))]
 async def _Server(ctx):
     try:
         ip = os.getenv("SERVER")
-        app.logger.debug("Got ip")
+        sys.stdout.write("Got ip")
 
         server = MinecraftServer(ip,25565)
-        app.logger.debug("Got server")
+        sys.stdout.write("Got server")
   
         query = server.query()
-        app.logger.debug("Got query")
+        sys.stdout.write("Got query")
 
         string = "De server is online!\nDeze mensen zijn op de server: {names}"
-        app.logger.debug("Got string")
+        sys.stdout.write("Got string")
 
         await ctx.send(string.format(names = join(query.players.names) ) )
-        app.logger.debug("Sent message")
+        sys.stdout.write("Sent message")
 
     except:
         await ctx.send("Server is offline")
