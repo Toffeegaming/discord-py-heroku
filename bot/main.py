@@ -102,10 +102,13 @@ async def _Geil(ctx):
     else:
         await ctx.send(mention + " is een sexy beast")
 
+
+MCServer = [int(os.getenv("GUILD2"))]
+
 @slash.slash( #server status
     name='Server',
     description='Check of de minecraft server online is.',
-    int(os.getenv("GUILD2")))
+    MCServer)
 async def _Server(ctx):
     try:
         ip = os.getenv("SERVER")
