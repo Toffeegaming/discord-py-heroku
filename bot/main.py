@@ -7,8 +7,6 @@ from discord_slash.utils.manage_commands import create_option
 
 from datetime import datetime
 
-# from mcstatus import MinecraftServer
-
 import os
 
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -102,6 +100,8 @@ async def _Geil(ctx):
     else:
         await ctx.send(mention + " is een sexy beast")
 
+
+# from mcstatus import MinecraftServer
 
 # MCServer = [int(os.getenv("GUILD2")),int(os.getenv("GUILD3"))]
 
