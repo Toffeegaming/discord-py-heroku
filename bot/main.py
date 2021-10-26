@@ -6,6 +6,8 @@ from discord_slash.utils.manage_commands import create_option
 
 from datetime import datetime
 
+from mcstatus import MinecraftServer
+
 import os
 
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -33,16 +35,17 @@ async def on_slash_command_error(ctx, error):
     if isinstance(error, discord.ext.commands.errors.CommandNotFound):
         await ctx.send("That command wasn't found! Sorry :(")
     if isinstance(error, discord.HTTPException):
-        await ctx.send("You cannot bonk them!")
+        await ctx.send("You cannot that action")
 
-@slash.slash(
+
+@slash.slash( #ping
     name='Ping',
     description='Pong!',
     guild_ids=guild_ids)
 async def _Ping(ctx):
     await ctx.send(f"Pong! ({bot.latency*1000}ms)")
 
-@slash.slash(
+@slash.slash( #shame
     name='Shame',
     description='Shame those who deserve it',
     options=[
@@ -64,8 +67,7 @@ async def _Shame(ctx, victim=None):
         await target.send("You got shamed by " + sender +"!\nhttps://tenor.com/view/shame-go-t-game-of-thrones-walk-of-shame-shameful-gif-4949558")
         await ctx.send("Shame has been delivered!")
 
-
-@slash.slash(
+@slash.slash( #bonk
     name='Bonk',
     description='Bonk the horny people',
     options=[
@@ -87,9 +89,7 @@ async def _Bonk(ctx, victim=None):
         await target.send("You got bonked by " + sender +"!\nhttps://tenor.com/view/horny-jail-bonk-dog-hit-head-stop-being-horny-gif-17298755")
         await ctx.send("BONK!")
 
-
-
-@slash.slash(
+@slash.slash( # geil
     name='Geil',
     description='Horny or normie?',
     guild_ids=guild_ids)
@@ -102,6 +102,21 @@ async def _Geil(ctx):
         await ctx.send(mention + " is een cutie :)")
     else:
         await ctx.send(mention + " is een sexy beast")
+
+@slash.slash( #server status
+    name='Server',
+    description='Check of de minecraft server online is.',
+    831642131986776125)
+async def _Server(ctx):
+    server = MinecraftServer("84.31.105.79",25565)
+    latency = server.ping()
+    if latency == 0
+        await ctx.send(f"Server is offline")
+    else
+        query = server.query()
+        print("The server has the following players online: {0}".format(", ".join(query.players.names)))
+        await ctx.send( f"De server is online!\nDeze mensen zijn op de server: {0}".format(", ".join(query.players.names) ) )
+
 
 #Create bot
 bot.run(TOKEN)
