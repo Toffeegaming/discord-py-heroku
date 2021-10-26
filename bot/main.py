@@ -1,5 +1,6 @@
 import discord
-from discord.ext import commands
+
+from discord.ext.commands import Bot
 
 from discord_slash import SlashCommand
 from discord_slash.utils.manage_commands import create_option
@@ -15,7 +16,7 @@ OWNER = os.getenv("OWNER")
 
 guild_ids = [ int(os.getenv("GUILD1")), int(os.getenv("GUILD2")), int(os.getenv("GUILD3")) ]
 
-bot = commands.Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
+bot = Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True)
 
 @bot.event # ready messages
@@ -102,7 +103,7 @@ async def _Geil(ctx):
         await ctx.send(mention + " is een sexy beast")
 
 
-# MCServer = [int(os.getenv("GUILD2"))]
+# MCServer = [int(os.getenv("GUILD2")),int(os.getenv("GUILD3"))]
 
 # @slash.slash( #server status
 #     name='Server',
