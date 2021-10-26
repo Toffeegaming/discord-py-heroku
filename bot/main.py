@@ -9,6 +9,7 @@ from datetime import datetime
 from mcstatus import MinecraftServer
 
 import os
+import sys
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 OWNER = os.getenv("OWNER")
@@ -112,15 +113,23 @@ MCServer = [int(os.getenv("GUILD2"))]
 async def _Server(ctx):
     try:
         ip = os.getenv("SERVER")
-        print("Got ip")
+        print("Got ip")sys.stdout.flush()
+
         server = MinecraftServer(ip,25565)
         print("Got server")
+        sys.stdout.flush()
+
         query = server.query()
         print("Got query")
+        sys.stdout.flush()
+
         string = "De server is online!\nDeze mensen zijn op de server: {names}"
         print("Got string")
+        sys.stdout.flush()
+        
         await ctx.send(string.format(names = join(query.players.names) ) )
         print("Sent message")
+        sys.stdout.flush()
     except:
         await ctx.send("Server is offline")
 
