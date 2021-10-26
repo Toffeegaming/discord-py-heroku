@@ -130,7 +130,7 @@ async def _Geil(ctx):
 
 # Load cogs
 dir_path = os.path.dirname(os.path.realpath(__file__))
-for filename in os.listdir('dir_path/cogs'):
+for filename in os.listdir(dir_path + '/cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
         print(f"[COGS] loaded {filename[:-3]}")
