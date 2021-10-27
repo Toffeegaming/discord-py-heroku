@@ -15,12 +15,6 @@ async def on_ready():
     print(f"Logged in as {bot.user.name}({bot.user.id})")
     await bot.change_presence(activity=discord.Game(name='with my feelings'),status=discord.Status.online)
 
-
-@bot.event # error handler
-async def on_slash_command_error(ctx, error):
-    if isinstance(error, discord.HTTPException):
-        await ctx.send("You cannot do that action.")
-
 # Load cogs
 dir_path = os.path.dirname(os.path.realpath(__file__))
 for filename in os.listdir(dir_path + '/cogs'):
