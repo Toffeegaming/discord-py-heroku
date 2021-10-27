@@ -26,9 +26,15 @@ class Shame(Cog):
 
             # # TODO: make embed
             # sender = ctx.author.name
-            # target = await bot.fetch_user(victim.id)
+            # target = await self.bot.fetch_user(victim.id)
             # await target.send("You got shamed by " + sender +"!\nhttps://tenor.com/view/shame-go-t-game-of-thrones-walk-of-shame-shameful-gif-4949558")
             # await ctx.send("Shame has been delivered!")
+
+    @_Shame.error # error handler
+    async def _Shame_error(self, ctx, error):
+        await ctx.send("ERROR!")
+        if isinstance(error, discord.HTTPException):
+            await ctx.send("You cannot send a DM to this person.")
 
 def setup(bot: Bot):
     bot.add_cog( Shame(bot) )

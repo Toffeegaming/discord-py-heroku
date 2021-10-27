@@ -55,7 +55,7 @@ class Minecraft(Cog):
         print(f"[MC] Message sent")
 
     @_Server.error # error handler
-    async def _Server_error(ctx, error):
+    async def _Server_error(self, ctx, error):
         print(f"[MC] Exception handler triggered")
         await ctx.send("ERROR!")
         if isinstance(error, discord.HTTPException):
