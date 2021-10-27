@@ -23,27 +23,24 @@ class Minecraft(Cog):
 
             latency = int(server.ping())
             print(f"[MC] Pinged server")
+            print(latency)
 
-            if latency > 5:
-                print(f"[MC] Server Online")
-                query = server.query()
-                print(f"[MC] Server queried")
+            print(f"[MC] Server Online")
+            query = server.query()
+            print(f"[MC] Server queried")
 
-                placeholder = "{names}"
-                test = placeholder.format( names = "\n".join(query.players.names) )
-                if test:
-                    names = "Deze mensen zijn op de server:\n" + test
-                    print(f"[MC] People online")
-                else:
-                    names = "Niemand is online"
-                    print(f"[MC] Nobody online")
-
-                intro = "De server is online!\n"
-                message = intro + names
-                print(f"[MC] Message set with active members")
+            placeholder = "{names}"
+            test = placeholder.format( names = "\n".join(query.players.names) )
+            if test:
+                names = "Deze mensen zijn op de server:\n" + test
+                print(f"[MC] People online")
             else:
-                print(f"[MC] Server offline")
-                message = "Server is offline"
+                names = "Niemand is online"
+                print(f"[MC] Nobody online")
+
+            intro = "De server is online!\n"
+            message = intro + names
+            print(f"[MC] Message set with active members")
 
         except:
             print(f"[MC] Exception triggered")
@@ -56,6 +53,13 @@ class Minecraft(Cog):
 
         await ctx.send(decorator + message + decorator)
         print(f"[MC] Message sent")
+
+    @_Server.error # error handler
+    async def _Server_error(ctx, error):
+        print(f"[MC] Exception handler triggered")
+        await ctx.send("ERROR!")
+        if isinstance(error, discord.HTTPException):
+            await ctx.send("Server is offline")
 
 
 def setup(bot: Bot):
