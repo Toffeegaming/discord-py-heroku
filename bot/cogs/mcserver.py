@@ -29,13 +29,14 @@ class Minecraft(Cog):
 
             intro = "De server is online!\n"
             message = intro + names
-            await ctx.send( message )
 
         except:
-            await ctx.send("Server is offline")
+            message = "Server is offline"
 
         else:
-            await ctx.send("Server is offline")
+            message = "Server is offline"
+
+        await ctx.send(message)
 
 
 def setup(bot: Bot):
