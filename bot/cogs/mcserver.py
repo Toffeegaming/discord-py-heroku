@@ -41,6 +41,7 @@ class Minecraft(Cog):
         except:
             print(f"[MC] Exception triggered")
             message = "Server is offline"
+            await ctx.send(decorator + message + decorator)
 
         else:
             print(f"[MC] Else triggered")
