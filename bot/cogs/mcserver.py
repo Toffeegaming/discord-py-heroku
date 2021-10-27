@@ -21,7 +21,10 @@ class Minecraft(Cog):
 
             server = MinecraftServer(ip,25565)
 
-            if server:
+            latency = int(server.ping())
+            print(f"[MC] Pinged server")
+
+            if latency > 5:
                 print(f"[MC] Server Online")
                 query = server.query()
                 print(f"[MC] Server queried")
