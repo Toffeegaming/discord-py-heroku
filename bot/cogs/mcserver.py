@@ -40,15 +40,16 @@ class Minecraft(Cog):
             await ctx.send(decorator + message + decorator)
             print(f"[MC] Message sent | Online")
 
+        except:
+            print(f"[MC] Exception triggered")
+            await ctx.send("```Server is offline```")
+
         else:
             print(f"[MC] Else triggered")
             message = "Server is offline"
             await ctx.send(decorator + message + decorator)
             print(f"[MC] Message sent | Offline")
 
-        except:
-            print(f"[MC] Exception triggered")
-            await ctx.send("```Server is offline```")
 
     @_Server.error # error handler
     async def _Server_error(self, ctx, error):
