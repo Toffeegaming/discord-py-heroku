@@ -20,23 +20,27 @@ class Minecraft(Cog):
             print(f"[MC] Got ip from env")
 
             server = MinecraftServer(ip,25565)
-            print(f"[MC] Server retrieved")
 
-            query = server.query()
-            print(f"[MC] Server queried")
+            if server:
+                print(f"[MC] Server Online")
+                query = server.query()
+                print(f"[MC] Server queried")
 
-            placeholder = "{names}"
-            test = placeholder.format( names = "\n".join(query.players.names) )
-            if test:
-                names = "Deze mensen zijn op de server:\n" + test
-                print(f"[MC] People online")
+                placeholder = "{names}"
+                test = placeholder.format( names = "\n".join(query.players.names) )
+                if test:
+                    names = "Deze mensen zijn op de server:\n" + test
+                    print(f"[MC] People online")
+                else:
+                    names = "Niemand is online"
+                    print(f"[MC] Nobody online")
+
+                intro = "De server is online!\n"
+                message = intro + names
+                print(f"[MC] Message set with active members")
             else:
-                names = "Niemand is online"
-                print(f"[MC] Nobody online")
-
-            intro = "De server is online!\n"
-            message = intro + names
-            print(f"[MC] Message set with active members")
+                print(f"[MC] Server offline")
+                message = "Server is offline"
 
         except:
             print(f"[MC] Exception triggered")
