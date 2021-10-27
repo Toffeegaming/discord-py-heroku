@@ -1,4 +1,5 @@
 import os
+import discord
 
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
