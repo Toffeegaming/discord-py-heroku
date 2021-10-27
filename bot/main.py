@@ -19,7 +19,7 @@ async def on_ready():
 @bot.event # error handler
 async def on_slash_command_error(ctx, error):
     if isinstance(error, discord.HTTPException):
-        await ctx.send("You cannot do that action")
+        await ctx.send("You cannot do that action.")
 
 # Load cogs
 dir_path = os.path.dirname(os.path.realpath(__file__))
