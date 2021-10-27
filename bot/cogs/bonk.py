@@ -30,11 +30,11 @@ class Bonk(Cog):
             await target.send("You got bonked by " + sender +"!\nhttps://tenor.com/view/horny-jail-bonk-dog-hit-head-stop-being-horny-gif-17298755")
             await ctx.send("BONK!")
 
-    @_Bonk.error # error handler
-    async def _Bonk_error(ctx, error):
-        await ctx.send("ERROR!")
-        if isinstance(error, discord.HTTPException):
-            await ctx.send("You cannot send a DM to this person.")
+    # @_Bonk.error # error handler
+    # async def _Bonk_error(ctx, error):
+    #     await ctx.send("ERROR!")
+    #     if isinstance(error, discord.HTTPException):
+    #         await ctx.send("You cannot send a DM to this person.")
 
 def setup(bot: Bot):
     bot.add_cog( Bonk(bot) )
