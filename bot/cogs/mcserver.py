@@ -13,6 +13,8 @@ class Minecraft(Cog):
 
     @cog_ext.cog_slash( name='Server', description='Check of de minecraft server online is.', guild_ids = MCServer)
     async def _Server(self, ctx: SlashContext):
+        decorator = "```"
+        message = ""
         try:
             ip = os.getenv("SERVER")
 
@@ -21,9 +23,9 @@ class Minecraft(Cog):
             query = server.query()
 
             placeholder = "{names}"
-            test = placeholder.format( names = ", ".join(query.players.names) )
+            test = placeholder.format( names = "\n".join(query.players.names) )
             if test:
-                names = "Deze mensen zijn op de server: " + test
+                names = "Deze mensen zijn op de server:\n" + test
             else:
                 names = "Niemand is online"
 
@@ -36,7 +38,7 @@ class Minecraft(Cog):
         else:
             message = "Server is offline"
 
-        await ctx.send(message)
+        await ctx.send(decorator + message + decorator)
 
 
 def setup(bot: Bot):
