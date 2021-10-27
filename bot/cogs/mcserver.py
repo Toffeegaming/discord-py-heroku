@@ -17,28 +17,37 @@ class Minecraft(Cog):
         message = ""
         try:
             ip = os.getenv("SERVER")
+            print(f"[MC] Got ip from env")
 
             server = MinecraftServer(ip,25565)
+            print(f"[MC] Server retrieved")
 
             query = server.query()
+            print(f"[MC] Server queried")
 
             placeholder = "{names}"
             test = placeholder.format( names = "\n".join(query.players.names) )
             if test:
                 names = "Deze mensen zijn op de server:\n" + test
+                print(f"[MC] People online")
             else:
                 names = "Niemand is online"
+                print(f"[MC] Nobody online")
 
             intro = "De server is online!\n"
             message = intro + names
+            print(f"[MC] Message set with active members")
 
         except:
+            print(f"[MC] Exception triggered")
             message = "Server is offline"
 
         else:
+            print(f"[MC] Else triggered")
             message = "Server is offline"
 
         await ctx.send(decorator + message + decorator)
+        print(f"[MC] Message sent")
 
 
 def setup(bot: Bot):
