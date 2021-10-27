@@ -34,5 +34,9 @@ class Minecraft(Cog):
         except:
             await ctx.send("Server is offline")
 
+        else:
+            await ctx.send("Server is offline")
+
+
 def setup(bot: Bot):
     bot.add_cog( Minecraft(bot) )
