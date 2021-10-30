@@ -13,8 +13,6 @@ async def PrintToDiscord(message = ""):
     time = datetime.datetime.utcnow()
     await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] {message}")
 
-loop = asyncio.get_event_loop()
-
 @bot.event 
 async def on_ready():
     print(f"Logged in as {bot.user.name}({bot.user.id})")
@@ -28,12 +26,11 @@ for filename in os.listdir(dir_path + '/cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
         print(f"[COGS] loaded {filename[:-3]}")
-        coroutine = PrintToDiscord(f"[COGS] loaded {filename[:-3]}")
+        asyncio.run(PrintToDiscord(f"[COGS] loaded {filename[:-3]}"))
         
     else:
         print(f'[COGS] Unable to load {filename[:-3]}')
-        coroutine = PrintToDiscord(f'[COGS] Unable to load {filename[:-3]}')
+        asyncio.run(PrintToDiscord(f'[COGS] Unable to load {filename[:-3]}'))
 
-loop.run_until_complete(coroutine)
 # Create bot
 bot.run(os.getenv("DISCORD_TOKEN"))
