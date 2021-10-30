@@ -29,7 +29,7 @@ for filename in os.listdir(dir_path + '/cogs'):
         print(f'[COGS] Unable to load {filename[:-3]}')
         PrintToLogChannel(f'[COGS] Unable to load {filename[:-3]}')
 
-async def PrintToLogChannel(message)
+async def PrintToLogChannel(message):
     logChannel = bot.get_channel(logID)
     await logChannel.message.send(message)
 
