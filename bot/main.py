@@ -9,16 +9,16 @@ import asyncio # handle sync calling of await
 bot = Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True)
 
-async def PrintToDiscord(message = ""):
-    time = datetime.datetime.utcnow()
-    await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] {message}")
-
 @bot.event 
 async def on_ready():
     print(f"Logged in as {bot.user.name}({bot.user.id})")
     time = datetime.datetime.utcnow()
     await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in!")
     await bot.change_presence(activity=discord.Game(name='with my feelings'),status=discord.Status.online)
+
+async def PrintToDiscord(message = ""):
+    time = datetime.datetime.utcnow()
+    await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] {message}")
 
 # load cogs
 dir_path = os.path.dirname(os.path.realpath(__file__))
