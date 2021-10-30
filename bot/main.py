@@ -5,11 +5,12 @@ from discord_slash import SlashCommand
 
 import os
 
-TOKEN = os.getenv("DISCORD_TOKEN")
-logID = os.getenv("LOGS")
-
 bot = Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True)
+
+async def PrintToLogChannel(message):
+    logChannel = bot.get_channel(os.getenv("LOGS"))
+    await logChannel.message.send(message)
 
 @bot.event 
 async def on_ready():
@@ -29,9 +30,5 @@ for filename in os.listdir(dir_path + '/cogs'):
         print(f'[COGS] Unable to load {filename[:-3]}')
         PrintToLogChannel(f'[COGS] Unable to load {filename[:-3]}')
 
-async def PrintToLogChannel(message):
-    logChannel = bot.get_channel(logID)
-    await logChannel.message.send(message)
-
 # Create bot
-bot.run(TOKEN)
+bot.run(os.getenv("DISCORD_TOKEN"))
