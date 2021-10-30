@@ -127,8 +127,7 @@ class Roulette(Cog):
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
         generatedPerks = self.SelectPerks(ctx.author_id, 97)
-    
-        await ctx.send(f"{ctx.author} krijgt: {self.SurvivorPerks[generatedPerks[0]]} {self.SurvivorPerks[generatedPerks[1]]} {self.SurvivorPerks[generatedPerks[2]]} {self.SurvivorPerks[generatedPerks[3]]}")
+        await ctx.send(f"{ctx.author.name} krijgt:{os.linesep}{self.SurvivorPerks[generatedPerks[0]]}{os.linesep}{self.SurvivorPerks[generatedPerks[1]]}{os.linesep}{self.SurvivorPerks[generatedPerks[2]]}{os.linesep}{self.SurvivorPerks[generatedPerks[3]]}")
 
     @cog_ext.cog_slash(name='Killer', description='Krijg 4 random killer perks!', guild_ids=guild_ids)
     async def _Killer(self,ctx: SlashContext):
