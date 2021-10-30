@@ -11,10 +11,10 @@ slash = SlashCommand(bot, sync_commands=True)
 @bot.event 
 async def on_ready():
     print(f"Logged in as {bot.user.name}({bot.user.id})")
-    channelID = int(os.getenv("LOGS"))
-    logChannel = bot.get_channel(channelID)
-    await logChannel.send(f"Logged in as {bot.user.name}({bot.user.id})")
-    print("Message sent to Discord log channel")
+    # channelID = 
+    await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[STARTUP] Logged in!")
+    #await logChannel.send(f"[STARTUP] Logged in!")
+
     await bot.change_presence(activity=discord.Game(name='with my feelings'),status=discord.Status.online)
 
 
