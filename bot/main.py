@@ -10,6 +10,10 @@ slash = SlashCommand(bot, sync_commands=True)
 
 @bot.event 
 async def on_ready():
+    print(f"Logged in as {bot.user.name}({bot.user.id})")
+    logChannel = bot.get_channel(os.getenv("LOGS"))
+    await logChannel.send(f"Logged in as {bot.user.name}({bot.user.id})")
+    print("Message sent to Discord log channel")
     await bot.change_presence(activity=discord.Game(name='with my feelings'),status=discord.Status.online)
 
 
@@ -26,3 +30,5 @@ for filename in os.listdir(dir_path + '/cogs'):
 
 # Create bot
 bot.run(os.getenv("DISCORD_TOKEN"))
+
+
