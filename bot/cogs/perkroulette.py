@@ -3,8 +3,7 @@ from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
 
 import json
-from random import seed
-from random import random
+import random as rand
 
 from discord_slash.utils.manage_commands import generate_options
 
@@ -117,8 +116,11 @@ class Roulette(Cog):
     #     ]
 
     def SelectPerks(self, in_seed, in_range):
-        seed(in_seed)
-        return random.sample(range(1,in_range),4)
+        rand.seed(in_seed)
+        generated = rand.sample(range(in_range-1),4)
+        for x in generated:
+            generated[x] += 1
+        return generated
 
     def get_data(self):
         with open("roulette_userdata.json", 'r') as file:
