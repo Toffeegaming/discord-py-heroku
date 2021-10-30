@@ -262,7 +262,6 @@ class Music(commands.Cog):
         search: str [Required]
             The song to search and retrieve using YTDL. This could be a simple search, an ID or URL.
         """
-        await ctx.trigger_typing()
 
         vc = ctx.voice_client
 
