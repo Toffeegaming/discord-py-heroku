@@ -2,3 +2,4 @@ discord.py
 discord-py-interactions
 mcstatus
 youtube-dl
+PyNaCl
