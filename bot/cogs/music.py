@@ -10,6 +10,7 @@ from functools import partial
 import youtube_dl
 from youtube_dl import YoutubeDL
 
+import os
 from discord_slash import cog_ext, SlashContext
 
 guild_ids = [int(os.getenv("GUILD2")), int(os.getenv("GUILD3")) ]
