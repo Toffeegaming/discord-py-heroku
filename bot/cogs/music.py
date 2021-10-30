@@ -216,7 +216,7 @@ class Music(commands.Cog):
 
         return player
 
-    @cog_ext.cog_slash(name='join', aliases=['connect', 'j'], description="connects to voice")
+    @cog_ext.cog_slash(name='join', description="connects to voice", guild_ids=guild_ids)
     async def connect_(self, ctx, *, channel: discord.VoiceChannel=None):
         """Connect to voice.
         Parameters
