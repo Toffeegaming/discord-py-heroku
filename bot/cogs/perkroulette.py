@@ -119,7 +119,7 @@ class Roulette(Cog):
         rand.seed(in_seed)
         generatedList = rand.sample(range(in_range-1),4)
         print(generatedList)
-        for x in generatedList:
+        for x in range(0,3):
             print(x)
             value = generatedList[x]
             generatedList[x] = value + 1
