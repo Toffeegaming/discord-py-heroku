@@ -13,7 +13,7 @@ async def on_ready():
     message = f"Logged in as {bot.user.name}({bot.user.id})"
     print(message)
     logChannel = bot.get_channel(os.getenv("LOGS"))
-    await logChannel.message.send(message)
+    await logChannel.send(message)
     await bot.change_presence(activity=discord.Game(name='with my feelings'),status=discord.Status.online)
 
 
