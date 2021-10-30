@@ -14,8 +14,7 @@ slash = SlashCommand(bot, sync_commands=True)
 @bot.event 
 async def on_ready():
     print(f"Logged in as {bot.user.name}({bot.user.id})")
-    logChannel = bot.get_channel(logID)
-    await logChannel.message.send(f"Logged in as {bot.user.name}({bot.user.id})")
+    PrintToLogChannel(f"Logged in as {bot.user.name}({bot.user.id})")
     await bot.change_presence(activity=discord.Game(name='with my feelings'),status=discord.Status.online)
 
 # Load cogs
@@ -25,10 +24,14 @@ for filename in os.listdir(dir_path + '/cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
         print(f"[COGS] loaded {filename[:-3]}")
-        await logChannel.message.send(f"[COGS] loaded {filename[:-3]}")
+        PrintToLogChannel(f"[COGS] loaded {filename[:-3]}")
     else:
         print(f'[COGS] Unable to load {filename[:-3]}')
-        await logChannel.message.send(f'[COGS] Unable to load {filename[:-3]}')
+        PrintToLogChannel(f'[COGS] Unable to load {filename[:-3]}')
+
+async def PrintToLogChannel(message)
+    logChannel = bot.get_channel(logID)
+    await logChannel.message.send(message)
 
 # Create bot
 bot.run(TOKEN)
