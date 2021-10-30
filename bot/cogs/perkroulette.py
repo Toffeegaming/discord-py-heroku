@@ -117,10 +117,12 @@ class Roulette(Cog):
 
     def SelectPerks(self, in_seed, in_range):
         rand.seed(in_seed)
-        generated = rand.sample(range(in_range-1),4)
-        for x in generated:
-            generated[x] += 1
-        return generated
+        generatedList = rand.sample(range(in_range-1),4)
+        print(generatedList)
+        for x in generatedList:
+            value = generatedList[x]
+            generatedList[x] = value + 1
+        return generatedList
 
     def get_data(self):
         with open("roulette_userdata.json", 'r') as file:
