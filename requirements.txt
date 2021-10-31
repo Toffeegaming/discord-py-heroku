@@ -1,5 +1,6 @@
 discord.py
 discord-py-interactions
 mcstatus
+requests
 youtube-dl
 PyNaCl
