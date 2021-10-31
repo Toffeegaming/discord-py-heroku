@@ -240,7 +240,7 @@ class Roulette(Cog):
     async def _Survivor(self,ctx: SlashContext):
         generatedPerks = self.SelectPerks(ctx.author_id, 97)
         embed = discord.Embed(
-            title="",
+            title="Survivor Roulette!",
             description=f"{ctx.author.name} krijgt:{os.linesep}{self.SurvivorPerks[generatedPerks[0]]}{os.linesep}{self.SurvivorPerks[generatedPerks[1]]}{os.linesep}{self.SurvivorPerks[generatedPerks[2]]}{os.linesep}{self.SurvivorPerks[generatedPerks[3]]}",
             color=int("0x9628f7",16))
         embed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
@@ -250,13 +250,11 @@ class Roulette(Cog):
     async def _Killer(self,ctx: SlashContext):
         generatedPerks = self.SelectPerks(ctx.author_id, 86)
         embed = discord.Embed(
-            title="",
+            title="Killer Roulette!",
             description=f"{ctx.author.name} krijgt:{os.linesep}{self.KillerPerks[generatedPerks[0]]}{os.linesep}{self.KillerPerks[generatedPerks[1]]}{os.linesep}{self.KillerPerks[generatedPerks[2]]}{os.linesep}{self.KillerPerks[generatedPerks[3]]}",
             color=int("0x9628f7",16))
         embed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
         await ctx.send(embed=embed)
-        print(f"{self.KillerPerks[86]}")
-        print(f"{self.KillerPerks[87]}")
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
