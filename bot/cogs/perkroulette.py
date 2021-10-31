@@ -118,35 +118,34 @@ class Roulette(Cog):
         "Windows of Opportunity"
     ]
 
-    with suppress(NameError):
-        def SelectPerks(self, in_id, in_range):
-            request = {
-                "jsonrpc": "2.0",
-                "method": "generateIntegerSequences",
-                "params": {
-                    "apiKey": os.getenv("RANDOM-API"),
-                    "n": 1,
-                    "length": 4,
-                    "min": 0,
-                    "max": in_range,
-                    "replacement": false,
-                    "base": 10
-                },
-                "id": in_id
-            }
+    def SelectPerks(self, in_id, in_range):
+        request = {
+            "jsonrpc": "2.0",
+            "method": "generateIntegerSequences",
+            "params": {
+                "apiKey": os.getenv("RANDOM-API"),
+                "n": 1,
+                "length": 4,
+                "min": 0,
+                "max": in_range,
+                "replacement": None,
+                "base": 10
+            },
+            "id": in_id
+        }
 
-            response = requests.post('https://api.random.org/json-rpc/4/invoke',
-            data=json.dumps(request),
-            headers={'content-type': 'application/json'})
+        response = requests.post('https://api.random.org/json-rpc/4/invoke',
+        data=json.dumps(request),
+        headers={'content-type': 'application/json'})
 
-            data = response.json()
+        data = response.json()
 
-            print(data)
-            # result = response["result"]
-            # data = result["random"]
-            # print(data)
-            generatedList = rand.sample(range(in_range),4)
-            return generatedList
+        print(data)
+        # result = response["result"]
+        # data = result["random"]
+        # print(data)
+        generatedList = rand.sample(range(in_range),4)
+        return generatedList
 
     def get_data(self):
         with open("roulette_userdata.json", 'r') as file:
