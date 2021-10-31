@@ -4,6 +4,7 @@ from discord_slash import cog_ext, SlashContext
 
 import json
 import requests
+from contextlib import suppress #ignore false inside api request
 import random as rand
 
 from discord_slash.utils.manage_commands import generate_options
@@ -116,7 +117,7 @@ class Roulette(Cog):
     ]
 
     def SelectPerks(self, in_id, in_range):
-
+        with suppress(NameError):
         request = {
             "jsonrpc": "2.0",
             "method": "generateIntegerSequences",
@@ -126,7 +127,7 @@ class Roulette(Cog):
                 "length": 4,
                 "min": 0,
                 "max": in_range,
-                "replacement": 0,
+                "replacement": false,
                 "base": 10
             },
             "id": in_id
