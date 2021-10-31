@@ -2,10 +2,9 @@ import os
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
 
+import discord
 import json
 import requests
-import random as rand
-from contextlib import suppress
 
 from discord_slash.utils.manage_commands import generate_options
 
@@ -17,7 +16,7 @@ class Roulette(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
-    SurvivorPerks = [ ######### https://deadbydaylight.fandom.com/wiki/Perks
+    SurvivorPerks = [
         "Ace in the Hole",
         "Adrenaline",
         "Aftercare",
@@ -118,6 +117,97 @@ class Roulette(Cog):
         "Windows of Opportunity"
     ]
 
+    ######### https://deadbydaylight.fandom.com/wiki/Perks
+    KillerPerks = [
+        "A Nurse's Calling",
+        "Agitation",
+        "Bamboozle",
+        "Barbecue & Chilli",
+        "Beast of Prey",
+        "Bitter Murmur",
+        "Blood Echo",
+        "Blood Warden",
+        "Bloodhound",
+        "Brutal Strength",
+        "Claustrophobia",
+        "Corrupt Intervention",
+        "Coulrophobia",
+        "Coup de Grâce",
+        "Dark Devotion",
+        "Dead Man's Switch",
+        "Deadlock",
+        "Deathbound",
+        "Deerstalker",
+        "Discordance",
+        "Distressing",
+        "Dragon's Grip",
+        "Dying Light",
+        "Enduring",
+        "Eruption",
+        "Fearmonger",
+        "Fire Up",
+        "Forced Penance",
+        "Franklin's Demise",
+        "Furtive Chase",
+        "Gearhead",
+        "Hangman's Trick",
+        "Hex: Blood Favour",
+        "Hex: Crowd Control",
+        "Hex: Devour Hope",
+        "Hex: Haunted Ground",
+        "Hex: Huntress Lullaby",
+        "Hex: No One Escapes Death",
+        "Hex: Plaything",
+        "Hex: Retribution",
+        "Hex: Ruin",
+        "Hex: The Third Seal",
+        "Hex: Thrill of the Hunt",
+        "Hex: Undying",
+        "Hoarder",
+        "Hysteria",
+        "I'm All Ears",
+        "Infectious Fright",
+        "Insidious",
+        "Iron Grasp",
+        "Iron Maiden",
+        "Jolt",
+        "Knock Out",
+        "Lethal Pursuer",
+        "Lightborn",
+        "Mad Grit",
+        "Make Your Choice",
+        "Monitor & Abuse",
+        "Monstrous Shrine",
+        "Nemesis",
+        "No Way Out",
+        "Oppression",
+        "Overcharge",
+        "Overwhelming Presence",
+        "Play with Your Food",
+        "Pop Goes the Weasel",
+        "Predator",
+        "Rancor",
+        "Remember Me",
+        "Save the Best for Last",
+        "Scourge Hook: Gift of Pain",
+        "Shadowborn",
+        "Sloppy Butcher",
+        "Spies from the Shadows",
+        "Spirit Fury",
+        "Starstruck",
+        "Stridor",
+        "Surveillance",
+        "Territorial Imperative",
+        "Thanatophobia",
+        "Thrilling Tremors",
+        "Tinkerer",
+        "Trail of Torment",
+        "Unnerving Presence",
+        "Unrelenting",
+        "Whispers",
+        "Zanshin Tactics"
+    ]
+
     def SelectPerks(self, in_id, in_range):
         bool = False
         request = {
@@ -138,9 +228,7 @@ class Roulette(Cog):
         response = requests.post('https://api.random.org/json-rpc/4/invoke',
         data=json.dumps(request),
         headers={'content-type': 'application/json'})
-
         data = response.json()
-
         generatedList = data['result']['random']['data'][0]
         return generatedList
 
@@ -151,11 +239,25 @@ class Roulette(Cog):
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
         generatedPerks = self.SelectPerks(ctx.author_id, 97)
-        await ctx.send(f"{ctx.author.name} krijgt:{os.linesep}{self.SurvivorPerks[generatedPerks[0]]}{os.linesep}{self.SurvivorPerks[generatedPerks[1]]}{os.linesep}{self.SurvivorPerks[generatedPerks[2]]}{os.linesep}{self.SurvivorPerks[generatedPerks[3]]}")
+        embed = discord.Embed(
+            title="",
+            description=f"{ctx.author.name} krijgt:{os.linesep}{self.SurvivorPerks[generatedPerks[0]]}{os.linesep}{self.SurvivorPerks[generatedPerks[1]]}{os.linesep}{self.SurvivorPerks[generatedPerks[2]]}{os.linesep}{self.SurvivorPerks[generatedPerks[3]]}",
+            color=int(0x9628f7,16))
+        embed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
+        await ctx.send(embed=embed)
 
     @cog_ext.cog_slash(name='Killer', description='Krijg 4 random killer perks!', guild_ids=guild_ids)
     async def _Killer(self,ctx: SlashContext):
-        await ctx.send(f"Under construction :)")
+        generatedPerks = self.SelectPerks(ctx.author_id, 86)
+        await ctx.send()
+        embed = discord.Embed(
+            title="",
+            description=f"{ctx.author.name} krijgt:{os.linesep}{self.KillerPerks[generatedPerks[0]]}{os.linesep}{self.KillerPerks[generatedPerks[1]]}{os.linesep}{self.KillerPerks[generatedPerks[2]]}{os.linesep}{self.KillerPerks[generatedPerks[3]]}",
+            color=int(0x9628f7,16))
+        embed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
+        await ctx.send(embed=embed)
+        print(f"{self.KillerPerks[86]}")
+        print(f"{self.KillerPerks[87]}")
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
