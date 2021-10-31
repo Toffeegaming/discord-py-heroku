@@ -242,7 +242,7 @@ class Roulette(Cog):
         embed = discord.Embed(
             title="",
             description=f"{ctx.author.name} krijgt:{os.linesep}{self.SurvivorPerks[generatedPerks[0]]}{os.linesep}{self.SurvivorPerks[generatedPerks[1]]}{os.linesep}{self.SurvivorPerks[generatedPerks[2]]}{os.linesep}{self.SurvivorPerks[generatedPerks[3]]}",
-            color=int(0x9628f7,16))
+            color=int("0x9628f7",16))
         embed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
         await ctx.send(embed=embed)
 
