@@ -116,7 +116,7 @@ class Roulette(Cog):
         "Windows of Opportunity"
     ]
 
-    def get_request(self):
+    def SelectPerks(self, in_id, in_range):
         with suppress(NameError):
             request = {
                 "jsonrpc": "2.0",
@@ -132,16 +132,13 @@ class Roulette(Cog):
                 },
                 "id": in_id
             }
+            
             response = requests.post('https://api.random.org/json-rpc/4/invoke',
             data=json.dumps(request),
             headers={'content-type': 'application/json'})
             
             data = response.json()
             return data
-
-
-    def SelectPerks(self, in_id, in_range):
-        roaData = self.get_request()
 
         print(roaData)
         # result = response["result"]
