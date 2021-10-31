@@ -132,20 +132,19 @@ class Roulette(Cog):
                 },
                 "id": in_id
             }
-            
+
             response = requests.post('https://api.random.org/json-rpc/4/invoke',
             data=json.dumps(request),
             headers={'content-type': 'application/json'})
             
             data = response.json()
-            return data
 
-        print(roaData)
-        # result = response["result"]
-        # data = result["random"]
-        # print(data)
-        generatedList = rand.sample(range(in_range),4)
-        return generatedList
+            print(data)
+            # result = response["result"]
+            # data = result["random"]
+            # print(data)
+            generatedList = rand.sample(range(in_range),4)
+            return generatedList
 
     def get_data(self):
         with open("roulette_userdata.json", 'r') as file:
