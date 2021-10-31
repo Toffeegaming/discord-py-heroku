@@ -140,16 +140,8 @@ class Roulette(Cog):
         headers={'content-type': 'application/json'})
 
         data = response.json()
-        print(data)
 
-        list = data['result']['random']['data'][0]
-        print(list)
-
-
-        # result = response["result"]
-        # data = result["random"]
-        # print(data)
-        generatedList = rand.sample(range(in_range),4)
+        generatedList = data['result']['random']['data'][0]
         return generatedList
 
     def get_data(self):
