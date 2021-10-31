@@ -249,7 +249,6 @@ class Roulette(Cog):
     @cog_ext.cog_slash(name='Killer', description='Krijg 4 random killer perks!', guild_ids=guild_ids)
     async def _Killer(self,ctx: SlashContext):
         generatedPerks = self.SelectPerks(ctx.author_id, 86)
-        await ctx.send()
         embed = discord.Embed(
             title="",
             description=f"{ctx.author.name} krijgt:{os.linesep}{self.KillerPerks[generatedPerks[0]]}{os.linesep}{self.KillerPerks[generatedPerks[1]]}{os.linesep}{self.KillerPerks[generatedPerks[2]]}{os.linesep}{self.KillerPerks[generatedPerks[3]]}",
