@@ -4,7 +4,6 @@ from discord_slash import cog_ext, SlashContext
 
 import json
 import requests
-from contextlib import suppress #ignore false inside api request
 import random as rand
 
 from discord_slash.utils.manage_commands import generate_options
@@ -117,33 +116,33 @@ class Roulette(Cog):
     ]
 
     def SelectPerks(self, in_id, in_range):
-        with suppress(NameError):
-            request = {
-                "jsonrpc": "2.0",
-                "method": "generateIntegerSequences",
-                "params": {
-                    "apiKey": os.getenv("RANDOM-API"),
-                    "n": 1,
-                    "length": 4,
-                    "min": 0,
-                    "max": in_range,
-                    "replacement": false,
-                    "base": 10
-                },
-                "id": in_id
-            }
-            response = requests.post('https://api.random.org/json-rpc/4/invoke',
-            data=json.dumps(request),
-            headers={'content-type': 'application/json'})
-            
-            data = response.json()
+        argument = 'false'
+        request = {
+            "jsonrpc": "2.0",
+            "method": "generateIntegerSequences",
+            "params": {
+                "apiKey": os.getenv("RANDOM-API"),
+                "n": 1,
+                "length": 4,
+                "min": 0,
+                "max": in_range,
+                "replacement": argument,
+                "base": 10
+            },
+            "id": in_id
+        }
+        response = requests.post('https://api.random.org/json-rpc/4/invoke',
+        data=json.dumps(request),
+        headers={'content-type': 'application/json'})
+        
+        data = response.json()
 
-            print(data)
-            # result = response["result"]
-            # data = result["random"]
-            # print(data)
-            generatedList = rand.sample(range(in_range),4)
-            return generatedList
+        print(data)
+        # result = response["result"]
+        # data = result["random"]
+        # print(data)
+        generatedList = rand.sample(range(in_range),4)
+        return generatedList
 
     def get_data(self):
         with open("roulette_userdata.json", 'r') as file:
