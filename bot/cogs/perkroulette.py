@@ -117,7 +117,7 @@ class Roulette(Cog):
 
     def SelectPerks(self, in_id, in_range):
 
-        url = "https://api.random.org/json-rpc/4/invoke"
+        urlR = "https://api.random.org/json-rpc/4/invoke"
         data = {
             "jsonrpc": "2.0",
             "method": "generateIntegerSequences",
@@ -133,9 +133,9 @@ class Roulette(Cog):
             "id": in_id
         }
 
-        params = json.dumps(data)
-        headers = {'Content-type': 'application/json','Content-Length': '200', 'Accept': 'application/json'}
-        response = requests.post(url,params,headers)
+        paramsR = json.dumps(data)
+        headersR = {'Content-type': 'application/json','Content-Length': '200', 'Accept': 'application/json'}
+        response = requests.post(url=urlR,data=paramsR,headers=headersR)
         print(response.text)
         # result = response["result"]
         # data = result["random"]
