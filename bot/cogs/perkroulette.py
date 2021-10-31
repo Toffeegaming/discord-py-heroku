@@ -3,6 +3,7 @@ from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
 
 import json
+import requests
 import random as rand
 
 from discord_slash.utils.manage_commands import generate_options
@@ -114,8 +115,28 @@ class Roulette(Cog):
         "Windows of Opportunity"
     ]
 
-    def SelectPerks(self, in_seed, in_range):
-        rand.seed(in_seed)
+    def SelectPerks(self, in_id, in_range):
+
+        url = "https://api.random.org/json-rpc/4/invoke"
+        data = {
+            "jsonrpc": "2.0",
+            "method": "generateIntegerSequences",
+            "params": {
+                "apiKey": "9afbca2e-c318-4c86-a535-64061004fb66",
+                "n": 1,
+                "length": 4,
+                "min": 0,
+                "max": in_range,
+                "replacement": false,
+                "base": 10,
+                "pregeneratedRandomization": null
+            },
+            "id": in_id
+        }
+
+        params = json.dumps(data)
+        response = requests.post(url,params)
+        print(response)
         generatedList = rand.sample(range(in_range),4)
         return generatedList
 
