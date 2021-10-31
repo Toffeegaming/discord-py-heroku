@@ -122,7 +122,7 @@ class Roulette(Cog):
             "jsonrpc": "2.0",
             "method": "generateIntegerSequences",
             "params": {
-                "apiKey": "9afbca2e-c318-4c86-a535-64061004fb66",
+                "apiKey": os.getenv("RANDOM-API"),
                 "n": 1,
                 "length": 4,
                 "min": 0,
