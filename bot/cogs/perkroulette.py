@@ -117,6 +117,7 @@ class Roulette(Cog):
     ]
 
     def SelectPerks(self, in_id, in_range):
+        data = None
         with suppress(NameError):
             request = {
                 "jsonrpc": "2.0",
@@ -132,11 +133,11 @@ class Roulette(Cog):
                 },
                 "id": in_id
             }
-        response = requests.post('https://api.random.org/json-rpc/4/invoke',
-        data=json.dumps(request),
-        headers={'content-type': 'application/json'})
+            response = requests.post('https://api.random.org/json-rpc/4/invoke',
+            data=json.dumps(request),
+            headers={'content-type': 'application/json'})
             
-        data = response.json()
+            data = response.json()
 
         print(data)
         # result = response["result"]
