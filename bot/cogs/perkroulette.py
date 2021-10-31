@@ -126,7 +126,7 @@ class Roulette(Cog):
                 "length": 4,
                 "min": 0,
                 "max": in_range,
-                "replacement": false,
+                "replacement": 0,
                 "base": 10
             },
             "id": in_id
