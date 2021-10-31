@@ -135,7 +135,7 @@ class Roulette(Cog):
 
         params = json.dumps(data)
         response = requests.post(url,params)
-        print(response.text)
+        print(response.read())
         generatedList = rand.sample(range(in_range),4)
         return generatedList
 
