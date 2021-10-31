@@ -116,7 +116,7 @@ class Roulette(Cog):
         "Windows of Opportunity"
     ]
 
-    def get_request():
+    def get_request(self):
         with suppress(NameError):
             request = {
                 "jsonrpc": "2.0",
