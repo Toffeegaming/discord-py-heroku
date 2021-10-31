@@ -142,7 +142,7 @@ class Roulette(Cog):
         data = response.json()
         print(data)
 
-        list = data['result']['random']['data']
+        list = data['result']['random']['data'][0]
         print(list)
 
 
