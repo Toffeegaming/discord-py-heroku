@@ -141,7 +141,7 @@ class Roulette(Cog):
 
 
     def SelectPerks(self, in_id, in_range):
-        roaData = get_request()
+        roaData = self.get_request()
 
         print(roaData)
         # result = response["result"]
