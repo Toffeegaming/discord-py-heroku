@@ -237,11 +237,15 @@ class Roulette(Cog):
         return generatedList
 
     def get_data(self):
-        with open("jsonfiles/roulette_userdata.json", 'r') as file:
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        file_location = dir_path + '/jsonfiles/roulette_userdata.json'
+        with open(file_location, 'r') as file:
             return json.loads(file.read())
     
     def set_data(self,data):
-        with open('jsonfiles/roulette_userdata.json', 'w') as file:
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        file_location = dir_path + '/jsonfiles/roulette_userdata.json'
+        with open(file_location, 'w') as file:
             file.write(json.dumps(data, indent=2))
 
     def createProfile(self,discord_id):
