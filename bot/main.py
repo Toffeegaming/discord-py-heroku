@@ -22,7 +22,8 @@ for filename in os.listdir(dir_path + '/cogs'):
         bot.load_extension(f'cogs.{filename[:-3]}')
         print(f"[COGS] loaded {filename[:-3]}")
     else:
-        print(f'[COGS] Unable to load {filename[:-3]}')
+        if filename is not 'jsonfiles':
+            print(f'[COGS] Unable to load {filename[:-3]}')
 
 # Create bot
 bot.run(os.getenv("DISCORD_TOKEN"))
