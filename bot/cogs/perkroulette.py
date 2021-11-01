@@ -265,16 +265,16 @@ class Roulette(Cog):
 
         if mode == 'both':
             for profile in data:
-                    if profile['discord_id'] == discord_id:
-                        profile['data']['survP'] = [-1]
-                        profile['data']['killP'] = [-1]
+                if profile['discord_id'] == discord_id:
+                    profile['data']['survP'] = [-1]
+                    profile['data']['killP'] = [-1]
             self.set_data(data)
             print(f'Reset {discord_id} full profile')
             return True
 
         for profile in data:
-                    if profile['discord_id'] == discord_id:
-                        profile['data'][team] = [-1]
+            if profile['discord_id'] == discord_id:
+                profile['data'][team] = [-1]
         self.set_data(data)
         print(f'Reset {discord_id} {team} profile')
         return True
@@ -489,24 +489,35 @@ class Roulette(Cog):
         if not self.check_profile(jData,id):
             self.createProfile(id)
             self.add_allPerks(id,'survivor')
-        
-        availablePerks = jData[id]['data']['survP']
-        print(len(availablePerks))
-        generatedPerks = self.SelectPerks(id, len(availablePerks))
 
-        namedPerks = [
-            self.SurvivorPerks[availablePerks[generatedPerks[0]]],
-            self.SurvivorPerks[availablePerks[generatedPerks[1]]],
-            self.SurvivorPerks[availablePerks[generatedPerks[2]]],
-            self.SurvivorPerks[availablePerks[generatedPerks[3]]]
-            ]
+        for profile in jData:
+            if profile['discord_id'] == id:
+                availablePerks = jData[id]['data']['survP']
+                numberPerks = len(availablePerks)
+                print(numberPerks)
+                if not numberPerks >= 4:
+                    embed = discord.Embed(
+                    title=":(",
+                    description=f"Het lijkt erop dat je niet genoeg perks hebt aan staan om een build te kunnen maken!",
+                    color=int("0x9628f7",16))
+                    await ctx.send(embed=embed)
 
-        embed = discord.Embed(
-            title="Survivor Roulette!",
-            description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
-            color=int("0x9628f7",16))
-        embed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
-        await ctx.send(embed=embed)
+                generatedPerks = self.SelectPerks(id, len(availablePerks))
+
+                namedPerks = [
+                    self.SurvivorPerks[availablePerks[generatedPerks[0]]],
+                    self.SurvivorPerks[availablePerks[generatedPerks[1]]],
+                    self.SurvivorPerks[availablePerks[generatedPerks[2]]],
+                    self.SurvivorPerks[availablePerks[generatedPerks[3]]]
+                    ]
+
+                embed = discord.Embed(
+                    title="Survivor Roulette!",
+                    description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
+                    color=int("0x9628f7",16))
+                embed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
+                await ctx.send(embed=embed)
+                return True
 
     @cog_ext.cog_slash(name='Killer', description='Krijg 4 random killer perks!', guild_ids=guild_ids)
     async def _Killer(self,ctx: SlashContext):
