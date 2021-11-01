@@ -300,7 +300,6 @@ class Roulette(Cog):
                 perklist = [0] * length
 
                 for x in range(length):
-                    print(x)
                     perklist[x] = x
                 profile['data'][perksToModify] = perklist
         self.set_data(data)
@@ -492,7 +491,7 @@ class Roulette(Cog):
 
         for profile in jData:
             if profile['discord_id'] == id:
-                availablePerks = jData[id]['data']['survP']
+                availablePerks = jData['data']['survP']
                 numberPerks = len(availablePerks)
                 print(numberPerks)
                 if not numberPerks >= 4:
