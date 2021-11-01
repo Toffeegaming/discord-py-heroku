@@ -16,6 +16,9 @@ class Roulette(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
+    #----------------------------------------------------------------------------------
+    # Lists
+    # https://deadbydaylight.fandom.com/wiki/Perks
     SurvivorPerks = [
         "Ace in the Hole",
         "Adrenaline",
@@ -117,7 +120,6 @@ class Roulette(Cog):
         "Windows of Opportunity"
     ]
 
-    ######### https://deadbydaylight.fandom.com/wiki/Perks
     KillerPerks = [
         "A Nurse's Calling",
         "Agitation",
@@ -208,6 +210,8 @@ class Roulette(Cog):
         "Zanshin Tactics"
     ]
 
+    #----------------------------------------------------------------------------------
+    # Methods
     def SelectPerks(self, in_id, in_range):
         bool = False
         request = {
@@ -233,12 +237,253 @@ class Roulette(Cog):
         return generatedList
 
     def get_data(self):
-        with open("roulette_userdata.json", 'r') as file:
+        with open("jsonfiles/roulette_userdata.json", 'r') as file:
             return json.loads(file.read())
+    
+    def set_data(self,data):
+        with open('jsonfiles/roulette_userdata.json', 'w') as file:
+            file.write(json.dumps(data, indent=2))
+
+    def createProfile(self,discord_id):
+        data = self.get_data()
+        data.append({"discord_id":discord_id,"data":{"survP":[-1],"killP":[-1]}})
+        self.set_data(data)
+        print(f'Created {discord_id} profile')
+
+    def resetProfile(self,discord_id, mode):
+        data = self.get_data()
+        team = ''
+        if mode == 'survivor':
+            team = 'survP'
+
+        if mode == 'killer':
+            team = 'killP'
+
+        if mode == 'both':
+            for profile in data:
+                    if profile['discord_id'] == discord_id:
+                        profile['data']['survP'] = [-1]
+                        profile['data']['killP'] = [-1]
+            self.set_data(data)
+            print(f'Reset {discord_id} full profile')
+            return True
+
+        for profile in data:
+                    if profile['discord_id'] == discord_id:
+                        profile['data'][team] = [-1]
+        self.set_data(data)
+        print(f'Reset {discord_id} {team} profile')
+        return True
+
+    def add_allPerks(self,discord_id,mode):
+        data = self.get_data()
+        perksToModify = ""
+        if mode == 'survivor':
+            perksToModify = "survP"
+        elif mode == 'killer':
+            perksToModify = "killP"
+        else:
+            return False
+
+        for profile in data:
+            if profile['discord_id'] == discord_id:
+                length = 0
+                if mode == 'survivor':
+                    length = len(self.SurvivorPerks)
+                elif mode == 'killer':
+                    length = len(self.KillerPerks)
+
+                perklist = [0] * length
+
+                for x in range(length):
+                    print(x)
+                    perklist[x] = x
+                profile['data'][perksToModify] = perklist
+        self.set_data(data)
+        print('Modified perks')
+        return True
+
+    def delete_allPerks(self,discord_id,mode):
+        data = self.get_data()
+        perksToModify = ""
+        if mode == 'survivor':
+            perksToModify = "survP"
+        elif mode == 'killer':
+            perksToModify = "killP"
+        else:
+            return False
+
+        for profile in data:
+                if profile['discord_id'] == discord_id:
+                    perklist = [0]
+                    profile['data'][perksToModify] = perklist
+        self.set_data(data)
+        print('Modified perks')
+        return True
+
+    def modify_Perks(self,discord_id,character,mode):
+        data = self.get_data()
+        perksToModify = [-1,-1,-1]
+        team = ''
+
+        while True:
+            if character == 'defaultS':
+                perksToModify = [25,34,42,45,49,54,59,62,68,76,77,82,88,95,43,75,72,66,46,40]
+                team = 'survP'
+                break
+            elif character == 'Meg':
+                perksToModify = [64,83,1]
+                team = 'survP'
+                break
+            elif character == 'Dwight':
+                perksToModify = [12,63,47]
+                team = 'survP'
+                break
+            elif character == 'Claudette':
+                perksToModify = [35,16,73]
+                team = 'survP'
+                break
+            elif character == 'Jake':
+                perksToModify = [44,21,71]
+                team = 'survP'
+                break
+            elif character == 'Nea':
+                perksToModify = [7,91,85]
+                team = 'survP'
+                break
+            elif character == 'Laurie':
+                perksToModify = [79,55,28]
+                team = 'survP'
+                break
+            elif character == 'Ace':
+                perksToModify = [90,57,0]
+                team = 'survP'
+                break
+            elif character == 'Bill':
+                perksToModify = [48,15,89]
+                team = 'survP'
+                break
+            elif character == 'Min':
+                perksToModify = [86,50,3]
+                team = 'survP'
+                break
+            elif character == 'David':
+                perksToModify = [96,26,53]
+                team = 'survP'
+                break
+            elif character == 'Quentin':
+                perksToModify = [94,58,92]
+                team = 'survP'
+                break
+            elif character == 'Tapp':
+                perksToModify = [87,31,84]
+                team = 'survP'
+                break
+            elif character == 'Kate':
+                perksToModify = [24,97,11]
+                team = 'survP'
+                break
+            elif character == 'Adam':
+                perksToModify = [33,29,6]
+                team = 'survP'
+                break
+            elif character == 'Jeff':
+                perksToModify = [17,2,32]
+                team = 'survP'
+                break
+            elif character == 'Jane':
+                perksToModify = [80,60,41]
+                team = 'survP'
+                break
+            elif character == 'Ash':
+                perksToModify = [38,19,52]
+                team = 'survP'
+                break
+            elif character == 'Nancy':
+                perksToModify = [43,75,72]
+                team = 'survP'
+                break
+            elif character == 'Steve':
+                perksToModify = [66,46,40]
+                team = 'survP'
+                break
+            elif character == 'Yui':
+                perksToModify = [51,4,18]
+                team = 'survP'
+                break
+            elif character == 'Zarina':
+                perksToModify = [65,58,39]
+                team = 'survP'
+                break
+            elif character == 'Cheryl':
+                perksToModify = [81,10,67]
+                team = 'survP'
+                break
+            elif character == 'Felix':
+                perksToModify = [93,30,20]
+                team = 'survP'
+                break
+            elif character == 'Elodie':
+                perksToModify = [5,27,61]
+                team = 'survP'
+                break
+            elif character == 'Yunjin':
+                perksToModify = [36,78,74]
+                team = 'survP'
+                break
+            elif character == 'Jill':
+                perksToModify = [23,69,9]
+                team = 'survP'
+                break
+            elif character == 'Leon':
+                perksToModify = [8,37,70]
+                team = 'survP'
+                break
+            elif character == 'Mikaela':
+                perksToModify = [22,13,14]
+                team = 'survP'
+                break
+            else:
+                return False
+
+        for profile in data:
+                if profile['discord_id'] == discord_id:
+                    perklist = profile['data'][team]
+
+                    if -1 in perklist:
+                        perklist.remove(-1)
+
+                    if mode == 'add':
+                        for item in perksToModify:
+                            if item not in perklist:
+                                perklist.append(perksToModify[item])
+                    elif mode == 'delete':
+                        for item in perksToModify:
+                            if item in perklist:
+                                perklist.remove(item)
+
+        self.set_data(data)
+        print(f'Modified {discord_id} {team} perks')
+        return True
+
+    def check_profile(self,data,discord_id):
+        bool = False
+        for profile in data:
+                if profile['discord_id'] == discord_id:
+                    bool = True
+        return bool
+
+
+    #----------------------------------------------------------------------------------
+    # Commands
 
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
-        generatedPerks = self.SelectPerks(ctx.author_id, 97)
+        data = self.get_data()
+        id = ctx.author_id
+        if not self.check_profile(data,id):
+            self.createProfile(id)
+        generatedPerks = self.SelectPerks(id, 97)
         embed = discord.Embed(
             title="Survivor Roulette!",
             description=f"{ctx.author.name} krijgt:{os.linesep}{self.SurvivorPerks[generatedPerks[0]]}{os.linesep}{self.SurvivorPerks[generatedPerks[1]]}{os.linesep}{self.SurvivorPerks[generatedPerks[2]]}{os.linesep}{self.SurvivorPerks[generatedPerks[3]]}",
