@@ -16,7 +16,13 @@ async def on_ready():
     await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in!")
     await bot.change_presence(activity=discord.Game(name='with my feelings'),status=discord.Status.online)
 
-    user = get(bot.get_all_members(), id="228537642583588864")
+    user = bot.get_user(228537642583588864)
+    if user:
+        # found the user
+        print('got bot user')
+        await user.edit(nick='Shelly')
+    
+    user = bot.get_user('228537642583588864')
     if user:
         # found the user
         print('got bot user')
