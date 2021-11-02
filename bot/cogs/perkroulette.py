@@ -17,7 +17,6 @@ class Roulette(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
-    async def on_ready(self):
         print('started creating Json with env variables')
         g_file = 'jsonfiles/google_api_secret'
         data = self.get_data(g_file)
@@ -40,12 +39,10 @@ class Roulette(Cog):
         print('started setting google_Data')
         self.google_Data = sh.worksheet("Data")
         print('set google_Data')
+
     #----------------------------------------------------------------------------------
     # Variables
     # https://deadbydaylight.fandom.com/wiki/Perks
-
-    google_Data = None
-
     SurvivorPerks = [
         "Ace in the Hole",
         "Adrenaline",
