@@ -14,6 +14,8 @@ guild_ids = [int(os.getenv("GUILD2")), int(os.getenv("GUILD3"))]
 
 
 class Roulette(Cog):
+    __slots__ = ('bot', 'google_Data')
+
     def __init__(self, bot: Bot):
         self.bot = bot
 
