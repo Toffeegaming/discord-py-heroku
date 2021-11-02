@@ -210,58 +210,6 @@ class Roulette(Cog):
     ]
     #----------------------------------------------------------------------------------
     # Methods
-    def _CreateGspread(self):
-        print('started creating Json with env variables')
-        g_file = 'jsonfiles/google_api_secret'
-        data = self.get_data(g_file)
-        data['project_id'] = os.getenv("G_API_ID")
-        data['private_key_id'] = os.getenv("G_API_KEY_ID")
-        data['private_key'] = os.getenv("G_API_KEY").replace('\\n', '\n')
-        data['client_email'] = os.getenv("G_API_MAIL")
-        data['client_id'] = os.getenv("G_API_C_ID")
-        data['client_x509_cert_url'] = os.getenv("G_API_CURL")
-
-        self.set_data(data,g_file)
-        print('json file is set')
-        print(data)
-
-        print('getting filepath')
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        g_file_location = dir_path + '/' + g_file + '.json'
-        print('got filepath')
-        gc = gspread.service_account(filename = g_file_location)
-        print('connected via gspread')
-        sh = gc.open('DiscordUserdata')
-        print('started setting google_Data')
-        self.googleData = sh.worksheet("Data")
-        print('set google_Data')
-        return True
-
-
-    def SelectPerks(self, in_id, in_range):
-        bool = False
-        request = {
-            "jsonrpc": "2.0",
-            "method": "generateIntegerSequences",
-            "params": {
-                "apiKey": os.getenv("RANDOM-API"),
-                "n": 1,
-                "length": 4,
-                "min": 0,
-                "max": in_range,
-                "replacement": bool,
-                "base": 10
-            },
-            "id": in_id
-        }
-
-        response = requests.post('https://api.random.org/json-rpc/4/invoke',
-        data=json.dumps(request),
-        headers={'content-type': 'application/json'})
-        data = response.json()
-        generatedList = data['result']['random']['data'][0]
-        return generatedList
-
     def get_data(self,name):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         file_location = dir_path + '/' + name + '.json'
@@ -274,16 +222,49 @@ class Roulette(Cog):
         with open(file_location, 'w') as file:
             file.write(json.dumps(data, indent=2))
 
+    def check_connection(self):
+        if self.googleData is None:
+            self._CreateGspread()
+        return True
+
+    def check_profile(self,discord_id):
+        return self.googleData.find(str(discord_id))
+
+    def _CreateGspread(self):
+        g_file = 'jsonfiles/google_api_secret'
+        data = self.get_data(g_file)
+        data['project_id'] = os.getenv("G_API_ID")
+        data['private_key_id'] = os.getenv("G_API_KEY_ID")
+        data['private_key'] = os.getenv("G_API_KEY").replace('\\n', '\n')
+        data['client_email'] = os.getenv("G_API_MAIL")
+        data['client_id'] = os.getenv("G_API_C_ID")
+        data['client_x509_cert_url'] = os.getenv("G_API_CURL")
+        self.set_data(data,g_file)
+
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        g_file_location = dir_path + '/' + g_file + '.json'
+        gc = gspread.service_account(filename = g_file_location)
+        sh = gc.open('DiscordUserdata')
+        self.googleData = sh.worksheet("Data")
+        return True
+
     def get_Google_data(self):
         return True
 
     def set_Google_data(self):
         return True
 
+    def g_next_available_row(self):
+        str_list = list(filter(None, self.googleData.col_values(1)))
+        return str(len(str_list)+1)
+
     def createProfile(self,discord_id):
-        data = self.get_data()
-        data.append({"discord_id":discord_id,"data":{"survP":[-1],"killP":[-1]}})
-        self.set_data(data)
+        available = self.g_next_available_row()
+        self.googleData.update_acell(f"A{available}", str(discord_id))
+        arr = [-1]
+        arr2 = [-1]
+        self.googleData.update_acell(f"B{available}", str(arr))
+        self.googleData.update_acell(f"C{available}", str(arr2))
         print(f'Created {discord_id} profile')
 
     def resetProfile(self,discord_id, mode):
@@ -501,14 +482,29 @@ class Roulette(Cog):
         print(f'Modified {discord_id} {team} perks')
         return True
 
-    def check_profile(self,discord_id):
-        return self.googleData.find(str(discord_id))
+    def SelectPerks(self, in_id, in_range):
+        bool = False
+        request = {
+            "jsonrpc": "2.0",
+            "method": "generateIntegerSequences",
+            "params": {
+                "apiKey": os.getenv("RANDOM-API"),
+                "n": 1,
+                "length": 4,
+                "min": 0,
+                "max": in_range,
+                "replacement": bool,
+                "base": 10
+            },
+            "id": in_id
+        }
 
-    def check_connection(self):
-        if self.googleData is None:
-            self._CreateGspread()
-        return True
-
+        response = requests.post('https://api.random.org/json-rpc/4/invoke',
+        data=json.dumps(request),
+        headers={'content-type': 'application/json'})
+        data = response.json()
+        generatedList = data['result']['random']['data'][0]
+        return generatedList
 
     #----------------------------------------------------------------------------------
     # Commands
@@ -518,7 +514,8 @@ class Roulette(Cog):
         if self.check_connection():
             id = ctx.author_id
 
-            print(self.check_profile(id))
+            if self.check_profile(id) is None:
+                self.createProfile(id)
 
             generatedPerks = self.SelectPerks(id, 97)
             embed = discord.Embed(
