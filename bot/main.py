@@ -19,6 +19,7 @@ async def on_ready():
     user = get(bot.get_all_members(), id="228537642583588864")
     if user:
         # found the user
+        print('got bot user')
         await user.edit(nick='Shelly')
 
 # load cogs
