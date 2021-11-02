@@ -248,10 +248,20 @@ class Roulette(Cog):
         self.googleData = sh.worksheet("Data")
         return True
 
-    def get_Google_data(self):
-        return True
+    def get_Google_dataRow(self, discord_id):
+        return self.googleData.find(str(discord_id)).row
 
-    def set_Google_data(self):
+    def set_Google_data(self, row, perksToModify, value):
+        column = ""
+
+        if perksToModify == 'survivor':
+            column = "B"
+        elif perksToModify == 'killer':
+            column = "C"
+        else:
+            return False
+
+        self.googleData.update_acell(f'{column}{row}',str(value))
         return True
 
     def g_next_available_row(self):
@@ -262,61 +272,41 @@ class Roulette(Cog):
         available = self.g_next_available_row()
         self.googleData.update_acell(f"A{available}", str(discord_id))
         arr = [-1]
-        arr2 = [-1]
-        self.googleData.update_acell(f"B{available}", str(arr))
-        self.googleData.update_acell(f"C{available}", str(arr2))
+        self.set_Google_data(available,'survivor',arr)
+        self.set_Google_data(available,'killer',arr)
         print(f'Created {discord_id} profile')
 
     def resetProfile(self,discord_id, mode):
-        data = self.get_data()
-        team = ''
-        if mode == 'survivor':
-            team = 'survP'
-
-        if mode == 'killer':
-            team = 'killP'
+        row = self.get_Google_dataRow(discord_id)
+        arr = [-1]
 
         if mode == 'both':
-            for profile in data:
-                if profile['discord_id'] == discord_id:
-                    profile['data']['survP'] = [-1]
-                    profile['data']['killP'] = [-1]
-            self.set_data(data)
-            print(f'Reset {discord_id} full profile')
+            self.set_Google_data(row,'survP',arr)
+            self.set_Google_data(row,'killP',arr)
             return True
+        else:
+            self.set_Google_data(row,mode.arr)
 
-        for profile in data:
-            if profile['discord_id'] == discord_id:
-                profile['data'][team] = [-1]
-        self.set_data(data)
-        print(f'Reset {discord_id} {team} profile')
-        return True
+        return False
 
     def add_allPerks(self,discord_id,mode):
-        data = self.get_data()
-        perksToModify = ""
+        row = self.get_Google_dataRow(discord_id)
+
+        length = 0
+
         if mode == 'survivor':
-            perksToModify = "survP"
+            length = len(self.SurvivorPerks)
         elif mode == 'killer':
-            perksToModify = "killP"
+            length = len(self.KillerPerks)
         else:
             return False
 
-        for profile in data:
-            if profile['discord_id'] == discord_id:
-                length = 0
-                if mode == 'survivor':
-                    length = len(self.SurvivorPerks)
-                elif mode == 'killer':
-                    length = len(self.KillerPerks)
+        perklist = [0] * length
 
-                perklist = [0] * length
+        for x in range(length):
+            perklist[x] = x
 
-                for x in range(length):
-                    perklist[x] = x
-                profile['data'][perksToModify] = perklist
-        self.set_data(data)
-        print('Modified perks')
+        self.set_Google_data(row,mode, perklist)
         return True
 
     def delete_allPerks(self,discord_id,mode):
@@ -515,7 +505,9 @@ class Roulette(Cog):
             id = ctx.author_id
 
             if self.check_profile(id) is None:
-                self.createProfile(id)
+                self.createProfile()
+                self.add_allPerks(id,'survivor')
+                self.add_allPerks(id,'killer')
 
             generatedPerks = self.SelectPerks(id, 97)
             embed = discord.Embed(
