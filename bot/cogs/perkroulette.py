@@ -505,6 +505,11 @@ class Roulette(Cog):
             id = ctx.author_id
 
             if self.check_profile(id) is None:
+                embed = discord.Embed(
+                title="Survivor Roulette!",
+                description=f"Profiel wordt aangemaakt, probeer het zo nog eens.",
+                color=int("0x9628f7",16))
+                await ctx.send(embed=embed)
                 self.createProfile(id)
                 self.add_allPerks(id,'survivor')
                 self.add_allPerks(id,'killer')
