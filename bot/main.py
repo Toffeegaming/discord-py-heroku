@@ -16,17 +16,13 @@ async def on_ready():
     await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in!")
     await bot.change_presence(activity=discord.Game(name='with my feelings'),status=discord.Status.online)
 
-    user = bot.get_user(228537642583588864)
-    if user:
+
+    guild = bot.get_guild(831642131986776125)
+    member = guild.get_member(228537642583588864)
+    if member:
         # found the user
         print('got bot user')
-        await user.edit(nick='Shelly')
-    
-    user = bot.get_user('228537642583588864')
-    if user:
-        # found the user
-        print('got bot user')
-        await user.edit(nick='Shelly')
+        await member.edit(nick='Shelly')
 
 # load cogs
 dir_path = os.path.dirname(os.path.realpath(__file__))
