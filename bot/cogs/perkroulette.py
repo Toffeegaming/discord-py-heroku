@@ -14,36 +14,9 @@ guild_ids = [int(os.getenv("GUILD2")), int(os.getenv("GUILD3"))]
 
 
 class Roulette(Cog):
-    __slots__ = ('bot', 'google_Data')
-
     def __init__(self, bot: Bot):
         self.bot = bot
-
-        print('started creating Json with env variables')
-        g_file = 'jsonfiles/google_api_secret'
-        data = self.get_data(g_file)
-        data['project_id'] = os.getenv("G_API_ID")
-        data['private_key_id'] = os.getenv("G_API_KEY_ID")
-        data['private_key'] = os.getenv("G_API_KEY")
-        data['client_email'] = os.getenv("G_API_MAIL")
-        data['client_id'] = os.getenv("G_API_C_ID")
-        data['client_x509_cert_url'] = os.getenv("G_API_CURL")
-
-        self.set_data(data,g_file)
-        print(data)
-        print('json file is set')
-
-        print('getting filepath')
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        g_file_location = dir_path + '/' + g_file + '.json'
-        print('got filepath')
-        gc = gspread.service_account(filename = g_file_location)
-        print('connected via gspread')
-        sh = gc.open('DiscordUserdata')
-        print('started setting google_Data')
-        self.google_Data = sh.worksheet("Data")
-        print('set google_Data')
-
+        self._googleData = None
     #----------------------------------------------------------------------------------
     # Variables
     # https://deadbydaylight.fandom.com/wiki/Perks
@@ -237,9 +210,36 @@ class Roulette(Cog):
         "Whispers",
         "Zanshin Tactics"
     ]
-
     #----------------------------------------------------------------------------------
     # Methods
+    def _CreateGspread(self):
+        print('started creating Json with env variables')
+        g_file = 'jsonfiles/google_api_secret'
+        data = self.get_data(g_file)
+        data['project_id'] = os.getenv("G_API_ID")
+        data['private_key_id'] = os.getenv("G_API_KEY_ID")
+        data['private_key'] = os.getenv("G_API_KEY")
+        data['client_email'] = os.getenv("G_API_MAIL")
+        data['client_id'] = os.getenv("G_API_C_ID")
+        data['client_x509_cert_url'] = os.getenv("G_API_CURL")
+
+        self.set_data(data,g_file)
+        print(data)
+        print('json file is set')
+
+        print('getting filepath')
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        g_file_location = dir_path + '/' + g_file + '.json'
+        print('got filepath')
+        gc = gspread.service_account(filename = g_file_location)
+        print('connected via gspread')
+        sh = gc.open('DiscordUserdata')
+        print('started setting google_Data')
+        self._googleData = sh.worksheet("Data")
+        print('set google_Data')
+        return True
+
+
     def SelectPerks(self, in_id, in_range):
         bool = False
         request = {
@@ -505,6 +505,11 @@ class Roulette(Cog):
 
     def check_profile(self,discord_id):
         return self.google_Data.find(str(discord_id))
+
+    def check_connection(self):
+        if self._googleData is None:
+            self._CreateGspread()
+        return True
 
 
     #----------------------------------------------------------------------------------
