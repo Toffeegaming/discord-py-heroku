@@ -228,8 +228,10 @@ class Roulette(Cog):
         print(data['client_x509_cert_url'])
 
         self.set_data(data,g_file)
-        print(data)
         print('json file is set')
+
+        testData = self.get_data()
+        print(testData)
 
         print('getting filepath')
         dir_path = os.path.dirname(os.path.realpath(__file__))
