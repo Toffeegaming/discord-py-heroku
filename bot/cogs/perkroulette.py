@@ -555,13 +555,54 @@ class Roulette(Cog):
 
     @cog_ext.cog_slash(name='Killer', description='Krijg 4 random killer perks!', guild_ids=guild_ids)
     async def _Killer(self,ctx: SlashContext):
-        generatedPerks = self.SelectPerks(ctx.author_id, 86)
-        embed = discord.Embed(
-            title="Killer Roulette!",
-            description=f"{ctx.author.name} krijgt:{os.linesep}{self.KillerPerks[generatedPerks[0]]}{os.linesep}{self.KillerPerks[generatedPerks[1]]}{os.linesep}{self.KillerPerks[generatedPerks[2]]}{os.linesep}{self.KillerPerks[generatedPerks[3]]}",
-            color=int("0x9628f7",16))
-        embed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
-        await ctx.send(embed=embed)
+        if self.check_connection():
+            id = ctx.author_id
+
+            isFirst = False
+            msg = None
+
+            if self.check_profile(id) is None:
+                profileEmbed = discord.Embed(
+                title="Killer Roulette!",
+                description=f"Profiel wordt aangemaakt, je krijgt zo je perks.",
+                color=int("0x9628f7",16))
+                msg = await ctx.send(embed=profileEmbed)
+                isFirst = True
+                self.createProfile(id)
+                self.add_allPerks(id,'survivor')
+                self.add_allPerks(id,'killer')
+
+            row = self.get_Google_dataRow(id)
+            value = self.googleData.acell(f'C{row}').value
+            stripVal = value.lstrip("[").rstrip("]")
+            availablePerks = list(map(int,stripVal.split(", ")))
+            numberPerks = len(availablePerks)
+
+            if not numberPerks >= 4:
+                embed = discord.Embed(
+                title=":(",
+                description=f"Het lijkt erop dat je niet genoeg perks hebt aan staan om een build te kunnen maken!",
+                color=int("0x9628f7",16))
+                await ctx.send(embed=embed)
+            else:
+                generatedPerks = self.SelectPerks(id, len(availablePerks))
+
+                namedPerks = [
+                    self.KillerPerks[availablePerks[generatedPerks[0]]],
+                    self.KillerPerks[availablePerks[generatedPerks[1]]],
+                    self.KillerPerks[availablePerks[generatedPerks[2]]],
+                    self.KillerPerks[availablePerks[generatedPerks[3]]]
+                    ]
+                
+                perkEmbed = discord.Embed(
+                    title="KillerPerks Roulette!",
+                    description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
+                    color=int("0x9628f7",16))
+                perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
+                if not isFirst:
+                    await ctx.send(embed=perkEmbed)
+                else:
+                    await msg.edit(embed=perkEmbed)
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
