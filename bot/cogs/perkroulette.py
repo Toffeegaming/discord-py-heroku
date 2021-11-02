@@ -22,19 +22,21 @@ class Roulette(Cog):
         print('started creating Json with env variables')
         g_file = 'jsonfiles/google_api_secret'
         data = self.get_data(g_file)
-        data['project_id'] = str(os.getenv("G_API_ID"))
-        data['private_key_id'] =  str(os.getenv("G_API_KEY_ID"))
-        data['private_key'] =  str(os.getenv("G_API_KEY"))
-        data['client_email'] =  str(os.getenv("G_API_MAIL"))
-        data['client_id'] =  str(os.getenv("G_API_C_ID"))
-        data['client_x509_cert_url'] =  str(os.getenv("G_API_CURL"))
+        data['project_id'] = os.getenv("G_API_ID")
+        data['private_key_id'] = os.getenv("G_API_KEY_ID")
+        data['private_key'] = os.getenv("G_API_KEY")
+        data['client_email'] = os.getenv("G_API_MAIL")
+        data['client_id'] = os.getenv("G_API_C_ID")
+        data['client_x509_cert_url'] = os.getenv("G_API_CURL")
+
         self.set_data(data,g_file)
         print(data)
         print('json file is set')
 
         print('getting filepath')
-        g_file_location = '/' + g_file + '.json'
-        print('created filepath')
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        g_file_location = dir_path + '/' + g_file + '.json'
+        print('got filepath')
         gc = gspread.service_account(filename = g_file_location)
         print('connected via gspread')
         sh = gc.open('DiscordUserdata')
