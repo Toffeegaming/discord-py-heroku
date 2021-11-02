@@ -230,7 +230,7 @@ class Roulette(Cog):
         self.set_data(data,g_file)
         print('json file is set')
 
-        testData = self.get_data()
+        testData = self.get_data(g_file)
         print(testData)
 
         print('getting filepath')
