@@ -4,6 +4,7 @@ from discord_slash import cog_ext, SlashContext
 
 import discord
 import json
+import gspread
 import requests
 
 from discord_slash.utils.manage_commands import generate_options
@@ -16,9 +17,28 @@ class Roulette(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
+        g_file = 'jsonfiles/google_api_secret'
+        data = self.get_data(g_file)
+        data['project_id'] = os.getenv("G_API_ID")
+        data['private_key_id'] = os.getenv("G_API_KEY_ID")
+        data['private_key'] = os.getenv("G_API_KEY")
+        data['client_email'] = os.getenv("G_API_MAIL")
+        data['client_id'] = os.getenv("G_API_C_ID")
+        data['client_x509_cert_url'] = os.getenv("G_API_CURL")
+        self.set_data(data,g_file)
+
+        g_dir_path = os.path.dirname(os.path.realpath(__file__))
+        g_file_location = g_dir_path + '/' + g_file + '.json'
+        gc = gspread.service_account(filename = g_file_location)
+        sh = gc.open('DiscordUserdata')
+        self.google_Data = sh.worksheet("Data")
+
     #----------------------------------------------------------------------------------
-    # Lists
+    # Variables
     # https://deadbydaylight.fandom.com/wiki/Perks
+
+    google_Data = None
+
     SurvivorPerks = [
         "Ace in the Hole",
         "Adrenaline",
@@ -236,17 +256,23 @@ class Roulette(Cog):
         generatedList = data['result']['random']['data'][0]
         return generatedList
 
-    def get_data(self):
+    def get_data(self,name):
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        file_location = dir_path + '/jsonfiles/roulette_userdata.json'
+        file_location = dir_path + '/' + name + '.json'
         with open(file_location, 'r') as file:
             return json.loads(file.read())
     
-    def set_data(self,data):
+    def set_data(self,data,name):
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        file_location = dir_path + '/jsonfiles/roulette_userdata.json'
+        file_location = dir_path + '/' + name + '.json'
         with open(file_location, 'w') as file:
             file.write(json.dumps(data, indent=2))
+
+    def get_Google_data(self):
+        return True
+
+    def set_Google_data(self):
+        return True
 
     def createProfile(self,discord_id):
         data = self.get_data()
@@ -469,11 +495,11 @@ class Roulette(Cog):
         print(f'Modified {discord_id} {team} perks')
         return True
 
-    def check_profile(self,data,discord_id):
+    def check_profile(self,discord_id):
         bool = False
-        for profile in data:
-                if profile['discord_id'] == discord_id:
-                    bool = True
+        cell = self.google_Data.find(str(discord_id))
+        if cell is not None:
+            bool = True
         return bool
 
 
@@ -482,7 +508,11 @@ class Roulette(Cog):
 
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
-        generatedPerks = self.SelectPerks(ctx.author_id, 97)
+        id = ctx.author_id
+        
+        print(self.check_profile(id))
+
+        generatedPerks = self.SelectPerks(id, 97)
         embed = discord.Embed(
             title="Survivor Roulette!",
             description=f"{ctx.author.name} krijgt:{os.linesep}{self.SurvivorPerks[generatedPerks[0]]}{os.linesep}{self.SurvivorPerks[generatedPerks[1]]}{os.linesep}{self.SurvivorPerks[generatedPerks[2]]}{os.linesep}{self.SurvivorPerks[generatedPerks[3]]}",
