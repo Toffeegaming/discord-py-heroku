@@ -14,11 +14,9 @@ guild_ids = [int(os.getenv("GUILD2")), int(os.getenv("GUILD3"))]
 
 
 class Roulette(Cog):
-    def __init__(self, bot: Bot):
+    def __init__(self, bot: Bot, google_Data):
         self.bot = bot
-        self.init_Gdrive()
-
-    def init_Gdrive(self):
+        
         g_file = 'jsonfiles/google_api_secret'
         data = self.get_data(g_file)
         data['project_id'] = os.getenv("G_API_ID")
@@ -38,8 +36,6 @@ class Roulette(Cog):
     #----------------------------------------------------------------------------------
     # Variables
     # https://deadbydaylight.fandom.com/wiki/Perks
-
-    google_Data = None
 
     SurvivorPerks = [
         "Ace in the Hole",
@@ -498,11 +494,7 @@ class Roulette(Cog):
         return True
 
     def check_profile(self,discord_id):
-        bool = False
-        cell = self.google_Data.find(str(discord_id))
-        if cell is not None:
-            bool = True
-        return bool
+        return self.google_Data.find(str(discord_id))
 
 
     #----------------------------------------------------------------------------------
