@@ -504,23 +504,29 @@ class Roulette(Cog):
         if self.check_connection():
             id = ctx.author_id
 
+            isFirst = False
+            msg = None
             if self.check_profile(id) is None:
-                embed = discord.Embed(
+                profileEmbed = discord.Embed(
                 title="Survivor Roulette!",
                 description=f"Profiel wordt aangemaakt, je krijgt zo je perks.",
                 color=int("0x9628f7",16))
-                await ctx.send(embed=embed)
+                msg = await ctx.send(embed=profileEmbed)
+                isFirst = True
                 self.createProfile(id)
                 self.add_allPerks(id,'survivor')
                 self.add_allPerks(id,'killer')
 
             generatedPerks = self.SelectPerks(id, 97)
-            embed = discord.Embed(
+            perkEmbed = discord.Embed(
                 title="Survivor Roulette!",
                 description=f"{ctx.author.name} krijgt:{os.linesep}{self.SurvivorPerks[generatedPerks[0]]}{os.linesep}{self.SurvivorPerks[generatedPerks[1]]}{os.linesep}{self.SurvivorPerks[generatedPerks[2]]}{os.linesep}{self.SurvivorPerks[generatedPerks[3]]}",
                 color=int("0x9628f7",16))
-            embed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
-            await ctx.send(embed=embed)
+            perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
+            if not isFirst:
+                await ctx.send(embed=perkEmbed)
+            else:
+                await msg.edit(embed=perkEmbed)
             
             # jData = self.get_data()
             # id = ctx.author_id
