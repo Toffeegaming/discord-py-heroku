@@ -16,7 +16,9 @@ guild_ids = [int(os.getenv("GUILD2")), int(os.getenv("GUILD3"))]
 class Roulette(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
+        self.init_Gdrive()
 
+    def init_Gdrive(self):
         g_file = 'jsonfiles/google_api_secret'
         data = self.get_data(g_file)
         data['project_id'] = os.getenv("G_API_ID")
@@ -509,7 +511,7 @@ class Roulette(Cog):
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
         id = ctx.author_id
-        
+
         print(self.check_profile(id))
 
         generatedPerks = self.SelectPerks(id, 97)
