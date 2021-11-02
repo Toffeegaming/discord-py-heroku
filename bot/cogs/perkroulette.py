@@ -506,6 +506,7 @@ class Roulette(Cog):
 
             isFirst = False
             msg = None
+
             if self.check_profile(id) is None:
                 profileEmbed = discord.Embed(
                 title="Survivor Roulette!",
@@ -517,51 +518,39 @@ class Roulette(Cog):
                 self.add_allPerks(id,'survivor')
                 self.add_allPerks(id,'killer')
 
-            generatedPerks = self.SelectPerks(id, 97)
-            perkEmbed = discord.Embed(
-                title="Survivor Roulette!",
-                description=f"{ctx.author.name} krijgt:{os.linesep}{self.SurvivorPerks[generatedPerks[0]]}{os.linesep}{self.SurvivorPerks[generatedPerks[1]]}{os.linesep}{self.SurvivorPerks[generatedPerks[2]]}{os.linesep}{self.SurvivorPerks[generatedPerks[3]]}",
+            row = self.get_Google_dataRow(id)
+            value = self.googleData.acell(f'B{row}').value
+            stripVal = value.lstrip("[").rstrip("]")
+            availablePerks = list(map(int,stripVal.split(", ")))
+            numberPerks = len(availablePerks)
+
+            if not numberPerks >= 4:
+                embed = discord.Embed(
+                title=":(",
+                description=f"Het lijkt erop dat je niet genoeg perks hebt aan staan om een build te kunnen maken!",
                 color=int("0x9628f7",16))
-            perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
-            if not isFirst:
-                await ctx.send(embed=perkEmbed)
+                await ctx.send(embed=embed)
             else:
-                await msg.edit(embed=perkEmbed)
-            
-            # jData = self.get_data()
-            # id = ctx.author_id
+                generatedPerks = self.SelectPerks(id, len(availablePerks))
 
-            # if not self.check_profile(jData,id):
-            #     self.createProfile(id)
-            #     self.add_allPerks(id,'survivor')
+                namedPerks = [
+                    self.SurvivorPerks[availablePerks[generatedPerks[0]]],
+                    self.SurvivorPerks[availablePerks[generatedPerks[1]]],
+                    self.SurvivorPerks[availablePerks[generatedPerks[2]]],
+                    self.SurvivorPerks[availablePerks[generatedPerks[3]]]
+                    ]
+                
+                perkEmbed = discord.Embed(
+                    title="Survivor Roulette!",
+                    description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
+                    color=int("0x9628f7",16))
+                perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
+                if not isFirst:
+                    await ctx.send(embed=perkEmbed)
+                else:
+                    await msg.edit(embed=perkEmbed)
 
-            # for profile in jData:
-            #     if profile['discord_id'] == id:
-            #         availablePerks = profile['data']['survP']
-            #         numberPerks = len(availablePerks)
-            #         print(numberPerks)
-            #         if not numberPerks >= 4:
-            #             embed = discord.Embed(
-            #             title=":(",
-            #             description=f"Het lijkt erop dat je niet genoeg perks hebt aan staan om een build te kunnen maken!",
-            #             color=int("0x9628f7",16))
-            #             await ctx.send(embed=embed)
 
-            #         generatedPerks = self.SelectPerks(id, len(availablePerks))
-
-            #         namedPerks = [
-            #             self.SurvivorPerks[availablePerks[generatedPerks[0]]],
-            #             self.SurvivorPerks[availablePerks[generatedPerks[1]]],
-            #             self.SurvivorPerks[availablePerks[generatedPerks[2]]],
-            #             self.SurvivorPerks[availablePerks[generatedPerks[3]]]
-            #             ]
-
-            #         embed = discord.Embed(
-            #             title="Survivor Roulette!",
-            #             description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
-            #             color=int("0x9628f7",16))
-            #         embed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
-            #         await ctx.send(embed=embed)
 
 
     @cog_ext.cog_slash(name='Killer', description='Krijg 4 random killer perks!', guild_ids=guild_ids)
