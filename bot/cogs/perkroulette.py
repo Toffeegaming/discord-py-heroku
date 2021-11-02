@@ -505,7 +505,7 @@ class Roulette(Cog):
             id = ctx.author_id
 
             if self.check_profile(id) is None:
-                self.createProfile()
+                self.createProfile(id)
                 self.add_allPerks(id,'survivor')
                 self.add_allPerks(id,'killer')
 
