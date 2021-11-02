@@ -2,6 +2,7 @@ import os
 import discord
 from discord.ext.commands import Bot
 from discord_slash import SlashCommand
+from discord.utils import get
 
 import datetime # timestamp discord log output
 
@@ -14,6 +15,11 @@ async def on_ready():
     time = datetime.datetime.utcnow()
     await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in!")
     await bot.change_presence(activity=discord.Game(name='with my feelings'),status=discord.Status.online)
+
+    user = get(bot.get_all_members(), id="228537642583588864")
+    if user:
+        # found the user
+        await user.edit(nick='Shelly')
 
 # load cogs
 dir_path = os.path.dirname(os.path.realpath(__file__))
