@@ -29,11 +29,11 @@ class Roulette(Cog):
         data['client_id'] =  str(os.getenv("G_API_C_ID"))
         data['client_x509_cert_url'] =  str(os.getenv("G_API_CURL"))
         self.set_data(data,g_file)
+        print(data)
         print('json file is set')
 
         print('getting filepath')
-        g_dir_path = os.path.dirname(os.path.realpath(__file__))
-        g_file_location = g_dir_path + '/' + g_file + '.json'
+        g_file_location = '/' + g_file + '.json'
         print('created filepath')
         gc = gspread.service_account(filename = g_file_location)
         print('connected via gspread')
