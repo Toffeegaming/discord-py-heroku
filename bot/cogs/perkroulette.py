@@ -507,7 +507,7 @@ class Roulette(Cog):
             if self.check_profile(id) is None:
                 embed = discord.Embed(
                 title="Survivor Roulette!",
-                description=f"Profiel wordt aangemaakt, probeer het zo nog eens.",
+                description=f"Profiel wordt aangemaakt, je krijgt zo je perks.",
                 color=int("0x9628f7",16))
                 await ctx.send(embed=embed)
                 self.createProfile(id)
