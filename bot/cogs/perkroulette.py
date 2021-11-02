@@ -214,7 +214,7 @@ class Roulette(Cog):
         print('started creating Json with env variables')
         g_file = 'jsonfiles/google_api_secret'
         data = self.get_data(g_file)
-        data['project_id'] = os.getenv("G_API_ID")
+        data['project_id'] = os.getenv("G_API_ID").replace('\'','\"')
         print(data['project_id'])
         data['private_key_id'] = os.getenv("G_API_KEY_ID")
         print(data['private_key_id'])
