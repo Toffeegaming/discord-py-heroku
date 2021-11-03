@@ -541,7 +541,7 @@ class Roulette(Cog):
             await ctx.send(embed=embed)
         else:
             generatedPerks = self.SelectPerks(id,numberPerks)
-            print(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
+            await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
             if mode == 'Survivor':
                 namedPerks = [
@@ -602,6 +602,7 @@ class Roulette(Cog):
         numberPerks = len(availablePerks)
 
         generatedPerks = self.SelectPerks(id,numberPerks)
+        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
         namedPerks = [
             self.SurvivorPerks[availablePerks[generatedPerks[0]]],
@@ -631,12 +632,14 @@ class Roulette(Cog):
         print('KillerButton callback triggered')
 
         id = bctx.author_id
-        value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
+        value = self.googleData.acell(f'C{self.get_Google_dataRow(id)}').value
         stripVal = value.lstrip("[").rstrip("]")
         availablePerks = list(map(int,stripVal.split(", ")))
         numberPerks = len(availablePerks)
 
         generatedPerks = self.SelectPerks(id,numberPerks)
+        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
+
 
         namedPerks = [
             self.KillerPerks[availablePerks[generatedPerks[0]]],
