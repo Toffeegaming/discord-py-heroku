@@ -212,15 +212,6 @@ class Roulette(Cog):
         "Zanshin Tactics"
     ]
 
-    buttons = [
-            create_button(
-                style=ButtonStyle.grey,
-                label="Reroll perks",
-                emoji="🔁",
-                custom_id="testButton"
-            ),
-          ]
-
     #----------------------------------------------------------------------------------
     # Methods
     def get_data(self,name):
@@ -512,7 +503,7 @@ class Roulette(Cog):
 
     #----------------------------------------------------------------------------------
     # Commands
-    async def PerkMaker(self,ctx: SlashContext, mode, message = None, i_id = 0):
+    async def PerkMaker(self,ctx: SlashContext, mode, message = None):
         id = ctx.author_id
 
         if message is not None:
@@ -522,7 +513,7 @@ class Roulette(Cog):
             color=self.Color)
             await message.edit(embed=waitingEmbed)
 
-            value = self.googleData.acell(f'B{self.get_Google_dataRow(i_id)}').value
+            value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
             stripVal = value.lstrip("[").rstrip("]")
             availablePerks = list(map(int,stripVal.split(", ")))
             numberPerks = len(availablePerks)
@@ -536,6 +527,13 @@ class Roulette(Cog):
                     self.SurvivorPerks[availablePerks[generatedPerks[2]]],
                     self.SurvivorPerks[availablePerks[generatedPerks[3]]]
                     ]
+                buttons = [
+                    create_button(
+                        style=ButtonStyle.grey,
+                        label="Reroll perks",
+                        emoji="🔁",
+                        custom_id="SurvivorButton"
+                    )]
             elif mode == 'Killer':
                 namedPerks = [
                     self.KillerPerks[availablePerks[generatedPerks[0]]],
@@ -543,8 +541,16 @@ class Roulette(Cog):
                     self.KillerPerks[availablePerks[generatedPerks[2]]],
                     self.KillerPerks[availablePerks[generatedPerks[3]]]
                     ]
+                buttons = [
+                    create_button(
+                        style=ButtonStyle.grey,
+                        label="Reroll perks",
+                        emoji="🔁",
+                        custom_id="KillerButton"
+                    )]
             
-            action_row = create_actionrow(*self.buttons)
+
+            action_row = create_actionrow(*buttons)
 
             perkEmbed = discord.Embed(
                 title=f"{mode} Roulette!",
@@ -592,6 +598,13 @@ class Roulette(Cog):
                     self.SurvivorPerks[availablePerks[generatedPerks[2]]],
                     self.SurvivorPerks[availablePerks[generatedPerks[3]]]
                     ]
+                buttons = [
+                    create_button(
+                        style=ButtonStyle.grey,
+                        label="Reroll perks",
+                        emoji="🔁",
+                        custom_id="SurvivorButton"
+                    )]
             elif mode == 'Killer':
                 namedPerks = [
                     self.KillerPerks[availablePerks[generatedPerks[0]]],
@@ -599,8 +612,15 @@ class Roulette(Cog):
                     self.KillerPerks[availablePerks[generatedPerks[2]]],
                     self.KillerPerks[availablePerks[generatedPerks[3]]]
                     ]
+                buttons = [
+                    create_button(
+                        style=ButtonStyle.grey,
+                        label="Reroll perks",
+                        emoji="🔁",
+                        custom_id="KillerButton"
+                    )]
             
-            action_row = create_actionrow(*self.buttons)
+            action_row = create_actionrow(*buttons)
 
             perkEmbed = discord.Embed(
                 title=f"{mode} Roulette!",
@@ -620,14 +640,13 @@ class Roulette(Cog):
         await self.PerkMaker(ctx,'Killer')
 
     @cog_ext.cog_component()
-    async def testButton(self,ctx: ComponentContext):
-        print('Component callback triggered')
+    async def SurvivorButton(self,bctx: ComponentContext):
+        print('SurvivorButton callback triggered')
+        await self.PerkMaker(bctx,'Survivor',bctx.message)
 
-        embed = discord.Embed(
-            title="Button",
-            description=f"You pressed the {ctx.component_id} button!",
-            color=self.Color)
-        await ctx.edit_origin(embed=embed)
+    async def KillerButton(self,bctx: ComponentContext):
+        print('KillerButton callback triggered')
+        await self.PerkMaker(bctx,'Killer',bctx.message)
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
