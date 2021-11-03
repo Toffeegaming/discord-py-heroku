@@ -506,6 +506,7 @@ class Roulette(Cog):
     async def PerkMaker(self,ctx: SlashContext, mode, message = None):
         id = ctx.author_id
 
+        print(message)
         if message is not None:
             waitingEmbed = discord.Embed(
             title=f"{mode} Roulette!",
@@ -646,6 +647,7 @@ class Roulette(Cog):
 
     async def KillerButton(self,bctx: ComponentContext):
         print('KillerButton callback triggered')
+        print(bctx.message)
         await self.PerkMaker(bctx,'Killer',bctx.message)
 
 def setup(bot: Bot):
