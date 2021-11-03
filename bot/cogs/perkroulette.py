@@ -595,38 +595,38 @@ class Roulette(Cog):
         await self.bot.get_channel( int(os.getenv("LOGS")) ).send('[SurvivorButton] Callback triggered')
 
         id = bctx.author_id
-        if id == bctx.origin_message.author_id:
-            value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
-            stripVal = value.lstrip("[").rstrip("]")
-            availablePerks = list(map(int,stripVal.split(", ")))
-            numberPerks = len(availablePerks)
-            await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'[SurvivorButton] Length = {numberPerks}')
 
-            generatedPerks = self.SelectPerks(id,numberPerks-1)
-            await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'[SurvivorButton]{os.linesep}{bctx.author.name}{os.linesep}1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
+        value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
+        stripVal = value.lstrip("[").rstrip("]")
+        availablePerks = list(map(int,stripVal.split(", ")))
+        numberPerks = len(availablePerks)
+        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'[SurvivorButton] Length = {numberPerks}')
 
-            namedPerks = [
-                self.SurvivorPerks[availablePerks[generatedPerks[0]]],
-                self.SurvivorPerks[availablePerks[generatedPerks[1]]],
-                self.SurvivorPerks[availablePerks[generatedPerks[2]]],
-                self.SurvivorPerks[availablePerks[generatedPerks[3]]]
-                ]
-            buttons = [
-                create_button(
-                    style=ButtonStyle.grey,
-                    label="Reroll perks",
-                    emoji="🔁",
-                    custom_id="SurvivorButton"
-                )]
+        generatedPerks = self.SelectPerks(id,numberPerks-1)
+        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'[SurvivorButton]{os.linesep}{bctx.author.name}{os.linesep}1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
-            action_row = create_actionrow(*buttons)
+        namedPerks = [
+            self.SurvivorPerks[availablePerks[generatedPerks[0]]],
+            self.SurvivorPerks[availablePerks[generatedPerks[1]]],
+            self.SurvivorPerks[availablePerks[generatedPerks[2]]],
+            self.SurvivorPerks[availablePerks[generatedPerks[3]]]
+            ]
+        buttons = [
+            create_button(
+                style=ButtonStyle.grey,
+                label="Reroll perks",
+                emoji="🔁",
+                custom_id="SurvivorButton"
+            )]
 
-            perkEmbed = discord.Embed(
-                title=f"Survivor Roulette!",
-                description=f"{bctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
-                color=self.Color)
-            perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
-            await bctx.edit_origin(embed=perkEmbed, components=[action_row])
+        action_row = create_actionrow(*buttons)
+
+        perkEmbed = discord.Embed(
+            title=f"Survivor Roulette!",
+            description=f"{bctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
+            color=self.Color)
+        perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
+        await bctx.edit_origin(embed=perkEmbed, components=[action_row])
 
     @cog_ext.cog_component()
     async def KillerButton(self,bctx: ComponentContext):
@@ -634,38 +634,38 @@ class Roulette(Cog):
         await self.bot.get_channel( int(os.getenv("LOGS")) ).send('KillerButton callback triggered')
 
         id = bctx.author_id
-        if id == bctx.origin_message.author_id:
-            value = self.googleData.acell(f'C{self.get_Google_dataRow(id)}').value
-            stripVal = value.lstrip("[").rstrip("]")
-            availablePerks = list(map(int,stripVal.split(", ")))
-            numberPerks = len(availablePerks)
 
-            generatedPerks = self.SelectPerks(id,numberPerks-1)
-            await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
+        value = self.googleData.acell(f'C{self.get_Google_dataRow(id)}').value
+        stripVal = value.lstrip("[").rstrip("]")
+        availablePerks = list(map(int,stripVal.split(", ")))
+        numberPerks = len(availablePerks)
+
+        generatedPerks = self.SelectPerks(id,numberPerks-1)
+        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
 
-            namedPerks = [
-                self.KillerPerks[availablePerks[generatedPerks[0]]],
-                self.KillerPerks[availablePerks[generatedPerks[1]]],
-                self.KillerPerks[availablePerks[generatedPerks[2]]],
-                self.KillerPerks[availablePerks[generatedPerks[3]]]
-                ]
-            buttons = [
-                create_button(
-                    style=ButtonStyle.grey,
-                    label="Reroll perks",
-                    emoji="🔁",
-                    custom_id="KillerButton"
-                )]
+        namedPerks = [
+            self.KillerPerks[availablePerks[generatedPerks[0]]],
+            self.KillerPerks[availablePerks[generatedPerks[1]]],
+            self.KillerPerks[availablePerks[generatedPerks[2]]],
+            self.KillerPerks[availablePerks[generatedPerks[3]]]
+            ]
+        buttons = [
+            create_button(
+                style=ButtonStyle.grey,
+                label="Reroll perks",
+                emoji="🔁",
+                custom_id="KillerButton"
+            )]
 
-            action_row = create_actionrow(*buttons)
+        action_row = create_actionrow(*buttons)
 
-            perkEmbed = discord.Embed(
-                title=f"Killer Roulette!",
-                description=f"{bctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
-                color=self.Color)
-            perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
-            await bctx.edit_origin(embed=perkEmbed, components=[action_row])
+        perkEmbed = discord.Embed(
+            title=f"Killer Roulette!",
+            description=f"{bctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
+            color=self.Color)
+        perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
+        await bctx.edit_origin(embed=perkEmbed, components=[action_row])
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
