@@ -594,6 +594,7 @@ class Roulette(Cog):
     @cog_ext.cog_component()
     async def SurvivorButton(self, bctx: ComponentContext):
         print('SurvivorButton callback triggered')
+        await self.bot.get_channel( int(os.getenv("LOGS")) ).send('SurvivorButton callback triggered')
 
         id = bctx.author_id
         value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
@@ -630,6 +631,7 @@ class Roulette(Cog):
     @cog_ext.cog_component()
     async def KillerButton(self,bctx: ComponentContext):
         print('KillerButton callback triggered')
+        await self.bot.get_channel( int(os.getenv("LOGS")) ).send('KillerButton callback triggered')
 
         id = bctx.author_id
         value = self.googleData.acell(f'C{self.get_Google_dataRow(id)}').value
