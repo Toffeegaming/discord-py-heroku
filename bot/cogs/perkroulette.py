@@ -213,8 +213,10 @@ class Roulette(Cog):
 
     buttons = [
             create_button(
-                style=ButtonStyle.green,
-                label="A Green Button"
+                style=ButtonStyle.blurple,
+                label="A Button",
+                emoji="🔁",
+                custom_id="testButton"
             ),
           ]
 
@@ -526,7 +528,6 @@ class Roulette(Cog):
 
             generatedPerks = self.SelectPerks(id,numberPerks)
 
-            namedPerks = [-1,-1,-1,-1]
             if mode == 'Survivor':
                 namedPerks = [
                     self.SurvivorPerks[availablePerks[generatedPerks[0]]],
@@ -581,8 +582,8 @@ class Roulette(Cog):
             await ctx.send(embed=embed)
         else:
             generatedPerks = self.SelectPerks(id,numberPerks)
+            print(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
-            namedPerks = [-1,-1,-1,-1]
             if mode == 'Survivor':
                 namedPerks = [
                     self.SurvivorPerks[availablePerks[generatedPerks[0]]],
