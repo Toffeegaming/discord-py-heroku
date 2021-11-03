@@ -1,6 +1,6 @@
 import os
 from discord.ext.commands import Bot, Cog
-from discord_slash import cog_ext, SlashContext
+from discord_slash import cog_ext, SlashContext, ComponentContext
 from discord_slash.utils.manage_components import create_button, create_actionrow, wait_for_component
 from discord_slash.model import ButtonStyle
 
@@ -618,8 +618,8 @@ class Roulette(Cog):
         await self.PerkMaker(ctx,'Killer')
 
     @cog_ext.cog_component()
-    async def hello(ctx: SlashContext):
-        await ctx.send(f"You pressed a button!")
+    async def hello(ctx: ComponentContext):
+        await ctx.edit_origin(content="You pressed a button!")
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
