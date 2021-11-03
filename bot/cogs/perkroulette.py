@@ -1,15 +1,13 @@
 import os
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext, ComponentContext
-from discord_slash.utils.manage_components import create_button, create_actionrow, wait_for_component
+from discord_slash.utils.manage_components import create_button, create_actionrow
 from discord_slash.model import ButtonStyle
 
 import discord
 import json
 import gspread
 import requests
-
-from discord_slash.utils.manage_commands import generate_options
 
 guild_ids = [int(os.getenv("GUILD2")), int(os.getenv("GUILD3"))]
 
@@ -540,7 +538,7 @@ class Roulette(Cog):
             color=self.Color)
             await ctx.send(embed=embed)
         else:
-            generatedPerks = self.SelectPerks(id,numberPerks)
+            generatedPerks = self.SelectPerks(id,numberPerks-1)
             await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
             if mode == 'Survivor':
@@ -594,16 +592,17 @@ class Roulette(Cog):
     @cog_ext.cog_component()
     async def SurvivorButton(self, bctx: ComponentContext):
         print('SurvivorButton callback triggered')
-        await self.bot.get_channel( int(os.getenv("LOGS")) ).send('SurvivorButton callback triggered')
+        await self.bot.get_channel( int(os.getenv("LOGS")) ).send('[SurvivorButton] Callback triggered')
 
         id = bctx.author_id
         value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
         stripVal = value.lstrip("[").rstrip("]")
         availablePerks = list(map(int,stripVal.split(", ")))
         numberPerks = len(availablePerks)
+        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'[SurvivorButton] Length = {numberPerks}')
 
-        generatedPerks = self.SelectPerks(id,numberPerks)
-        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
+        generatedPerks = self.SelectPerks(id,numberPerks-1)
+        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'[SurvivorButton]{os.linesep}{bctx.author.name}{os.linesep}1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
         namedPerks = [
             self.SurvivorPerks[availablePerks[generatedPerks[0]]],
@@ -639,7 +638,7 @@ class Roulette(Cog):
         availablePerks = list(map(int,stripVal.split(", ")))
         numberPerks = len(availablePerks)
 
-        generatedPerks = self.SelectPerks(id,numberPerks)
+        generatedPerks = self.SelectPerks(id,numberPerks-1)
         await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
 
