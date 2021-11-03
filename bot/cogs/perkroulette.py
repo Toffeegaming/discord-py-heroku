@@ -619,7 +619,7 @@ class Roulette(Cog):
         self.check_connection()
         await self.PerkMaker(ctx,'Killer')
 
-    @cog_ext.cog_component()
+    @cog_ext.component_callback()
     async def hello(self,ctx: ComponentContext):
         print('Component callback triggered')
 
