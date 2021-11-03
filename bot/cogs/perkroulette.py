@@ -1,7 +1,7 @@
 import os
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
-from discord_slash.utils.manage_components import create_button, create_actionrow
+from discord_slash.utils.manage_components import create_button, create_actionrow, wait_for_component
 from discord_slash.model import ButtonStyle
 
 import discord
@@ -509,9 +509,48 @@ class Roulette(Cog):
 
     #----------------------------------------------------------------------------------
     # Commands
-    async def PerkMaker(self,ctx: SlashContext, mode):
+    async def PerkMaker(self,ctx: SlashContext, mode, message = None, i_id = 0):
         id = ctx.author_id
 
+        if message is not None:
+            waitingEmbed = discord.Embed(
+            title=f"{mode} Roulette!",
+            description=f"Je perks worden uitgekozen...",
+            color=int("0x9628f7",16))
+            await message.edit(embed=waitingEmbed)
+
+            value = self.googleData.acell(f'B{self.get_Google_dataRow(i_id)}').value
+            stripVal = value.lstrip("[").rstrip("]")
+            availablePerks = list(map(int,stripVal.split(", ")))
+            numberPerks = len(availablePerks)
+
+            generatedPerks = self.SelectPerks(id,numberPerks)
+
+            namedPerks = [-1,-1,-1,-1]
+            if mode == 'Survivor':
+                namedPerks = [
+                    self.SurvivorPerks[availablePerks[generatedPerks[0]]],
+                    self.SurvivorPerks[availablePerks[generatedPerks[1]]],
+                    self.SurvivorPerks[availablePerks[generatedPerks[2]]],
+                    self.SurvivorPerks[availablePerks[generatedPerks[3]]]
+                    ]
+            elif mode == 'Killer':
+                namedPerks = [
+                    self.KillerPerks[availablePerks[generatedPerks[0]]],
+                    self.KillerPerks[availablePerks[generatedPerks[1]]],
+                    self.KillerPerks[availablePerks[generatedPerks[2]]],
+                    self.KillerPerks[availablePerks[generatedPerks[3]]]
+                    ]
+            
+            action_row = create_actionrow(*self.buttons)
+
+            perkEmbed = discord.Embed(
+                title=f"{mode} Roulette!",
+                description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
+                color=int("0x9628f7",16))
+            perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
+            await message.edit(embed=perkEmbed, components=[action_row])
+        
         waitingEmbed = discord.Embed(
             title=f"{mode} Roulette!",
             description=f"Je perks worden uitgekozen...",
@@ -577,6 +616,10 @@ class Roulette(Cog):
     async def _Killer(self,ctx: SlashContext):
         self.check_connection()
         await self.PerkMaker(ctx,'Killer')
+
+    @cog_ext.component_callback()
+    async def hello(ctx: SlashContext):
+        await ctx.edit_origin(content="You pressed a button!")
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
