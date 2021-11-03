@@ -512,7 +512,7 @@ class Roulette(Cog):
             title=f"{mode} Roulette!",
             description=f"Je perks worden uitgekozen...",
             color=self.Color)
-            await message.edit(embed=waitingEmbed)
+            await message.edit_origin(embed=waitingEmbed)
 
             value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
             stripVal = value.lstrip("[").rstrip("]")
@@ -558,7 +558,7 @@ class Roulette(Cog):
                 description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
                 color=self.Color)
             perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
-            await message.edit(embed=perkEmbed, components=[action_row])
+            await message.edit_origin(embed=perkEmbed, components=[action_row])
             return
         
         waitingEmbed = discord.Embed(
@@ -644,13 +644,13 @@ class Roulette(Cog):
     @cog_ext.cog_component()
     async def SurvivorButton(self, bctx: ComponentContext):
         print('SurvivorButton callback triggered')
-        print(bctx.origin_message.id)
-        await self.PerkMaker(bctx,'Survivor',bctx.origin_message.id)
+        print(bctx.origin_message)
+        await self.PerkMaker(bctx,'Survivor',bctx.origin_message)
 
     async def KillerButton(self,bctx: ComponentContext):
         print('KillerButton callback triggered')
-        print(bctx.bctx.origin_message.id)
-        await self.PerkMaker(bctx,'Killer',bctx.bctx.origin_message.id)
+        print(bctx.bctx.origin_message)
+        await self.PerkMaker(bctx,'Killer',bctx.bctx.origin_message)
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
