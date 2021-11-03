@@ -595,12 +595,6 @@ class Roulette(Cog):
     async def SurvivorButton(self, bctx: ComponentContext):
         print('SurvivorButton callback triggered')
 
-        waitingEmbed = discord.Embed(
-        title=f"Survivor Roulette!",
-        description=f"Je perks worden uitgekozen...",
-        color=self.Color)
-        await bctx.edit_origin(embed=waitingEmbed)
-
         id = bctx.author_id
         value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
         stripVal = value.lstrip("[").rstrip("]")
@@ -635,12 +629,6 @@ class Roulette(Cog):
 
     async def KillerButton(self,bctx: ComponentContext):
         print('KillerButton callback triggered')
-
-        waitingEmbed = discord.Embed(
-        title=f"Killer Roulette!",
-        description=f"Je perks worden uitgekozen...",
-        color=self.Color)
-        await bctx.edit_origin(embed=waitingEmbed)
 
         id = bctx.author_id
         value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
