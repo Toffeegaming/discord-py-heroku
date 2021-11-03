@@ -617,7 +617,7 @@ class Roulette(Cog):
         self.check_connection()
         await self.PerkMaker(ctx,'Killer')
 
-    @cog_ext.cog_component_callback()
+    @cog_ext.cog_component()
     async def hello(ctx: SlashContext):
         await ctx.edit_origin(content="You pressed a button!")
 
