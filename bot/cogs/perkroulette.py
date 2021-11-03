@@ -285,7 +285,7 @@ class Roulette(Cog):
         self.set_Google_data(available,'survivor',arr)
         self.set_Google_data(available,'killer',arr)
         print(f'Created {discord_id} profile')
-        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'Created {discord_id} profile')
+        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'[PROFILE] Created {discord_id} profile')
 
     def resetProfile(self,discord_id, mode):
         row = self.get_Google_dataRow(discord_id)
@@ -619,7 +619,7 @@ class Roulette(Cog):
 
     @cog_ext.cog_component()
     async def hello(ctx: ComponentContext):
-        await ctx.edit_origin(content="You pressed a button!")
+        await ctx.send(f"You pressed a button!")
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
