@@ -643,6 +643,7 @@ class Roulette(Cog):
     @cog_ext.cog_component()
     async def SurvivorButton(self,bctx: ComponentContext):
         print('SurvivorButton callback triggered')
+        print(bctx.message.embeds)
         await self.PerkMaker(bctx,'Survivor',bctx.message)
 
     async def KillerButton(self,bctx: ComponentContext):
