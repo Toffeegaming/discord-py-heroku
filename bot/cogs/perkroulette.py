@@ -559,6 +559,7 @@ class Roulette(Cog):
                 color=self.Color)
             perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
             await message.edit(embed=perkEmbed, components=[action_row])
+            return
         
         waitingEmbed = discord.Embed(
             title=f"{mode} Roulette!",
@@ -641,15 +642,15 @@ class Roulette(Cog):
         await self.PerkMaker(ctx,'Killer')
 
     @cog_ext.cog_component()
-    async def SurvivorButton(self,bctx: ComponentContext):
+    async def SurvivorButton(self, bctx: ComponentContext):
         print('SurvivorButton callback triggered')
-        print(bctx.message.embeds)
-        await self.PerkMaker(bctx,'Survivor',bctx.message)
+        print(bctx.origin_message)
+        await self.PerkMaker(bctx,'Survivor',bctx.origin_message)
 
     async def KillerButton(self,bctx: ComponentContext):
         print('KillerButton callback triggered')
-        print(bctx.message)
-        await self.PerkMaker(bctx,'Killer',bctx.message)
+        print(bctx.bctx.origin_message)
+        await self.PerkMaker(bctx,'Killer',bctx.bctx.origin_message)
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
