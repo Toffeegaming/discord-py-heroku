@@ -644,13 +644,13 @@ class Roulette(Cog):
     @cog_ext.cog_component()
     async def SurvivorButton(self, bctx: ComponentContext):
         print('SurvivorButton callback triggered')
-        print(bctx.origin_message)
-        await self.PerkMaker(bctx,'Survivor',bctx.origin_message)
+        print(bctx.origin_message.id)
+        await self.PerkMaker(bctx,'Survivor',bctx.origin_message.id)
 
     async def KillerButton(self,bctx: ComponentContext):
         print('KillerButton callback triggered')
-        print(bctx.bctx.origin_message)
-        await self.PerkMaker(bctx,'Killer',bctx.bctx.origin_message)
+        print(bctx.bctx.origin_message.id)
+        await self.PerkMaker(bctx,'Killer',bctx.bctx.origin_message.id)
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
