@@ -619,7 +619,7 @@ class Roulette(Cog):
 
     @cog_ext.cog_component()
     async def hello(ctx: SlashContext):
-        await ctx.edit_origin(content="You pressed a button!")
+        await ctx.send(f"You pressed a button!")
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
