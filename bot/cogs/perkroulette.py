@@ -620,7 +620,7 @@ class Roulette(Cog):
         await self.PerkMaker(ctx,'Killer')
 
     @cog_ext.cog_component()
-    async def hello(self,ctx: ComponentContext):
+    async def testButton(self,ctx: ComponentContext):
         print('Component callback triggered')
 
         embed = discord.Embed(
