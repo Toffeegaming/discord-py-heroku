@@ -627,7 +627,7 @@ class Roulette(Cog):
         perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
         await bctx.edit_origin(embed=perkEmbed, components=[action_row])
 
-
+    @cog_ext.cog_component()
     async def KillerButton(self,bctx: ComponentContext):
         print('KillerButton callback triggered')
 
