@@ -523,7 +523,12 @@ class Roulette(Cog):
             self.add_allPerks(id,'survivor') #TODO remove?
             self.add_allPerks(id,'killer') #TODO remove?
 
-        value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
+        value = None
+        if mode == 'Survivor':
+            value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
+        elif mode == 'Killer':
+            value = self.googleData.acell(f'C{self.get_Google_dataRow(id)}').value
+        
         stripVal = value.lstrip("[").rstrip("]")
         availablePerks = list(map(int,stripVal.split(", ")))
         numberPerks = len(availablePerks)
@@ -596,6 +601,7 @@ class Roulette(Cog):
         color=self.Color)
         await bctx.edit_origin(embed=waitingEmbed)
 
+        id = bctx.author_id
         value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
         stripVal = value.lstrip("[").rstrip("]")
         availablePerks = list(map(int,stripVal.split(", ")))
@@ -629,13 +635,14 @@ class Roulette(Cog):
 
     async def KillerButton(self,bctx: ComponentContext):
         print('KillerButton callback triggered')
-        
+
         waitingEmbed = discord.Embed(
         title=f"Killer Roulette!",
         description=f"Je perks worden uitgekozen...",
         color=self.Color)
         await bctx.edit_origin(embed=waitingEmbed)
 
+        id = bctx.author_id
         value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
         stripVal = value.lstrip("[").rstrip("]")
         availablePerks = list(map(int,stripVal.split(", ")))
