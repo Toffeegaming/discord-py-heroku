@@ -17,6 +17,7 @@ class Roulette(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
         self.googleData = None
+        self.Color = int("0x9628f7",16)
     #----------------------------------------------------------------------------------
     # Variables
     # https://deadbydaylight.fandom.com/wiki/Perks
@@ -213,8 +214,8 @@ class Roulette(Cog):
 
     buttons = [
             create_button(
-                style=ButtonStyle.blurple,
-                label="A Button",
+                style=ButtonStyle.grey,
+                label="Reroll perks",
                 emoji="🔁",
                 custom_id="testButton"
             ),
@@ -518,7 +519,7 @@ class Roulette(Cog):
             waitingEmbed = discord.Embed(
             title=f"{mode} Roulette!",
             description=f"Je perks worden uitgekozen...",
-            color=int("0x9628f7",16))
+            color=self.Color)
             await message.edit(embed=waitingEmbed)
 
             value = self.googleData.acell(f'B{self.get_Google_dataRow(i_id)}').value
@@ -548,21 +549,21 @@ class Roulette(Cog):
             perkEmbed = discord.Embed(
                 title=f"{mode} Roulette!",
                 description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
-                color=int("0x9628f7",16))
+                color=self.Color)
             perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
             await message.edit(embed=perkEmbed, components=[action_row])
         
         waitingEmbed = discord.Embed(
             title=f"{mode} Roulette!",
             description=f"Je perks worden uitgekozen...",
-            color=int("0x9628f7",16))
+            color=self.Color)
         msg = await ctx.send(embed=waitingEmbed)
 
         if self.check_profile(id) is None:
             profileEmbed = discord.Embed(
             title=f"{mode} Roulette!",
             description=f"Profiel wordt aangemaakt, je krijgt zo je perks...",
-            color=int("0x9628f7",16))
+            color=self.Color)
             await msg.edit(embed=profileEmbed)
             await self.createProfile(id)
             
@@ -578,7 +579,7 @@ class Roulette(Cog):
             embed = discord.Embed(
             title=":(",
             description=f"Het lijkt erop dat je niet genoeg perks hebt aan staan om een build te kunnen maken!",
-            color=int("0x9628f7",16))
+            color=self.Color)
             await ctx.send(embed=embed)
         else:
             generatedPerks = self.SelectPerks(id,numberPerks)
@@ -604,7 +605,7 @@ class Roulette(Cog):
             perkEmbed = discord.Embed(
                 title=f"{mode} Roulette!",
                 description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
-                color=int("0x9628f7",16))
+                color=self.Color)
             perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
             await msg.edit(embed=perkEmbed, components=[action_row])
 
@@ -619,8 +620,14 @@ class Roulette(Cog):
         await self.PerkMaker(ctx,'Killer')
 
     @cog_ext.cog_component()
-    async def hello(ctx: ComponentContext):
-        await ctx.send(f"You pressed a button!")
+    async def hello(self,ctx: ComponentContext):
+        print('Component callback triggered')
+
+        embed = discord.Embed(
+            title="Button",
+            description=f"You pressed the {ctx.component_id} button!",
+            color=self.Color)
+        await ctx.edit_origin(embed=embed)
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
