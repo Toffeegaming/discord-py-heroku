@@ -587,6 +587,11 @@ class Roulette(Cog):
                 button_ctx: ComponentContext = await wait_for_component(self.bot,components=action_row)
                 b_id = button_ctx.author_id
                 if id == b_id:
+                    waitingEmbed = discord.Embed(
+                        title=f"{mode} Roulette!",
+                        description=f"Je perks worden uitgekozen...",
+                        color=self.Color)
+                    button_ctx.edit_origin(embed=waitingEmbed)
                     await self.PerkMaker(ctx,mode,msg)
                     userHasReplied = True
 
