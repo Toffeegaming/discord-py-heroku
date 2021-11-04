@@ -579,12 +579,12 @@ class Roulette(Cog):
                 title=f"{mode} Roulette!",
                 description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
                 color=self.Color)
-            perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
+            perkEmbed.set_footer(text=f"Gebruik de command opnieuw voor andere perks{os.linesep}of druk binnen 10 seconden op de reroll knop!")
             await msg.edit(embed=perkEmbed, components=[action_row])
             
+            button_ctx: ComponentContext = await wait_for_component(self.bot,components=action_row,timeout=10)
             userHasReplied = False
             while not userHasReplied:
-                button_ctx: ComponentContext = await wait_for_component(self.bot,components=action_row)
                 b_id = button_ctx.author_id
                 if id == b_id:
                     userHasReplied = True
@@ -604,81 +604,6 @@ class Roulette(Cog):
     async def _Killer(self,ctx: SlashContext):
         self.check_connection()
         await self.PerkMaker(ctx,'Killer')
-
-    # @cog_ext.cog_component()
-    # async def SurvivorButton(self, bctx: ComponentContext):
-    #     print('SurvivorButton callback triggered')
-
-    #     id = bctx.author_id
-
-    #     print(id)
-
-    #     value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
-    #     stripVal = value.lstrip("[").rstrip("]")
-    #     availablePerks = list(map(int,stripVal.split(", ")))
-    #     numberPerks = len(availablePerks)
-
-    #     generatedPerks = self.SelectPerks(id,numberPerks-1)
-
-    #     namedPerks = [
-    #         self.SurvivorPerks[availablePerks[generatedPerks[0]]],
-    #         self.SurvivorPerks[availablePerks[generatedPerks[1]]],
-    #         self.SurvivorPerks[availablePerks[generatedPerks[2]]],
-    #         self.SurvivorPerks[availablePerks[generatedPerks[3]]]
-    #         ]
-    #     buttons = [
-    #         create_button(
-    #             style=ButtonStyle.grey,
-    #             label="Reroll perks",
-    #             emoji="🔁",
-    #             custom_id="SurvivorButton"
-    #         )]
-
-    #     action_row = create_actionrow(*buttons)
-
-    #     perkEmbed = discord.Embed(
-    #         title=f"Survivor Roulette!",
-    #         description=f"{bctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
-    #         color=self.Color)
-    #     perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
-    #     await bctx.edit_origin(embed=perkEmbed, components=[action_row])
-
-    # @cog_ext.cog_component()
-    # async def KillerButton(self,bctx: ComponentContext):
-    #     print('KillerButton callback triggered')
-
-    #     id = bctx.author_id
-
-    #     value = self.googleData.acell(f'C{self.get_Google_dataRow(id)}').value
-    #     stripVal = value.lstrip("[").rstrip("]")
-    #     availablePerks = list(map(int,stripVal.split(", ")))
-    #     numberPerks = len(availablePerks)
-
-    #     generatedPerks = self.SelectPerks(id,numberPerks-1)
-    
-    #     namedPerks = [
-    #         self.KillerPerks[availablePerks[generatedPerks[0]]],
-    #         self.KillerPerks[availablePerks[generatedPerks[1]]],
-    #         self.KillerPerks[availablePerks[generatedPerks[2]]],
-    #         self.KillerPerks[availablePerks[generatedPerks[3]]]
-    #         ]
-    #     buttons = [
-    #         create_button(
-    #             style=ButtonStyle.grey,
-    #             label="Reroll perks",
-    #             emoji="🔁",
-    #             custom_id="KillerButton"
-    #         )]
-
-    #     action_row = create_actionrow(*buttons)
-
-    #     perkEmbed = discord.Embed(
-    #         title=f"Killer Roulette!",
-    #         description=f"{bctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
-    #         color=self.Color)
-    #     perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
-    #     await bctx.edit_origin(embed=perkEmbed, components=[action_row])
-    #     #hidden=True to your ctx.send()
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
