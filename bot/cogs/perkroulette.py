@@ -278,7 +278,7 @@ class Roulette(Cog):
             else:
                 return False
 
-        g_value = self.googleData.acell(f"{team}{row)}").value
+        g_value = self.googleData.acell(f"{team}{row}").value
         
         stripVal = g_value.lstrip("[").rstrip("]")
         availablePerks = list(map(int,stripVal.split(", ")))
