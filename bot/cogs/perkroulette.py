@@ -145,7 +145,7 @@ class Roulette(Cog):
         print('Modified perks')
         return True
 
-    def modify_Perks(self,ctx: SlashContext,character,mode):
+    async def modify_Perks(self,ctx: SlashContext,character,mode):
         waitingEmbed = discord.Embed(
                 title=f"",
                 description=f"Je perks worden aangepast...",
