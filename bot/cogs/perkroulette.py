@@ -459,7 +459,7 @@ class Roulette(Cog):
                 description="Dit is de survivor van wie de perks worden toegevoegd aan je lijst.",
                 option_type=3,
                 required=True,
-                choices=[create_choice(name="Default perks",value="defaultS"),create_choice(name="ace",value="Ace"),create_choice(name="adam",value="Adam"),create_choice(name="ash",value="Ash"),create_choice(name="bill",value="Bill"),create_choice(name="cheryl",value="Cheryl"),create_choice(name="claudette",value="Claudette"),create_choice(name="david",value="David"),create_choice(name="dwight",value="Dwight"),create_choice(name="felix",value="Felix"),create_choice(name="jake",value="Jake"),create_choice(name="jane",value="Jane"),create_choice(name="jeff",value="Jeff"),create_choice(name="jill",value="Jill"),create_choice(name="kate",value="Kate"),create_choice(name="laurie",value="Laurie"),create_choice(name="leon",value="Leon"),create_choice(name="meg",value="Meg"),create_choice(name="mikaela",value="Mikaela"),create_choice(name="min",value="Min"),create_choice(name="nancy",value="Nancy"),create_choice(name="nea",value="Nea"),create_choice(name="quentin",value="Quentin"),create_choice(name="steve",value="Steve"),create_choice(name="tapp",value="Tapp")]
+                choices=[create_choice(name="default perks",value="defaultS"),create_choice(name="ace",value="Ace"),create_choice(name="adam",value="Adam"),create_choice(name="ash",value="Ash"),create_choice(name="bill",value="Bill"),create_choice(name="cheryl",value="Cheryl"),create_choice(name="claudette",value="Claudette"),create_choice(name="david",value="David"),create_choice(name="dwight",value="Dwight"),create_choice(name="felix",value="Felix"),create_choice(name="jake",value="Jake"),create_choice(name="jane",value="Jane"),create_choice(name="jeff",value="Jeff"),create_choice(name="jill",value="Jill"),create_choice(name="kate",value="Kate"),create_choice(name="laurie",value="Laurie"),create_choice(name="leon",value="Leon"),create_choice(name="meg",value="Meg"),create_choice(name="mikaela",value="Mikaela"),create_choice(name="min",value="Min"),create_choice(name="nancy",value="Nancy"),create_choice(name="nea",value="Nea"),create_choice(name="quentin",value="Quentin"),create_choice(name="steve",value="Steve"),create_choice(name="tapp",value="Tapp")]
             )
         ],
         guild_ids=guild_ids)
@@ -475,7 +475,7 @@ class Roulette(Cog):
                 description="Dit is de survivor van wie de perks worden toegevoegd aan je lijst.",
                 option_type=3,
                 required=True,
-                choices=[create_choice(name="Yui",value="Yui"),create_choice(name="yun-Jin",value="Yunjin"),create_choice(name="zarina",value="Zarina"),create_choice(name="élodie",value="Elodie")]
+                choices=[create_choice(name="yui",value="Yui"),create_choice(name="yun-Jin",value="Yunjin"),create_choice(name="zarina",value="Zarina"),create_choice(name="élodie",value="Elodie")]
             )
         ],
         guild_ids=guild_ids)
