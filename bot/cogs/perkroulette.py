@@ -580,26 +580,27 @@ class Roulette(Cog):
             perkEmbed.set_footer(text=f"Gebruik de command opnieuw voor andere perks{os.linesep}of druk binnen 1 minuut op de reroll knop!")
             await msg.edit(embed=perkEmbed, components=[action_row])
             
-            try:
-                button_ctx: ComponentContext = await wait_for_component(self.bot,msg,components=action_row,timeout=60)
-                userHasReplied = False
-                while not userHasReplied:
-                    b_id = button_ctx.author_id
-                    if id == b_id:
-                        userHasReplied = True
-                        waitingEmbed = discord.Embed(
-                            title=f"{mode} Roulette!",
-                            description=f"Je perks worden uitgekozen...",
-                            color=self.Color)
-                        await button_ctx.edit_origin(embed=waitingEmbed,components=None)
-                        await self.PerkMaker(button_ctx,mode,msg)
-            except:
-                expiredEmbed = discord.Embed(
-                    title=f"{mode} Roulette!",
-                    description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
-                    color=self.Color)
-                expiredEmbed.set_footer(text=f"Gebruik de command opnieuw voor andere perks!")
-                await msg.edit(embed=expiredEmbed,components=[])
+            userHasReplied = False
+            while not userHasReplied:
+                try:
+                    button_ctx: ComponentContext = await wait_for_component(self.bot,msg,components=action_row,timeout=60)
+                        b_id = button_ctx.author_id
+                        if id == b_id:
+                            userHasReplied = True
+                            waitingEmbed = discord.Embed(
+                                title=f"{mode} Roulette!",
+                                description=f"Je perks worden uitgekozen...",
+                                color=self.Color)
+                            await button_ctx.edit_origin(embed=waitingEmbed,components=None)
+                            await self.PerkMaker(button_ctx,mode,msg)
+                except:
+                    userHasReplied = True
+                    expiredEmbed = discord.Embed(
+                        title=f"{mode} Roulette!",
+                        description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
+                        color=self.Color)
+                    expiredEmbed.set_footer(text=f"Gebruik de command opnieuw voor andere perks!")
+                    await msg.edit(embed=expiredEmbed,components=[])
 
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
