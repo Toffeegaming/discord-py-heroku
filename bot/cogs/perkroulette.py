@@ -463,7 +463,7 @@ class Roulette(Cog):
             )
         ],
         guild_ids=guild_ids)
-    async def _AddSurvivor(self,ctx: SlashContext,Naam: str):
+    async def _AddSurvivor(self,ctx: SlashContext,naam: str):
         await self.modify_Perks(ctx,naam,'add')
     
     @cog_ext.cog_slash(
@@ -479,7 +479,7 @@ class Roulette(Cog):
             )
         ],
         guild_ids=guild_ids)
-    async def _AddSurvivor2(self,ctx: SlashContext,Naam: str):
+    async def _AddSurvivor2(self,ctx: SlashContext,naam: str):
         await self.modify_Perks(ctx,naam,'add')
 
 def setup(bot: Bot):
