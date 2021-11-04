@@ -595,7 +595,12 @@ class Roulette(Cog):
                         await self.PerkMaker(button_ctx,mode,msg)
             except:
                 print('except triggered in perkmaker while awaiting')
-                await msg.edit(embed=perkEmbed,components=None)
+                expiredEmbed = discord.Embed(
+                    title=f"{mode} Roulette!",
+                    description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
+                    color=self.Color)
+                expiredEmbed.set_footer(text=f"Gebruik de command opnieuw voor andere perks!")
+                await msg.edit(embed=expiredEmbed,components=[None])
 
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
