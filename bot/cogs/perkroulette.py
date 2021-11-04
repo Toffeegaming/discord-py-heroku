@@ -2,6 +2,7 @@ import os
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext, ComponentContext
 from discord_slash.utils.manage_components import create_button, create_actionrow, wait_for_component
+from discord_slash.utils.manage_commands import create_option, create_choice
 from discord_slash.model import ButtonStyle
 
 import discord
@@ -331,149 +332,171 @@ class Roulette(Cog):
         print('Modified perks')
         return True
 
-    def modify_Perks(self,discord_id,character,mode):
-        data = self.get_data()
+    def modify_Perks(self,ctx: SlashContext,character,mode):
+        waitingEmbed = discord.Embed(
+                title=f"",
+                description=f"Je perks worden aangepast...",
+                color=self.Color)
+        msg = await ctx.send(embed=waitingEmbed)
+
+        discord_id = id = ctx.author_id
+        row = self.get_Google_dataRow(discord_id)
+
         perksToModify = [-1,-1,-1]
         team = ''
 
         while True:
             if character == 'defaultS':
                 perksToModify = [25,34,42,45,49,54,59,62,68,76,77,82,88,95,43,75,72,66,46,40]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Meg':
                 perksToModify = [64,83,1]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Dwight':
                 perksToModify = [12,63,47]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Claudette':
                 perksToModify = [35,16,73]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Jake':
                 perksToModify = [44,21,71]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Nea':
                 perksToModify = [7,91,85]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Laurie':
                 perksToModify = [79,55,28]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Ace':
                 perksToModify = [90,57,0]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Bill':
                 perksToModify = [48,15,89]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Min':
                 perksToModify = [86,50,3]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'David':
                 perksToModify = [96,26,53]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Quentin':
                 perksToModify = [94,58,92]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Tapp':
                 perksToModify = [87,31,84]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Kate':
                 perksToModify = [24,97,11]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Adam':
                 perksToModify = [33,29,6]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Jeff':
                 perksToModify = [17,2,32]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Jane':
                 perksToModify = [80,60,41]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Ash':
                 perksToModify = [38,19,52]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Nancy':
                 perksToModify = [43,75,72]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Steve':
                 perksToModify = [66,46,40]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Yui':
                 perksToModify = [51,4,18]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Zarina':
                 perksToModify = [65,58,39]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Cheryl':
                 perksToModify = [81,10,67]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Felix':
                 perksToModify = [93,30,20]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Elodie':
                 perksToModify = [5,27,61]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Yunjin':
                 perksToModify = [36,78,74]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Jill':
                 perksToModify = [23,69,9]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Leon':
                 perksToModify = [8,37,70]
-                team = 'survP'
+                team = 'B'
                 break
             elif character == 'Mikaela':
                 perksToModify = [22,13,14]
-                team = 'survP'
+                team = 'B'
                 break
             else:
                 return False
 
-        for profile in data:
-                if profile['discord_id'] == discord_id:
-                    perklist = profile['data'][team]
+        g_value = self.googleData.acell(f'{team}{row)}').value
+        
+        stripVal = g_value.lstrip("[").rstrip("]")
+        availablePerks = list(map(int,stripVal.split(", ")))
 
-                    if -1 in perklist:
-                        perklist.remove(-1)
 
-                    if mode == 'add':
-                        for item in perksToModify:
-                            if item not in perklist:
-                                perklist.append(perksToModify[item])
-                    elif mode == 'delete':
-                        for item in perksToModify:
-                            if item in perklist:
-                                perklist.remove(item)
+        if -1 in availablePerks:
+            availablePerks.remove(-1)
 
-        self.set_data(data)
-        print(f'Modified {discord_id} {team} perks')
+        if mode=="add":
+            for x in range(len(perksToModify)):
+                if perksToModify[x] not in availablePerks:
+                    availablePerks.append(perksToModify[x])
+            if team == "B":
+                self.set_Google_data(row, 'survivor', availablePerks)
+            else:
+                self.set_Google_data(row, 'killer', availablePerks)
+        elif mode=="delete":
+            for x in range(len(perksToModify)):
+                if perksToModify[x] in availablePerks:
+                    availablePerks.remove(perksToModify[x])
+            if team == "B":
+                self.set_Google_data(row, 'survivor', availablePerks)
+            else:
+                self.set_Google_data(row, 'killer', availablePerks)
+
+        print(f'Modified {discord_id} perks')
+        modifyEmbed = discord.Embed(
+                title=f"",
+                description=f"Je perks zijn aangepast",
+                color=self.Color)
+        await msg.edit(embed=modifyEmbed)
         return True
 
     def SelectPerks(self, in_id, in_range):
@@ -500,8 +523,6 @@ class Roulette(Cog):
         generatedList = data['result']['random']['data'][0]
         return generatedList
 
-    #----------------------------------------------------------------------------------
-    # Commands
     async def PerkMaker(self,ctx: SlashContext, mode,prev_msg=None):
         id = ctx.author_id
         
@@ -602,6 +623,10 @@ class Roulette(Cog):
                     expiredEmbed.set_footer(text=f"Gebruik de command opnieuw voor andere perks!")
                     await msg.edit(embed=expiredEmbed,components=[])
 
+    #----------------------------------------------------------------------------------
+    # Commands
+
+    # Main commands
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
         self.check_connection()
@@ -611,6 +636,26 @@ class Roulette(Cog):
     async def _Killer(self,ctx: SlashContext):
         self.check_connection()
         await self.PerkMaker(ctx,'Killer')
+
+    # Sub commands
+    @cog_ext.cog_subcommand(
+        base="Survivor",
+        name="add",
+        description="Voeg de 3 perks van een survivor toe.",
+        options=[
+            create_option(
+                name="Naam",
+                description="Dit is de survivor van wie de perks worden toegevoegd aan je lijst.",
+                option_type=3,
+                required=True,
+                choices=[
+                    create_choice(name="Default perks",value="defaultS"),create_choice(name="Ace",value="Ace"),create_choice(name="Adam",value="Adam"),create_choice(name="Ash",value="Ash"),create_choice(name="Bill",value="Bill"),create_choice(name="Cheryl",value="Cheryl"),create_choice(name="Claudette",value="Claudette"),create_choice(name="David",value="David"),create_choice(name="Dwight",value="Dwight"),create_choice(name="Felix",value="Felix"),create_choice(name="Jake",value="Jake"),create_choice(name="Jane",value="Jane"),create_choice(name="Jeff",value="Jeff"),create_choice(name="Jill",value="Jill"),create_choice(name="Kate",value="Kate"),create_choice(name="Laurie",value="Laurie"),create_choice(name="Leon",value="Leon"),create_choice(name="Meg",value="Mikaela"),create_choice(name="Min",value="Min"),create_choice(name="Nancy",value="Nancy"),create_choice(name="Nea",value="Nea"),create_choice(name="Quentin",value="Quentin"),create_choice(name="Steve",value="Steve"),create_choice(name="Tapp",value="Tapp"),create_choice(name="Yui",value="Yui"),create_choice(name="Yun-Jin",value="Yunjin"),create_choice(name="Zarina",value="Zarina"),create_choice(name="Élodie",value="Elodie")
+                ]
+            )
+        ])
+    async def Survivor_add(self,ctx: SlashContext,Naam: str):
+        await self.modify_Perks(ctx,Naam,'add')
+
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
