@@ -577,11 +577,11 @@ class Roulette(Cog):
                 title=f"{mode} Roulette!",
                 description=f"{ctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
                 color=self.Color)
-            perkEmbed.set_footer(text=f"Gebruik de command opnieuw voor andere perks{os.linesep}of druk binnen 10 seconden op de reroll knop!")
+            perkEmbed.set_footer(text=f"Gebruik de command opnieuw voor andere perks{os.linesep}of druk binnen 1 minuut op de reroll knop!")
             await msg.edit(embed=perkEmbed, components=[action_row])
             
             try:
-                button_ctx: ComponentContext = await wait_for_component(self.bot,msg,components=action_row,timeout=10)
+                button_ctx: ComponentContext = await wait_for_component(self.bot,msg,components=action_row,timeout=60)
                 userHasReplied = False
                 while not userHasReplied:
                     b_id = button_ctx.author_id
