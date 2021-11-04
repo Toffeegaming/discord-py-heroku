@@ -583,6 +583,7 @@ class Roulette(Cog):
             await msg.edit(embed=perkEmbed, components=[action_row])
             
             button_ctx: ComponentContext = await wait_for_component(self.bot,components=action_row)
+            await await button_ctx.defer()
             if id == button_ctx.author_id:
                 await self.PerkMaker(ctx,mode,msg)
 
