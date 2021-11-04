@@ -440,7 +440,7 @@ class Roulette(Cog):
     # Commands
 
     # Main commands
-    @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
+    @cog_ext.cog_subcommand(base="Survivor", name='generate', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
         self.check_connection()
         await self.PerkMaker(ctx,'Survivor')
