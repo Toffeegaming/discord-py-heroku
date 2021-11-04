@@ -502,14 +502,17 @@ class Roulette(Cog):
 
     #----------------------------------------------------------------------------------
     # Commands
-    async def PerkMaker(self,ctx: SlashContext, mode):
+    async def PerkMaker(self,ctx: SlashContext, mode,prev_msg=None):
         id = ctx.author_id
         
-        waitingEmbed = discord.Embed(
-            title=f"{mode} Roulette!",
-            description=f"Je perks worden uitgekozen...",
-            color=self.Color)
-        msg = await ctx.send(embed=waitingEmbed)
+        if prev_msg is not None:
+            waitingEmbed = discord.Embed(
+                title=f"{mode} Roulette!",
+                description=f"Je perks worden uitgekozen...",
+                color=self.Color)
+            msg = await ctx.send(embed=waitingEmbed)
+        else:
+            msg = prev_msg
 
         if self.check_profile(id) is None:
             profileEmbed = discord.Embed(
@@ -579,6 +582,9 @@ class Roulette(Cog):
                 color=self.Color)
             perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
             await msg.edit(embed=perkEmbed, components=[action_row])
+            
+            button_ctx: ComponentContext = await manage_components.wait_for_component(self.bot,components=action_row)
+            self.PerkMaker(ctx,mode,msg)
 
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
@@ -590,51 +596,48 @@ class Roulette(Cog):
         self.check_connection()
         await self.PerkMaker(ctx,'Killer')
 
-    @cog_ext.cog_component()
-    async def SurvivorButton(self, bctx: ComponentContext):
-        print('SurvivorButton callback triggered')
-        await self.bot.get_channel(self.LogChannel).send('[SurvivorButton] Callback triggered')
+    # @cog_ext.cog_component()
+    # async def SurvivorButton(self, bctx: ComponentContext):
+    #     print('SurvivorButton callback triggered')
+    #     await self.bot.get_channel(self.LogChannel).send('[SurvivorButton] Callback triggered')
 
-        id = bctx.author_id
-        origin_msg = bctx.origin_message
+    #     id = bctx.author_id
 
-        print(id)
-        print(origin_msg)
+    #     print(id)
 
-        await self.bot.get_channel(self.LogChannel).send(f'{id}')
-        await self.bot.get_channel(self.LogChannel).send(f'{origin_msg}')
+    #     await self.bot.get_channel(self.LogChannel).send(f'{id}')
 
-        value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
-        stripVal = value.lstrip("[").rstrip("]")
-        availablePerks = list(map(int,stripVal.split(", ")))
-        numberPerks = len(availablePerks)
-        await self.bot.get_channel( self.LogChannel ).send(f'[SurvivorButton] Length = {numberPerks}')
+    #     value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
+    #     stripVal = value.lstrip("[").rstrip("]")
+    #     availablePerks = list(map(int,stripVal.split(", ")))
+    #     numberPerks = len(availablePerks)
+    #     await self.bot.get_channel( self.LogChannel ).send(f'[SurvivorButton] Length = {numberPerks}')
 
-        generatedPerks = self.SelectPerks(id,numberPerks-1)
-        await self.bot.get_channel( self.LogChannel ).send(f'[SurvivorButton]{os.linesep}{bctx.author.name}{os.linesep}1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
+    #     generatedPerks = self.SelectPerks(id,numberPerks-1)
+    #     await self.bot.get_channel( self.LogChannel ).send(f'[SurvivorButton]{os.linesep}{bctx.author.name}{os.linesep}1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
-        namedPerks = [
-            self.SurvivorPerks[availablePerks[generatedPerks[0]]],
-            self.SurvivorPerks[availablePerks[generatedPerks[1]]],
-            self.SurvivorPerks[availablePerks[generatedPerks[2]]],
-            self.SurvivorPerks[availablePerks[generatedPerks[3]]]
-            ]
-        buttons = [
-            create_button(
-                style=ButtonStyle.grey,
-                label="Reroll perks",
-                emoji="🔁",
-                custom_id="SurvivorButton"
-            )]
+    #     namedPerks = [
+    #         self.SurvivorPerks[availablePerks[generatedPerks[0]]],
+    #         self.SurvivorPerks[availablePerks[generatedPerks[1]]],
+    #         self.SurvivorPerks[availablePerks[generatedPerks[2]]],
+    #         self.SurvivorPerks[availablePerks[generatedPerks[3]]]
+    #         ]
+    #     buttons = [
+    #         create_button(
+    #             style=ButtonStyle.grey,
+    #             label="Reroll perks",
+    #             emoji="🔁",
+    #             custom_id="SurvivorButton"
+    #         )]
 
-        action_row = create_actionrow(*buttons)
+    #     action_row = create_actionrow(*buttons)
 
-        perkEmbed = discord.Embed(
-            title=f"Survivor Roulette!",
-            description=f"{bctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
-            color=self.Color)
-        perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
-        await bctx.edit_origin(embed=perkEmbed, components=[action_row])
+    #     perkEmbed = discord.Embed(
+    #         title=f"Survivor Roulette!",
+    #         description=f"{bctx.author.name} krijgt:{os.linesep}{namedPerks[0]}{os.linesep}{namedPerks[1]}{os.linesep}{namedPerks[2]}{os.linesep}{namedPerks[3]}",
+    #         color=self.Color)
+    #     perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
+    #     await bctx.edit_origin(embed=perkEmbed, components=[action_row])
 
     @cog_ext.cog_component()
     async def KillerButton(self,bctx: ComponentContext):
