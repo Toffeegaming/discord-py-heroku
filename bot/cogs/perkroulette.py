@@ -451,7 +451,7 @@ class Roulette(Cog):
         await self.PerkMaker(ctx,'Killer')
 
     @cog_ext.cog_slash(
-        name="Addsurvivor",
+        name="AddSurvivor",
         description="Voeg de 3 perks van een survivor toe.",
         options=[
             create_option(
@@ -459,11 +459,11 @@ class Roulette(Cog):
                 description="Dit is de survivor van wie de perks worden toegevoegd aan je lijst.",
                 option_type=3,
                 required=True,
-                choices=[create_choice(name="Default perks",value="defaultS"),create_choice(name="Ace",value="Ace"),create_choice(name="Adam",value="Adam"),create_choice(name="Ash",value="Ash"),create_choice(name="Bill",value="Bill"),create_choice(name="Cheryl",value="Cheryl"),create_choice(name="Claudette",value="Claudette"),create_choice(name="David",value="David"),create_choice(name="Dwight",value="Dwight"),create_choice(name="Felix",value="Felix"),create_choice(name="Jake",value="Jake"),create_choice(name="Jane",value="Jane"),create_choice(name="Jeff",value="Jeff"),create_choice(name="Jill",value="Jill"),create_choice(name="Kate",value="Kate"),create_choice(name="Laurie",value="Laurie"),create_choice(name="Leon",value="Leon"),create_choice(name="Meg",value="Mikaela"),create_choice(name="Min",value="Min"),create_choice(name="Nancy",value="Nancy"),create_choice(name="Nea",value="Nea"),create_choice(name="Quentin",value="Quentin"),create_choice(name="Steve",value="Steve"),create_choice(name="Tapp",value="Tapp"),create_choice(name="Yui",value="Yui")]
+                choices=[create_choice(name="Default perks",value="defaultS"),create_choice(name="ace",value="Ace"),create_choice(name="adam",value="Adam"),create_choice(name="ash",value="Ash"),create_choice(name="bill",value="Bill"),create_choice(name="cheryl",value="Cheryl"),create_choice(name="claudette",value="Claudette"),create_choice(name="david",value="David"),create_choice(name="dwight",value="Dwight"),create_choice(name="felix",value="Felix"),create_choice(name="jake",value="Jake"),create_choice(name="jane",value="Jane"),create_choice(name="jeff",value="Jeff"),create_choice(name="jill",value="Jill"),create_choice(name="kate",value="Kate"),create_choice(name="laurie",value="Laurie"),create_choice(name="leon",value="Leon"),create_choice(name="meg",value="Meg"),create_choice(name="mikaela",value="Mikaela"),create_choice(name="min",value="Min"),create_choice(name="nancy",value="Nancy"),create_choice(name="nea",value="Nea"),create_choice(name="quentin",value="Quentin"),create_choice(name="steve",value="Steve"),create_choice(name="tapp",value="Tapp")]
             )
         ],
         guild_ids=guild_ids)
-    async def _Addsurvivor(self,ctx: SlashContext,Naam: str):
+    async def _AddSurvivor(self,ctx: SlashContext,Naam: str):
         await self.modify_Perks(ctx,Naam,'add')
     
     @cog_ext.cog_slash(
@@ -475,7 +475,7 @@ class Roulette(Cog):
                 description="Dit is de survivor van wie de perks worden toegevoegd aan je lijst.",
                 option_type=3,
                 required=True,
-                choices=[create_choice(name="Yun-Jin",value="Yunjin"),create_choice(name="Zarina",value="Zarina"),create_choice(name="Élodie",value="Elodie")]
+                choices=[create_choice(name="Yui",value="Yui"),create_choice(name="yun-Jin",value="Yunjin"),create_choice(name="zarina",value="Zarina"),create_choice(name="élodie",value="Elodie")]
             )
         ],
         guild_ids=guild_ids)
