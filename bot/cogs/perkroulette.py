@@ -584,7 +584,7 @@ class Roulette(Cog):
             
             button_ctx: ComponentContext = await wait_for_component(self.bot,components=action_row)
             if id == button_ctx.author_id:
-                self.PerkMaker(ctx,mode,msg)
+                await self.PerkMaker(ctx,mode,msg)
 
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
