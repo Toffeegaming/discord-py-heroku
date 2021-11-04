@@ -455,7 +455,7 @@ class Roulette(Cog):
         description="Voeg de 3 perks van een survivor toe.",
         options=[
             create_option(
-                name="Naam",
+                name="naam",
                 description="Dit is de survivor van wie de perks worden toegevoegd aan je lijst.",
                 option_type=3,
                 required=True,
@@ -464,14 +464,14 @@ class Roulette(Cog):
         ],
         guild_ids=guild_ids)
     async def _AddSurvivor(self,ctx: SlashContext,Naam: str):
-        await self.modify_Perks(ctx,Naam,'add')
+        await self.modify_Perks(ctx,naam,'add')
     
     @cog_ext.cog_slash(
         name="AddSurvivor2",
         description="Voeg de 3 perks van een survivor toe.",
         options=[
             create_option(
-                name="Naam",
+                name="naam",
                 description="Dit is de survivor van wie de perks worden toegevoegd aan je lijst.",
                 option_type=3,
                 required=True,
@@ -480,7 +480,7 @@ class Roulette(Cog):
         ],
         guild_ids=guild_ids)
     async def _AddSurvivor2(self,ctx: SlashContext,Naam: str):
-        await self.modify_Perks(ctx,Naam,'add')
+        await self.modify_Perks(ctx,naam,'add')
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
