@@ -451,7 +451,7 @@ class Roulette(Cog):
         await self.PerkMaker(ctx,'Killer')
 
     @cog_ext.cog_slash(
-        name="AddSurvivor",
+        name="Addsurvivor",
         description="Voeg de 3 perks van een survivor toe.",
         options=[
             create_option(
@@ -463,7 +463,7 @@ class Roulette(Cog):
             )
         ],
         guild_ids=guild_ids)
-    async def _AddSurvivor(self,ctx: SlashContext,Naam: str):
+    async def _Addsurvivor(self,ctx: SlashContext,Naam: str):
         await self.modify_Perks(ctx,Naam,'add')
     
     @cog_ext.cog_slash(
