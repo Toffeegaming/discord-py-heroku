@@ -277,7 +277,7 @@ class Roulette(Cog):
         arr = [-1]
         self.set_Google_data(available,'survivor',arr)
         self.set_Google_data(available,'killer',arr)
-        print(f'Created {discord_id} profile')
+        print(f'[PROFILE] Created {discord_id} profile')
         await self.bot.get_channel( self.LogChannel ).send(f'[PROFILE] Created {discord_id} profile')
 
     def resetProfile(self,discord_id, mode):
@@ -582,7 +582,7 @@ class Roulette(Cog):
             perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
             await msg.edit(embed=perkEmbed, components=[action_row])
             
-            bool userHasReplied = False
+            userHasReplied = False
             while not userHasReplied:
                 button_ctx: ComponentContext = await wait_for_component(self.bot,components=action_row)
                 b_id = button_ctx.author_id
@@ -603,13 +603,10 @@ class Roulette(Cog):
     # @cog_ext.cog_component()
     # async def SurvivorButton(self, bctx: ComponentContext):
     #     print('SurvivorButton callback triggered')
-    #     await self.bot.get_channel(self.LogChannel).send('[SurvivorButton] Callback triggered')
 
     #     id = bctx.author_id
 
     #     print(id)
-
-    #     await self.bot.get_channel(self.LogChannel).send(f'{id}')
 
     #     value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
     #     stripVal = value.lstrip("[").rstrip("]")
@@ -644,7 +641,6 @@ class Roulette(Cog):
     # @cog_ext.cog_component()
     # async def KillerButton(self,bctx: ComponentContext):
     #     print('KillerButton callback triggered')
-    #     await self.bot.get_channel( self.LogChannel ).send('KillerButton callback triggered')
 
     #     id = bctx.author_id
 
@@ -654,9 +650,7 @@ class Roulette(Cog):
     #     numberPerks = len(availablePerks)
 
     #     generatedPerks = self.SelectPerks(id,numberPerks-1)
-    #     await self.bot.get_channel( self.LogChannel ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
-
-
+    
     #     namedPerks = [
     #         self.KillerPerks[availablePerks[generatedPerks[0]]],
     #         self.KillerPerks[availablePerks[generatedPerks[1]]],
