@@ -451,7 +451,7 @@ class Roulette(Cog):
         await self.PerkMaker(ctx,'Killer')
 
     @cog_ext.cog_slash(
-        name="Adds",
+        name="AddSurvivor",
         description="Voeg de 3 perks van een survivor toe.",
         options=[
             create_option(
@@ -463,11 +463,11 @@ class Roulette(Cog):
             )
         ],
         guild_ids=guild_ids)
-    async def Adds(self,ctx: SlashContext,Naam: str):
+    async def _AddSurvivor(self,ctx: SlashContext,Naam: str):
         await self.modify_Perks(ctx,Naam,'add')
     
     @cog_ext.cog_slash(
-        name="Adds2",
+        name="AddSurvivor2",
         description="Voeg de 3 perks van een survivor toe.",
         options=[
             create_option(
@@ -479,33 +479,8 @@ class Roulette(Cog):
             )
         ],
         guild_ids=guild_ids)
-    async def Adds2(self,ctx: SlashContext,Naam: str):
+    async def _AddSurvivor2(self,ctx: SlashContext,Naam: str):
         await self.modify_Perks(ctx,Naam,'add')
-
-    @cog_ext.cog_slash(name="test",
-             description="This is just a test command, nothing more.",
-             options=[
-               create_option(
-                 name="optone",
-                 description="This is the first option we have.",
-                 option_type=3,
-                 required=False,
-                 choices=[
-                  create_choice(
-                    name="ChoiceOne",
-                    value="DOGE!"
-                  ),
-                  create_choice(
-                    name="ChoiceTwo",
-                    value="NO DOGE"
-                  )
-                ]
-               )
-             ],
-             guild_ids=guild_ids)
-    async def test(ctx, optone: str):
-        await ctx.send(content=f"Wow, you actually chose {optone}? :(")
-
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
