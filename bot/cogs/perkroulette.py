@@ -501,7 +501,7 @@ class Roulette(Cog):
                )
              ])
     async def test(ctx, optone: str):
-    a   wait ctx.send(content=f"Wow, you actually chose {optone}? :(")
+        await ctx.send(content=f"Wow, you actually chose {optone}? :(")
 
 
 def setup(bot: Bot):
