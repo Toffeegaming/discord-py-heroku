@@ -505,7 +505,7 @@ class Roulette(Cog):
     async def PerkMaker(self,ctx: SlashContext, mode,prev_msg=None):
         id = ctx.author_id
         
-        if prev_msg is not None:
+        if prev_msg is None:
             waitingEmbed = discord.Embed(
                 title=f"{mode} Roulette!",
                 description=f"Je perks worden uitgekozen...",
