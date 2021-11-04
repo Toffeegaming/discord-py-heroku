@@ -16,6 +16,7 @@ class Roulette(Cog):
         self.bot = bot
         self.googleData = None
         self.Color = int("0x9628f7",16)
+        self.LogChannel = int(os.getenv("LOGS"))
     #----------------------------------------------------------------------------------
     # Variables
     # https://deadbydaylight.fandom.com/wiki/Perks
@@ -277,7 +278,7 @@ class Roulette(Cog):
         self.set_Google_data(available,'survivor',arr)
         self.set_Google_data(available,'killer',arr)
         print(f'Created {discord_id} profile')
-        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'[PROFILE] Created {discord_id} profile')
+        await self.bot.get_channel( self.LogChannel ).send(f'[PROFILE] Created {discord_id} profile')
 
     def resetProfile(self,discord_id, mode):
         row = self.get_Google_dataRow(discord_id)
@@ -539,7 +540,7 @@ class Roulette(Cog):
             await ctx.send(embed=embed)
         else:
             generatedPerks = self.SelectPerks(id,numberPerks-1)
-            await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
+            await self.bot.get_channel( self.LogChannel ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
             if mode == 'Survivor':
                 namedPerks = [
@@ -592,18 +593,25 @@ class Roulette(Cog):
     @cog_ext.cog_component()
     async def SurvivorButton(self, bctx: ComponentContext):
         print('SurvivorButton callback triggered')
-        await self.bot.get_channel( int(os.getenv("LOGS")) ).send('[SurvivorButton] Callback triggered')
+        await self.bot.get_channel(self.LogChannel).send('[SurvivorButton] Callback triggered')
 
         id = bctx.author_id
+        origin_id = bctx.origin_message.author_id
+
+        print(id)
+        print(origin_id)
+
+        await self.bot.get_channel(self.LogChannel).send(f'{id}')
+        await self.bot.get_channel(self.LogChannel).send(f'{origin_id}')
 
         value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
         stripVal = value.lstrip("[").rstrip("]")
         availablePerks = list(map(int,stripVal.split(", ")))
         numberPerks = len(availablePerks)
-        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'[SurvivorButton] Length = {numberPerks}')
+        await self.bot.get_channel( self.LogChannel ).send(f'[SurvivorButton] Length = {numberPerks}')
 
         generatedPerks = self.SelectPerks(id,numberPerks-1)
-        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'[SurvivorButton]{os.linesep}{bctx.author.name}{os.linesep}1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
+        await self.bot.get_channel( self.LogChannel ).send(f'[SurvivorButton]{os.linesep}{bctx.author.name}{os.linesep}1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
         namedPerks = [
             self.SurvivorPerks[availablePerks[generatedPerks[0]]],
@@ -631,7 +639,7 @@ class Roulette(Cog):
     @cog_ext.cog_component()
     async def KillerButton(self,bctx: ComponentContext):
         print('KillerButton callback triggered')
-        await self.bot.get_channel( int(os.getenv("LOGS")) ).send('KillerButton callback triggered')
+        await self.bot.get_channel( self.LogChannel ).send('KillerButton callback triggered')
 
         id = bctx.author_id
 
@@ -641,7 +649,7 @@ class Roulette(Cog):
         numberPerks = len(availablePerks)
 
         generatedPerks = self.SelectPerks(id,numberPerks-1)
-        await self.bot.get_channel( int(os.getenv("LOGS")) ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
+        await self.bot.get_channel( self.LogChannel ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
 
         namedPerks = [
@@ -666,6 +674,7 @@ class Roulette(Cog):
             color=self.Color)
         perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
         await bctx.edit_origin(embed=perkEmbed, components=[action_row])
+        #hidden=True to your ctx.send()
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
