@@ -480,6 +480,29 @@ class Roulette(Cog):
     async def AddSurvivor2(self,ctx: SlashContext,Naam: str):
         await self.modify_Perks(ctx,Naam,'add')
 
+    @cog_ext.cog_slash(name="test",
+             description="This is just a test command, nothing more.",
+             options=[
+               create_option(
+                 name="optone",
+                 description="This is the first option we have.",
+                 option_type=3,
+                 required=False,
+                 choices=[
+                  create_choice(
+                    name="ChoiceOne",
+                    value="DOGE!"
+                  ),
+                  create_choice(
+                    name="ChoiceTwo",
+                    value="NO DOGE"
+                  )
+                ]
+               )
+             ])
+    async def test(ctx, optone: str):
+    a   wait ctx.send(content=f"Wow, you actually chose {optone}? :(")
+
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
