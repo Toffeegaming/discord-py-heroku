@@ -584,15 +584,15 @@ class Roulette(Cog):
             while not userHasReplied:
                 try:
                     button_ctx: ComponentContext = await wait_for_component(self.bot,msg,components=action_row,timeout=60)
-                        b_id = button_ctx.author_id
-                        if id == b_id:
-                            userHasReplied = True
-                            waitingEmbed = discord.Embed(
-                                title=f"{mode} Roulette!",
-                                description=f"Je perks worden uitgekozen...",
-                                color=self.Color)
-                            await button_ctx.edit_origin(embed=waitingEmbed,components=None)
-                            await self.PerkMaker(button_ctx,mode,msg)
+                    b_id = button_ctx.author_id
+                    if id == b_id:
+                        userHasReplied = True
+                        waitingEmbed = discord.Embed(
+                            title=f"{mode} Roulette!",
+                            description=f"Je perks worden uitgekozen...",
+                            color=self.Color)
+                        await button_ctx.edit_origin(embed=waitingEmbed,components=None)
+                        await self.PerkMaker(button_ctx,mode,msg)
                 except:
                     userHasReplied = True
                     expiredEmbed = discord.Embed(
