@@ -592,7 +592,7 @@ class Roulette(Cog):
                         description=f"Je perks worden uitgekozen...",
                         color=self.Color)
                     await button_ctx.edit_origin(embed=waitingEmbed)
-                    await self.PerkMaker(ctx,mode,msg)
+                    await self.PerkMaker(button_ctx,mode,msg)
                     userHasReplied = True
 
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
