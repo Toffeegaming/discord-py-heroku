@@ -1,7 +1,7 @@
 import os
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext, ComponentContext
-from discord_slash.utils.manage_components import create_button, create_actionrow
+from discord_slash.utils.manage_components import create_button, create_actionrow, wait_for_component
 from discord_slash.model import ButtonStyle
 
 import discord
@@ -543,7 +543,6 @@ class Roulette(Cog):
             await ctx.send(embed=embed)
         else:
             generatedPerks = self.SelectPerks(id,numberPerks-1)
-            await self.bot.get_channel( self.LogChannel ).send(f'1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
             if mode == 'Survivor':
                 namedPerks = [
@@ -583,8 +582,9 @@ class Roulette(Cog):
             perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
             await msg.edit(embed=perkEmbed, components=[action_row])
             
-            button_ctx: ComponentContext = await manage_components.wait_for_component(self.bot,components=action_row)
-            self.PerkMaker(ctx,mode,msg)
+            button_ctx: ComponentContext = await wait_for_component(self.bot,components=action_row)
+            if id == button_ctx.author_id:
+                self.PerkMaker(ctx,mode,msg)
 
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
@@ -611,10 +611,8 @@ class Roulette(Cog):
     #     stripVal = value.lstrip("[").rstrip("]")
     #     availablePerks = list(map(int,stripVal.split(", ")))
     #     numberPerks = len(availablePerks)
-    #     await self.bot.get_channel( self.LogChannel ).send(f'[SurvivorButton] Length = {numberPerks}')
 
     #     generatedPerks = self.SelectPerks(id,numberPerks-1)
-    #     await self.bot.get_channel( self.LogChannel ).send(f'[SurvivorButton]{os.linesep}{bctx.author.name}{os.linesep}1 = {generatedPerks[0]}{os.linesep}2 = {generatedPerks[1]}{os.linesep}3 = {generatedPerks[2]}{os.linesep}4 = {generatedPerks[3]}')
 
     #     namedPerks = [
     #         self.SurvivorPerks[availablePerks[generatedPerks[0]]],
