@@ -593,10 +593,10 @@ class Roulette(Cog):
                             title=f"{mode} Roulette!",
                             description=f"Je perks worden uitgekozen...",
                             color=self.Color)
-                        await button_ctx.edit_origin(embed=waitingEmbed)
+                        await button_ctx.edit_origin(embed=waitingEmbed,components=None)
                         await self.PerkMaker(button_ctx,mode,msg)
             except:
-                await msg.edit(embed=perkEmbed)
+                await msg.edit(components=None)
 
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
