@@ -587,13 +587,13 @@ class Roulette(Cog):
                 button_ctx: ComponentContext = await wait_for_component(self.bot,components=action_row)
                 b_id = button_ctx.author_id
                 if id == b_id:
+                    userHasReplied = True
                     waitingEmbed = discord.Embed(
                         title=f"{mode} Roulette!",
                         description=f"Je perks worden uitgekozen...",
                         color=self.Color)
                     await button_ctx.edit_origin(embed=waitingEmbed)
                     await self.PerkMaker(button_ctx,mode,msg)
-                    userHasReplied = True
 
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
