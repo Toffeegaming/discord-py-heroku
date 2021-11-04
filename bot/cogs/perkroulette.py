@@ -582,10 +582,13 @@ class Roulette(Cog):
             perkEmbed.set_footer(text="Gebruik de command opnieuw voor andere perks!")
             await msg.edit(embed=perkEmbed, components=[action_row])
             
-            button_ctx: ComponentContext = await wait_for_component(self.bot,components=action_row)
-            await button_ctx.defer()
-            if id == button_ctx.author_id:
-                await self.PerkMaker(ctx,mode,msg)
+            bool userHasReplied = False
+            while not userHasReplied:
+                button_ctx: ComponentContext = await wait_for_component(self.bot,components=action_row)
+                b_id = button_ctx.author_id
+                if id == b_id:
+                    await self.PerkMaker(ctx,mode,msg)
+                    userHasReplied = True
 
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
