@@ -555,8 +555,7 @@ class Roulette(Cog):
                     create_button(
                         style=ButtonStyle.grey,
                         label="Reroll perks",
-                        emoji="🔁",
-                        custom_id="SurvivorButton"
+                        emoji="🔁"
                     )]
             elif mode == 'Killer':
                 namedPerks = [
@@ -569,8 +568,7 @@ class Roulette(Cog):
                     create_button(
                         style=ButtonStyle.grey,
                         label="Reroll perks",
-                        emoji="🔁",
-                        custom_id="KillerButton"
+                        emoji="🔁"
                     )]
             
             action_row = create_actionrow(*buttons)
@@ -583,7 +581,7 @@ class Roulette(Cog):
             await msg.edit(embed=perkEmbed, components=[action_row])
             
             try:
-                button_ctx: ComponentContext = await wait_for_component(self.bot,components=action_row,timeout=10)
+                button_ctx: ComponentContext = await wait_for_component(self.bot,msg,components=action_row,timeout=10)
                 userHasReplied = False
                 while not userHasReplied:
                     b_id = button_ctx.author_id
@@ -596,7 +594,8 @@ class Roulette(Cog):
                         await button_ctx.edit_origin(embed=waitingEmbed,components=None)
                         await self.PerkMaker(button_ctx,mode,msg)
             except:
-                await msg.edit(components=None)
+                print('except triggered in perkmaker while awaiting')
+                await msg.edit(embed=perkEmbed,components=None)
 
     @cog_ext.cog_slash(name='Survivor', description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
