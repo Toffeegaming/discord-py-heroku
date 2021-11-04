@@ -596,13 +596,13 @@ class Roulette(Cog):
         await self.bot.get_channel(self.LogChannel).send('[SurvivorButton] Callback triggered')
 
         id = bctx.author_id
-        origin_id = bctx.origin_message.author_id
+        origin_msg = bctx.origin_message
 
         print(id)
-        print(origin_id)
+        print(origin_msg)
 
         await self.bot.get_channel(self.LogChannel).send(f'{id}')
-        await self.bot.get_channel(self.LogChannel).send(f'{origin_id}')
+        await self.bot.get_channel(self.LogChannel).send(f'{origin_msg}')
 
         value = self.googleData.acell(f'B{self.get_Google_dataRow(id)}').value
         stripVal = value.lstrip("[").rstrip("]")
