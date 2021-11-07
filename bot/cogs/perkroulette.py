@@ -18,6 +18,8 @@ class Roulette(Cog):
         self.googleData = None
         self.Color = int("0x9628f7",16)
         self.LogChannel = int(os.getenv("LOGS"))
+        self.maxSurvivorPerks = len(self.SurvivorPerks)
+        self.maxKillerPerks = len(self.KillerPerks)
     #----------------------------------------------------------------------------------
     # Variables
     # https://deadbydaylight.fandom.com/wiki/Perks
@@ -146,6 +148,14 @@ class Roulette(Cog):
         return True
 
     async def modify_Perks(self,ctx: SlashContext,character,mode):
+        if self.check_profile(id) is None:
+            profileEmbed = discord.Embed(
+            title=f"",
+            description=f"Profiel wordt aangemaakt...",
+            color=self.Color)
+            await msg.edit(embed=profileEmbed)
+            await self.createProfile(id)
+
         waitingEmbed = discord.Embed(
                 title=f"",
                 description=f"Je perks worden aangepast...",
@@ -284,7 +294,7 @@ class Roulette(Cog):
         availablePerks = list(map(int,stripVal.split(", ")))
 
 
-        if -1 in availablePerks:
+        if -1 in availablePerks: # remove -1 if it's present
             availablePerks.remove(-1)
 
         if mode=="add":
@@ -438,8 +448,6 @@ class Roulette(Cog):
 
     #----------------------------------------------------------------------------------
     # Commands
-
-    # Main commands
     @cog_ext.cog_slash(name="Survivor", description='Krijg 4 random survivor perks!', guild_ids=guild_ids)
     async def _Survivor(self,ctx: SlashContext):
         self.check_connection()
@@ -483,6 +491,10 @@ class Roulette(Cog):
     async def _AddSurvivor2(self,ctx: SlashContext,naam: str):
         self.check_connection()
         await self.modify_Perks(ctx,naam,'add')
+
+    @cog_ext.cog_subcommand(base="Roulette", subcommand_group="survivor", name="list")
+    async def _Roulette_survivor_list(self, ctx: SlashContext):
+        await ctx.send("Test")
 
 def setup(bot: Bot):
     bot.add_cog( Roulette(bot) )
