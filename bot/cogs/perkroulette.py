@@ -492,7 +492,7 @@ class Roulette(Cog):
         self.check_connection()
         await self.modify_Perks(ctx,naam,'add')
 
-    @cog_ext.cog_subcommand(base="Roulette", subcommand_group="survivor", name="list")
+    @cog_ext.cog_subcommand(base="Roulette", subcommand_group="survivor", name="list",guild_ids=guild_ids)
     async def _Roulette_survivor_list(self, ctx: SlashContext):
         await ctx.send("Test")
 
