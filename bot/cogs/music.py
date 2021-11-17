@@ -230,8 +230,6 @@ class Music(commands.Cog):
             try:
                 channel = ctx.author.voice.channel
             except AttributeError:
-                embed = discord.Embed(title="", description="No channel to join. Please call `,join` from a voice channel.", color=discord.Color.green())
-                await ctx.send(embed=embed)
                 raise InvalidVoiceChannel('No channel to join. Please either specify a valid channel or join one.')
 
         vc = ctx.voice_client
@@ -248,9 +246,8 @@ class Music(commands.Cog):
                 await channel.connect()
             except asyncio.TimeoutError:
                 raise VoiceConnectionError(f'Connecting to channel: <{channel}> timed out.')
-        if (random.randint(0, 1) == 0):
-            await ctx.message.add_reaction('👍')
-        await ctx.send(f'**Joined `{channel}`**')
+
+        await ctx.send(f'Connected to: **{channel}**', delete_after=20)
 
     @cog_ext.cog_subcommand(base="Music", name='play', guild_ids=guild_ids, description="streams music")
     async def play_(self, ctx, *, search: str):
