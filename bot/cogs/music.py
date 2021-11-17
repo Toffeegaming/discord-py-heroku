@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-
+import random
 import asyncio
 import itertools
 import sys
