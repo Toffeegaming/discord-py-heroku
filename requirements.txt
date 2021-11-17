@@ -5,4 +5,5 @@ requests
 gspread
 youtube-dl
 PyNaCl
+ffmpeg
 ffmpeg-python
