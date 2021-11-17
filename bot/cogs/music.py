@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import random
+
 import asyncio
 import itertools
 import sys
@@ -13,7 +13,7 @@ from youtube_dl import YoutubeDL
 import os
 from discord_slash import cog_ext, SlashContext
 
-guild_ids = [int(os.getenv("GUILD3")) ]
+guild_ids = [ int(os.getenv("GUILD2")), int(os.getenv("GUILD3")) ]
 
 # Suppress noise about console usage from errors
 youtube_dl.utils.bug_reports_message = lambda: ''
@@ -216,7 +216,7 @@ class Music(commands.Cog):
 
         return player
 
-    @cog_ext.cog_slash(name='join', description="connects to voice", guild_ids=guild_ids)
+    @cog_ext.cog_subcommand(base="Music", name='join', description="connects to voice", guild_ids=guild_ids)
     async def connect_(self, ctx, *, channel: discord.VoiceChannel=None):
         """Connect to voice.
         Parameters
@@ -252,7 +252,7 @@ class Music(commands.Cog):
             await ctx.message.add_reaction('👍')
         await ctx.send(f'**Joined `{channel}`**')
 
-    @cog_ext.cog_slash(name='play', guild_ids=guild_ids, description="streams music")
+    @cog_ext.cog_subcommand(base="Music", name='play', guild_ids=guild_ids, description="streams music")
     async def play_(self, ctx, *, search: str):
         """Request a song and add it to the queue.
         This command attempts to join a valid voice channel if the bot is not already in one.
@@ -276,7 +276,7 @@ class Music(commands.Cog):
 
         await player.queue.put(source)
 
-    @cog_ext.cog_slash(name='pause', description="pauses music",guild_ids=guild_ids)
+    @cog_ext.cog_subcommand(base="Music", name='pause', description="pauses music",guild_ids=guild_ids)
     async def pause_(self, ctx):
         """Pause the currently playing song."""
         vc = ctx.voice_client
@@ -290,7 +290,7 @@ class Music(commands.Cog):
         vc.pause()
         await ctx.send("Paused ⏸️")
 
-    @cog_ext.cog_slash(name='resume', description="resumes music",guild_ids=guild_ids)
+    @cog_ext.cog_subcommand(base="Music", name='resume', description="resumes music",guild_ids=guild_ids)
     async def resume_(self, ctx):
         """Resume the currently paused song."""
         vc = ctx.voice_client
@@ -304,7 +304,7 @@ class Music(commands.Cog):
         vc.resume()
         await ctx.send("Resuming ⏯️")
 
-    @cog_ext.cog_slash(name='skip', description="skips to next song in queue",guild_ids=guild_ids)
+    @cog_ext.cog_subcommand(base="Music", name='skip', description="skips to next song in queue",guild_ids=guild_ids)
     async def skip_(self, ctx):
         """Skip the song."""
         vc = ctx.voice_client
@@ -320,7 +320,7 @@ class Music(commands.Cog):
 
         vc.stop()
     
-    @cog_ext.cog_slash(name='remove', guild_ids=guild_ids, description="removes specified song from queue")
+    @cog_ext.cog_subcommand(base="Music", name='remove', guild_ids=guild_ids, description="removes specified song from queue")
     async def remove_(self, ctx, pos : int=None):
         """Removes specified song from queue"""
 
@@ -343,7 +343,7 @@ class Music(commands.Cog):
                 embed = discord.Embed(title="", description=f'Could not find a track for "{pos}"', color=discord.Color.green())
                 await ctx.send(embed=embed)
     
-    @cog_ext.cog_slash(name='clear', guild_ids=guild_ids, description="clears entire queue")
+    @cog_ext.cog_subcommand(base="Music", name='clear', guild_ids=guild_ids, description="clears entire queue")
     async def clear_(self, ctx):
         """Deletes entire queue of upcoming songs."""
 
@@ -357,7 +357,7 @@ class Music(commands.Cog):
         player.queue._queue.clear()
         await ctx.send('💣 **Cleared**')
 
-    @cog_ext.cog_slash(name='queue', guild_ids=guild_ids, description="shows the queue")
+    @cog_ext.cog_subcommand(base="Music", name='queue', guild_ids=guild_ids, description="shows the queue")
     async def queue_info(self, ctx):
         """Retrieve a basic queue of upcoming songs."""
         vc = ctx.voice_client
@@ -390,7 +390,7 @@ class Music(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @cog_ext.cog_slash(name='np', guild_ids=guild_ids, description="shows the current playing song")
+    @cog_ext.cog_subcommand(base="Music", name='np', guild_ids=guild_ids, description="shows the current playing song")
     async def now_playing_(self, ctx):
         """Display information about the currently playing song."""
         vc = ctx.voice_client
@@ -418,7 +418,7 @@ class Music(commands.Cog):
         embed.set_author(icon_url=self.bot.user.avatar_url, name=f"Now Playing 🎶")
         await ctx.send(embed=embed)
 
-    @cog_ext.cog_slash(name='volume', guild_ids=guild_ids, description="changes Kermit's volume")
+    @cog_ext.cog_subcommand(base="Music", name='volume', guild_ids=guild_ids, description="changes Kermit's volume")
     async def change_volume(self, ctx, *, vol: float=None):
         """Change the player volume.
         Parameters
@@ -449,7 +449,7 @@ class Music(commands.Cog):
         embed = discord.Embed(title="", description=f'**`{ctx.author}`** set the volume to **{vol}%**', color=discord.Color.green())
         await ctx.send(embed=embed)
 
-    @cog_ext.cog_slash(name='leave', guild_ids=guild_ids, description="stops music and disconnects from voice")
+    @cog_ext.cog_subcommand(base="Music", name='leave', guild_ids=guild_ids, description="stops music and disconnects from voice")
     async def leave_(self, ctx):
         """Stop the currently playing song and destroy the player.
         !Warning!
