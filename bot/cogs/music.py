@@ -11,6 +11,7 @@ from youtube_dl import YoutubeDL
 
 import os
 from discord_slash import cog_ext, SlashContext
+
 guild_ids = [ int(os.getenv("GUILD2")), int(os.getenv("GUILD3")) ]
 
 # Suppress noise about console usage from errors
@@ -77,7 +78,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
             data = data['entries'][0]
 
         embed = discord.Embed(title="", description=f"Queued [{data['title']}]({data['webpage_url']}) [{ctx.author.mention}]", color=discord.Color.green())
-        await ctx.send(embed=embed)
+        await ctx.send(embed=embed,delete_after=30)
 
         if download:
             source = ytdl.prepare_filename(data)
@@ -118,7 +119,7 @@ class MusicPlayer:
         self.next = asyncio.Event()
 
         self.np = None  # Now playing message
-        self.volume = .5
+        self.volume = 1
         self.current = None
 
         ctx.bot.loop.create_task(self.player_loop())
@@ -194,12 +195,12 @@ class Music(commands.Cog):
         """A local error handler for all errors arising from commands in this cog."""
         if isinstance(error, commands.NoPrivateMessage):
             try:
-                return await ctx.send('This command can not be used in Private Messages.')
+                return await ctx.send('This command can not be used in Private Messages.',delete_after=20)
             except discord.HTTPException:
                 pass
         elif isinstance(error, InvalidVoiceChannel):
             await ctx.send('Error connecting to Voice Channel. '
-                           'Please make sure you are in a valid channel or provide me with one')
+                           'Please make sure you are in a valid channel or provide me with one',delete_after=20)
 
         print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
@@ -278,12 +279,12 @@ class Music(commands.Cog):
 
         if not vc or not vc.is_playing():
             embed = discord.Embed(title="", description="I am currently not playing anything", color=discord.Color.green())
-            return await ctx.send(embed=embed)
+            return await ctx.send(embed=embed,delete_after=30)
         elif vc.is_paused():
             return
 
         vc.pause()
-        await ctx.send("Paused ⏸️")
+        await ctx.send("Paused ⏸️",delete_after=30)
 
     @cog_ext.cog_subcommand(base="Music", name='resume', description="resumes music",guild_ids=guild_ids)
     async def _Music_resume(self, ctx):
@@ -292,12 +293,12 @@ class Music(commands.Cog):
 
         if not vc or not vc.is_connected():
             embed = discord.Embed(title="", description="I'm not connected to a voice channel", color=discord.Color.green())
-            return await ctx.send(embed=embed)
+            return await ctx.send(embed=embed,delete_after=30)
         elif not vc.is_paused():
             return
 
         vc.resume()
-        await ctx.send("Resuming ⏯️")
+        await ctx.send("Resuming ⏯️",delete_after=30)
 
     @cog_ext.cog_subcommand(base="Music", name='skip', description="skips to next song in queue",guild_ids=guild_ids)
     async def _Music_skip(self, ctx):
@@ -306,7 +307,7 @@ class Music(commands.Cog):
 
         if not vc or not vc.is_connected():
             embed = discord.Embed(title="", description="I'm not connected to a voice channel", color=discord.Color.green())
-            return await ctx.send(embed=embed)
+            return await ctx.send(embed=embed,delete_after=30)
 
         if vc.is_paused():
             pass
@@ -333,10 +334,10 @@ class Music(commands.Cog):
                 s = player.queue._queue[pos-1]
                 del player.queue._queue[pos-1]
                 embed = discord.Embed(title="", description=f"Removed [{s['title']}]({s['webpage_url']}) [{s['requester'].mention}]", color=discord.Color.green())
-                await ctx.send(embed=embed)
+                await ctx.send(embed=embed,delete_after=30)
             except:
                 embed = discord.Embed(title="", description=f'Could not find a track for "{pos}"', color=discord.Color.green())
-                await ctx.send(embed=embed)
+                await ctx.send(embed=embed,delete_after=30)
     
     @cog_ext.cog_subcommand(base="Music", name='clear', guild_ids=guild_ids, description="clears entire queue")
     async def _Music_clear(self, ctx):
@@ -346,11 +347,11 @@ class Music(commands.Cog):
 
         if not vc or not vc.is_connected():
             embed = discord.Embed(title="", description="I'm not connected to a voice channel", color=discord.Color.green())
-            return await ctx.send(embed=embed)
+            return await ctx.send(embed=embed,delete_after=30)
 
         player = self.get_player(ctx)
         player.queue._queue.clear()
-        await ctx.send('💣 **Cleared**')
+        await ctx.send('💣 **Cleared**',delete_after=30)
 
     @cog_ext.cog_subcommand(base="Music", name='queue', guild_ids=guild_ids, description="shows the queue")
     async def _Music_queue(self, ctx):
@@ -359,12 +360,12 @@ class Music(commands.Cog):
 
         if not vc or not vc.is_connected():
             embed = discord.Embed(title="", description="I'm not connected to a voice channel", color=discord.Color.green())
-            return await ctx.send(embed=embed)
+            return await ctx.send(embed=embed,delete_after=30)
 
         player = self.get_player(ctx)
         if player.queue.empty():
             embed = discord.Embed(title="", description="queue is empty", color=discord.Color.green())
-            return await ctx.send(embed=embed)
+            return await ctx.send(embed=embed,delete_after=30)
 
         seconds = vc.source.duration % (24 * 3600) 
         hour = seconds // 3600
@@ -383,7 +384,7 @@ class Music(commands.Cog):
         embed = discord.Embed(title=f'Queue for {ctx.guild.name}', description=fmt, color=discord.Color.green())
         embed.set_footer(text=f"{ctx.author.display_name}", icon_url=ctx.author.avatar_url)
 
-        await ctx.send(embed=embed)
+        await ctx.send(embed=embed,delete_after=120)
 
     @cog_ext.cog_subcommand(base="Music", name='np', guild_ids=guild_ids, description="shows the current playing song")
     async def _Music_np(self, ctx):
@@ -392,12 +393,12 @@ class Music(commands.Cog):
 
         if not vc or not vc.is_connected():
             embed = discord.Embed(title="", description="I'm not connected to a voice channel", color=discord.Color.green())
-            return await ctx.send(embed=embed)
+            return await ctx.send(embed=embed,delete_after=30)
 
         player = self.get_player(ctx)
         if not player.current:
             embed = discord.Embed(title="", description="I am currently not playing anything", color=discord.Color.green())
-            return await ctx.send(embed=embed)
+            return await ctx.send(embed=embed,delete_after=30)
         
         seconds = vc.source.duration % (24 * 3600) 
         hour = seconds // 3600
@@ -410,39 +411,7 @@ class Music(commands.Cog):
             duration = "%02dm %02ds" % (minutes, seconds)
 
         embed = discord.Embed(title="", description=f"[{vc.source.title}]({vc.source.web_url}) [{vc.source.requester.mention}] | `{duration}`", color=discord.Color.green())
-        embed.set_author(icon_url=self.bot.user.avatar_url, name=f"Now Playing 🎶")
-        await ctx.send(embed=embed)
-
-    @cog_ext.cog_subcommand(base="Music", name='volume', guild_ids=guild_ids, description="changes Kermit's volume")
-    async def _Music_volume(self, ctx, *, vol: float=None):
-        """Change the player volume.
-        Parameters
-        ------------
-        volume: float or int [Required]
-            The volume to set the player to in percentage. This must be between 1 and 100.
-        """
-        vc = ctx.voice_client
-
-        if not vc or not vc.is_connected():
-            embed = discord.Embed(title="", description="I am not currently connected to voice", color=discord.Color.green())
-            return await ctx.send(embed=embed)
-        
-        if not vol:
-            embed = discord.Embed(title="", description=f"🔊 **{(vc.source.volume)*100}%**", color=discord.Color.green())
-            return await ctx.send(embed=embed)
-
-        if not 0 < vol < 101:
-            embed = discord.Embed(title="", description="Please enter a value between 1 and 100", color=discord.Color.green())
-            return await ctx.send(embed=embed)
-
-        player = self.get_player(ctx)
-
-        if vc.source:
-            vc.source.volume = vol / 100
-
-        player.volume = vol / 100
-        embed = discord.Embed(title="", description=f'**`{ctx.author}`** set the volume to **{vol}%**', color=discord.Color.green())
-        await ctx.send(embed=embed)
+        await ctx.send(embed=embed,delete_after=60)
 
     @cog_ext.cog_subcommand(base="Music", name='leave', guild_ids=guild_ids, description="stops music and disconnects from voice")
     async def _Music_leave(self, ctx):
@@ -454,9 +423,9 @@ class Music(commands.Cog):
 
         if not vc or not vc.is_connected():
             embed = discord.Embed(title="", description="I'm not connected to a voice channel", color=discord.Color.green())
-            return await ctx.send(embed=embed)
+            return await ctx.send(embed=embed,delete_after=30)
 
-        await ctx.send('**Successfully disconnected**')
+        await ctx.send('**Successfully disconnected**',delete_after=30)
 
         await self.cleanup(ctx.guild)
 
