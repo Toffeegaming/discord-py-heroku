@@ -1,9 +1,6 @@
-import discord
+import discord, os, sys, datetime
 from discord.ext.commands import Bot
 from discord_slash import SlashCommand
-import os
-import sys
-import datetime # timestamp discord log output
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
@@ -12,9 +9,9 @@ bot = Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, descrip
 slash = SlashCommand(bot, sync_commands=True)
 
 global list_guild_ids
+list_guild_ids = []
 
 async def getNumberGuilds():
-    list_guild_ids = []
     for guild in bot.guilds:
         list_guild_ids.append(guild.id)
 
