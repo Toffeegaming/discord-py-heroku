@@ -1,7 +1,6 @@
-import os
+from main import list_guild_ids
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
-from main import list_guild_ids
 
 class Ping(Cog):
     def __init__(self, bot: Bot):
