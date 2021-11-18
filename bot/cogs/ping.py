@@ -8,8 +8,9 @@ guild_ids = []
 class Ping(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
-        guild_ids = getGuilds()
+        guild_ids = self.getGuilds()
     
+    @classmethod
     def getGuilds(self):
         list = []
         for guild in self.bot.guilds:
@@ -23,6 +24,3 @@ class Ping(Cog):
 
 def setup(bot: Bot):
     bot.add_cog( Ping(bot) )
-
-
-#guild_ids = [int(os.getenv("GUILD2")), int(os.getenv("GUILD3")) ]
