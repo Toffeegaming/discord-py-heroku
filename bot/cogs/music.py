@@ -5,6 +5,8 @@ from functools import partial
 from youtube_dl import YoutubeDL
 from discord_slash import cog_ext, SlashContext
 
+guild_ids=main.list_guild_ids
+
 # Suppress noise about console usage from errors
 youtube_dl.utils.bug_reports_message = lambda: ''
 
@@ -206,7 +208,7 @@ class Music(commands.Cog):
 
         return player
 
-    @cog_ext.cog_subcommand(base="Music", name='join', description="connects to voice", guild_ids=main.list_guild_ids)
+    @cog_ext.cog_subcommand(base="Music", name='join', description="connects to voice", guild_ids=guild_ids)
     async def _Music_join(self, ctx, *, channel: discord.VoiceChannel=None):
         """Connect to voice.
         Parameters
@@ -239,7 +241,7 @@ class Music(commands.Cog):
 
         await ctx.send(f'Connected to: **{channel}**', delete_after=20)
 
-    @cog_ext.cog_subcommand(base="Music", name='play', guild_ids=main.list_guild_ids, description="streams music")
+    @cog_ext.cog_subcommand(base="Music", name='play', guild_ids=guild_ids, description="streams music")
     async def _Music_play(self, ctx, *, search: str):
         """Request a song and add it to the queue.
         This command attempts to join a valid voice channel if the bot is not already in one.
@@ -263,7 +265,7 @@ class Music(commands.Cog):
 
         await player.queue.put(source)
 
-    @cog_ext.cog_subcommand(base="Music", name='pause', description="pauses music",guild_ids=main.list_guild_ids)
+    @cog_ext.cog_subcommand(base="Music", name='pause', description="pauses music",guild_ids=guild_ids)
     async def _Music_pause(self, ctx):
         """Pause the currently playing song."""
         vc = ctx.voice_client
@@ -277,7 +279,7 @@ class Music(commands.Cog):
         vc.pause()
         await ctx.send("Paused ⏸️",delete_after=30)
 
-    @cog_ext.cog_subcommand(base="Music", name='resume', description="resumes music",guild_ids=main.list_guild_ids)
+    @cog_ext.cog_subcommand(base="Music", name='resume', description="resumes music",guild_ids=guild_ids)
     async def _Music_resume(self, ctx):
         """Resume the currently paused song."""
         vc = ctx.voice_client
@@ -291,7 +293,7 @@ class Music(commands.Cog):
         vc.resume()
         await ctx.send("Resuming ⏯️",delete_after=30)
 
-    @cog_ext.cog_subcommand(base="Music", name='skip', description="skips to next song in queue",guild_ids=main.list_guild_ids)
+    @cog_ext.cog_subcommand(base="Music", name='skip', description="skips to next song in queue",guild_ids=guild_ids)
     async def _Music_skip(self, ctx):
         """Skip the song."""
         vc = ctx.voice_client
@@ -308,7 +310,7 @@ class Music(commands.Cog):
         await ctx.send("Skipping song...",delete_after=5)
         vc.stop()
     
-    @cog_ext.cog_subcommand(base="Music", name='remove', guild_ids=main.list_guild_ids, description="removes specified song from queue")
+    @cog_ext.cog_subcommand(base="Music", name='remove', guild_ids=guild_ids, description="removes specified song from queue")
     async def _Music_remove(self, ctx, pos : int=None):
         """Removes specified song from queue"""
 
@@ -331,7 +333,7 @@ class Music(commands.Cog):
                 embed = discord.Embed(title="", description=f'Could not find a track for "{pos}"', color=discord.Color.green())
                 await ctx.send(embed=embed,delete_after=30)
     
-    @cog_ext.cog_subcommand(base="Music", name='clear', guild_ids=main.list_guild_ids, description="clears entire queue")
+    @cog_ext.cog_subcommand(base="Music", name='clear', guild_ids=guild_ids, description="clears entire queue")
     async def _Music_clear(self, ctx):
         """Deletes entire queue of upcoming songs."""
 
@@ -345,7 +347,7 @@ class Music(commands.Cog):
         player.queue._queue.clear()
         await ctx.send('💣 **Cleared**',delete_after=30)
 
-    @cog_ext.cog_subcommand(base="Music", name='queue', guild_ids=main.list_guild_ids, description="shows the queue")
+    @cog_ext.cog_subcommand(base="Music", name='queue', guild_ids=guild_ids, description="shows the queue")
     async def _Music_queue(self, ctx):
         """Retrieve a basic queue of upcoming songs."""
         vc = ctx.voice_client
@@ -378,7 +380,7 @@ class Music(commands.Cog):
 
         await ctx.send(embed=embed,delete_after=120)
 
-    @cog_ext.cog_subcommand(base="Music", name='np', guild_ids=main.list_guild_ids, description="shows the current playing song")
+    @cog_ext.cog_subcommand(base="Music", name='np', guild_ids=guild_ids, description="shows the current playing song")
     async def _Music_np(self, ctx):
         """Display information about the currently playing song."""
         vc = ctx.voice_client
@@ -405,7 +407,7 @@ class Music(commands.Cog):
         embed = discord.Embed(title="", description=f"[{vc.source.title}]({vc.source.web_url}) [{vc.source.requester.mention}] | `{duration}`", color=discord.Color.green())
         await ctx.send(embed=embed,delete_after=60)
 
-    @cog_ext.cog_subcommand(base="Music", name='leave', guild_ids=main.list_guild_ids, description="stops music and disconnects from voice")
+    @cog_ext.cog_subcommand(base="Music", name='leave', guild_ids=guild_ids, description="stops music and disconnects from voice")
     async def _Music_leave(self, ctx):
         """Stop the currently playing song and destroy the player.
         !Warning!
