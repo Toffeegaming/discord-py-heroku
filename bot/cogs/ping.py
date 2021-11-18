@@ -1,24 +1,13 @@
 import os
-
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
-
-guild_ids = []
+from main import list_guild_ids
 
 class Ping(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
-        guild_ids = self.getGuilds()
-    
-    @classmethod
-    def getGuilds(self):
-        list = []
-        for guild in self.bot.guilds:
-            list.append(guild.id)
-        print(list)
-        return list
 
-    @cog_ext.cog_slash(name='Ping', description='Pong!', guild_ids=guild_ids)
+    @cog_ext.cog_slash(name='Ping', description='Pong!', guild_ids=list_guild_ids)
     async def _Ping(self,ctx: SlashContext):
         await ctx.send(f"Pong! ({self.bot.latency*1000}ms)")
 
