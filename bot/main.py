@@ -11,7 +11,7 @@ sys.path.append(dir_path)
 bot = Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True)
 
-global list_guild_ids = None
+global list_guild_ids
 
 async def getNumberGuilds():
     list_guild_ids = []
