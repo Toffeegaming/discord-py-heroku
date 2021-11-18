@@ -298,13 +298,14 @@ class Music(commands.Cog):
 
         if not vc or not vc.is_connected():
             embed = discord.Embed(title="", description="I'm not connected to a voice channel", color=discord.Color.green())
-            return await ctx.send(embed=embed,delete_after=30)
+            return await ctx.send(embed=embed,delete_after=10)
 
         if vc.is_paused():
             pass
         elif not vc.is_playing():
             return
 
+        await ctx.send("Skipping song...",delete_after=5)
         vc.stop()
     
     @cog_ext.cog_subcommand(base="Music", name='remove', guild_ids=main.list_guild_ids, description="removes specified song from queue")
