@@ -1,15 +1,20 @@
-import os
 import discord
 from discord.ext.commands import Bot
 from discord_slash import SlashCommand
+import os
+import sys
 import datetime # timestamp discord log output
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(dir_path)
 
 bot = Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True)
 
-global list_guild_ids = []
+global list_guild_ids = None
 
 async def getNumberGuilds():
+    list_guild_ids = []
     for guild in bot.guilds:
         list_guild_ids.append(guild.id)
 
@@ -22,7 +27,6 @@ async def on_ready():
     await bot.change_presence(activity=discord.Game(name=f'with my feelings in {len(list_guild_ids)} servers'),status=discord.Status.online)
 
 # load cogs
-dir_path = os.path.dirname(os.path.realpath(__file__))
 for filename in os.listdir(dir_path + '/cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
