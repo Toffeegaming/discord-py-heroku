@@ -29,7 +29,7 @@ for filename in os.listdir(dir_path + '/cogs'):
         bot.load_extension(f'cogs.{filename[:-3]}')
         print(f"[COGS] loaded {filename[:-3]}")
     else:
-        if filename != 'jsonfiles':
+        if filename != 'jsonfiles' or filename != '__pycach':
             print(f'[COGS] Unable to load {filename[:-3]}')
 
 # Create bot
