@@ -19,9 +19,8 @@ def getNumberGuilds():
 async def on_ready():
     print(f"Logged in as {bot.user.name}({bot.user.id})")
     time = datetime.datetime.utcnow()
-    await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in!")
     getNumberGuilds()
-    await bot.get_channel( int(os.getenv("LOGS")) ).send(f"{list_guild_ids}")
+    await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in in {len(list_guild_ids)} servers!{os.linesep}{list_guild_ids}")
     await bot.change_presence(activity=discord.Game(name=f'in {len(list_guild_ids)} servers'),status=discord.Status.online)
 
 # load cogs
