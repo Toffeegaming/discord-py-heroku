@@ -2,18 +2,24 @@ import os
 import discord
 from discord.ext.commands import Bot
 from discord_slash import SlashCommand
-
 import datetime # timestamp discord log output
 
 bot = Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True)
+
+global list_guild_ids = []
+
+async def getNumberGuilds():
+    for guild in bot.guilds:
+        list_guild_ids.append(guild.id)
 
 @bot.event 
 async def on_ready():
     print(f"Logged in as {bot.user.name}({bot.user.id})")
     time = datetime.datetime.utcnow()
     await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in!")
-    await bot.change_presence(activity=discord.Game(name='with my feelings'),status=discord.Status.online)
+    await getNumberGuilds()
+    await bot.change_presence(activity=discord.Game(name=f'with my feelings in {len(list_guild_ids)} servers'),status=discord.Status.online)
 
 # load cogs
 dir_path = os.path.dirname(os.path.realpath(__file__))
