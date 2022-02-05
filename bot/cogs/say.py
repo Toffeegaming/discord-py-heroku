@@ -6,7 +6,7 @@ class Say(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
-    @cog_ext.cog_slash(name='Say', description='Zeg shit', guild_ids=[831642131986776125],
+    @cog_ext.cog_slash(name='Say', description='Zeg shit', guild_ids=[477506300947857418],
         options=[
             create_option(
                     name="text",
