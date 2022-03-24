@@ -23,16 +23,16 @@ class Kleur(Cog):
     @cog_ext.cog_slash(name='Kleur', description='Verander de kleur van je nickname', guild_ids=guild_ids,
         options=[
             create_option(
-                    name="Input",
+                    name="input",
                     description="Hex code van de kleur die je wilt",
                     option_type=4,
                     required=True
                 )
         ])
-    async def _Kleur(self,ctx: SlashContext, Input=None):
+    async def _Kleur(self,ctx: SlashContext, input=None):
         user_role_id = self.data.index(ctx.author_id) + 1
         role = ctx.guild.get_role(user_role_id)
-        await role.edit(color=Input, reason="Deze persoon wilde een andere kleur")
+        await role.edit(color=input, reason="Deze persoon wilde een andere kleur")
         await ctx.send("Kleur veranderd!")
 
 def setup(bot: Bot):
