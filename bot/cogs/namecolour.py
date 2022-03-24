@@ -1,7 +1,9 @@
 from os import getuid
+from xmlrpc import client
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option
+from discord_slash.utils import get
 
 guild_ids = [956152709034164224]
 
@@ -31,8 +33,16 @@ class Kleur(Cog):
         ])
     async def _Kleur(self,ctx: SlashContext, input=None):
         user_role_id = self.data.index(ctx.author_id) + 1
-        role = ctx.guild.get_role(user_role_id)
-        await role.modify(color=input, reason="Deze persoon wilde een andere kleur")
+
+        role = get(ctx.guild.roles, id=user_role_id)
+
+        # guild = self.bot.get_guild(ctx.guild_id)
+        # for role in guild.roles:
+        #     if role.id == user_role_id:
+        #         await self.bot.
+        # role = ctx.guild.get_role(user_role_id)
+
+        await role.edit(color=input, reason="Deze persoon wilde een andere kleur")
         await ctx.send("Kleur veranderd!")
 
 def setup(bot: Bot):
