@@ -3,7 +3,7 @@ from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option
 
-guild_ids = [477506300947857418, 956152709034164224]
+guild_ids = [956152709034164224]
 
 class Kleur(Cog):
     def __init__(self, bot: Bot):
@@ -32,7 +32,7 @@ class Kleur(Cog):
     async def _Kleur(self,ctx: SlashContext, input=None):
         user_role_id = self.data.index(ctx.author_id) + 1
         role = ctx.guild.get_role(user_role_id)
-        await role.edit(color=input, reason="Deze persoon wilde een andere kleur")
+        await role.modify(color=input, reason="Deze persoon wilde een andere kleur")
         await ctx.send("Kleur veranderd!")
 
 def setup(bot: Bot):
