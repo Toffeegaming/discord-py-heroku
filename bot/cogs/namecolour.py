@@ -5,7 +5,9 @@ from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option
 from discord.utils import get
 
-guild_ids = [956152709034164224]
+test = 477506300947857418
+live = 956152709034164224
+guild_ids = [test]
 
 class Kleur(Cog):
     def __init__(self, bot: Bot):
