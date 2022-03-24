@@ -3,7 +3,7 @@ from xmlrpc import client
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option
-from discord_slash.utils import get
+from discord.utils import get
 
 guild_ids = [956152709034164224]
 
@@ -33,6 +33,7 @@ class Kleur(Cog):
         ])
     async def _Kleur(self,ctx: SlashContext, input=None):
         user_role_id = self.data.index(ctx.author_id) + 1
+
 
         role = get(ctx.guild.roles, id=user_role_id)
 
