@@ -1,12 +1,13 @@
-from gc import collect
+from os import getuid
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option
 
+guild_ids = [477506300947857418, 956152709034164224]
+
 class Kleur(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
-        self.guild = self.bot.get_guild(956152709034164224)
     
     # person id - role id
     data = [
@@ -19,19 +20,20 @@ class Kleur(Cog):
         199147443722518528, 956206917942935602
     ]
 
-    @cog_ext.cog_slash(name='Kleur', description='Verander de kleur van je nickname', guild_ids=[956152709034164224],
+    @cog_ext.cog_slash(name='Kleur', description='Verander de kleur van je nickname', guild_ids=guild_ids,
         options=[
             create_option(
-                    name="Kleur",
+                    name="Input",
                     description="Hex code van de kleur die je wilt",
                     option_type=4,
                     required=True
                 )
         ])
-    async def _Kleur(self,ctx: SlashContext, Kleur=None):
+    async def _Kleur(self,ctx: SlashContext, Input=None):
         user_role_id = self.data.index(ctx.author_id) + 1
         role = ctx.guild.get_role(user_role_id)
         await role.edit(color=Kleur, reason="Deze persoon wilde een andere kleur")
+        await ctx.send("Kleur veranderd!")
 
 def setup(bot: Bot):
     bot.add_cog( Kleur(bot) )
