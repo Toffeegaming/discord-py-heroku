@@ -32,7 +32,7 @@ class Kleur(Cog):
     async def _Kleur(self,ctx: SlashContext, Input=None):
         user_role_id = self.data.index(ctx.author_id) + 1
         role = ctx.guild.get_role(user_role_id)
-        await role.edit(color=Kleur, reason="Deze persoon wilde een andere kleur")
+        await role.edit(color=Input, reason="Deze persoon wilde een andere kleur")
         await ctx.send("Kleur veranderd!")
 
 def setup(bot: Bot):
