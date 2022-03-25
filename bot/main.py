@@ -23,7 +23,7 @@ bot = interactions.Client(token=os.getenv("DISCORD_TOKEN"), intents=intents, pre
 async def on_ready():
     print(f"Logged in as {bot.me.name}({bot.me.id})")
     channel = interactions.Channel(**await bot._http.get_channel( int( os.getenv("LOGS")) ), _client=bot._http)
-    channel.send(f"Logged in as {bot.me.name}({bot.me.id})")
+    await channel.send(f"Logged in as {bot.me.name}({bot.me.id})")
     #time = datetime.datetime.utcnow()
     #getNumberGuilds()
     #await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in in {len(list_guild_ids)} servers!{os.linesep}{list_guild_ids}")
