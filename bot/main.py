@@ -1,12 +1,16 @@
-import discord, os, sys, datetime
-from discord.ext.commands import Bot
-from discord_slash import SlashCommand
+# import discord, os, sys, datetime
+# from discord.ext.commands import Bot
+# from discord_slash import SlashCommand
+
+import interactions, os, sys, datetime
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
 
-bot = Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
-slash = SlashCommand(bot, sync_commands=True)
+bot = interactions.Client(token=os.getenv("DISCORD_TOKEN"))
+
+# bot = Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
+# slash = SlashCommand(bot, sync_commands=True)
 
 global list_guild_ids
 list_guild_ids = []
@@ -21,7 +25,7 @@ async def on_ready():
     time = datetime.datetime.utcnow()
     getNumberGuilds()
     await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in in {len(list_guild_ids)} servers!{os.linesep}{list_guild_ids}")
-    await bot.change_presence(activity=discord.Game(name=f'in {len(list_guild_ids)} servers'),status=discord.Status.online)
+    #await bot.change_presence(activity=discord.Game(name=f'in {len(list_guild_ids)} servers'),status=discord.Status.online)
 
 # load cogs
 for filename in os.listdir(dir_path + '/cogs'):
@@ -32,4 +36,5 @@ for filename in os.listdir(dir_path + '/cogs'):
         print(f'[COGS] Unable to load {filename}')
 
 # Create bot
-bot.run(os.getenv("DISCORD_TOKEN"))
+bot.start()
+#bot.run(os.getenv("DISCORD_TOKEN"))
