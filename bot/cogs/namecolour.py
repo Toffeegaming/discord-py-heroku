@@ -46,7 +46,7 @@ class Kleur(interactions.Extension):
                 input.replace('#','0x')
             input.ljust(8)
 
-            currentGuild = interactions.Guild(**await self.client._http().get_guild(956152709034164224, client=self.client._http()))
+            currentGuild = interactions.Guild(**await self.client._http.get_guild(956152709034164224, _client=self.client._http))
             user_role_id = self.data.index(int(ctx.author_id) + 1)
 
             await currentGuild.modify_role(role_id=user_role_id, color = input, reason="Deze persoon wilde een andere kleur")
