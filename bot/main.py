@@ -1,7 +1,3 @@
-# import discord, os, sys, datetime
-# from discord.ext.commands import Bot
-# from discord_slash import SlashCommand
-
 import interactions, os, sys, datetime
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -22,9 +18,10 @@ def getNumberGuilds():
 @bot.event 
 async def on_ready():
     print(f"Logged in as {bot.me.name}({bot.me.id})")
-    time = datetime.datetime.utcnow()
-    getNumberGuilds()
-    await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in in {len(list_guild_ids)} servers!{os.linesep}{list_guild_ids}")
+    await bot.get_channel( int(os.getenv("LOGS")) ).send(f"Logged in as {bot.me.name}({bot.me.id})")
+    #time = datetime.datetime.utcnow()
+    #getNumberGuilds()
+    #await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in in {len(list_guild_ids)} servers!{os.linesep}{list_guild_ids}")
     #await bot.change_presence(activity=discord.Game(name=f'in {len(list_guild_ids)} servers'),status=discord.Status.online)
 
 # load cogs
@@ -37,4 +34,3 @@ for filename in os.listdir(dir_path + '/cogs'):
 
 # Create bot
 bot.start()
-#bot.run(os.getenv("DISCORD_TOKEN"))
