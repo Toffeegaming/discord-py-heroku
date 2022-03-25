@@ -5,7 +5,7 @@ test = 477506300947857418
 live = 956152709034164224
 guild_ids = [test]
 
-class Kleur(interactions.Extension):
+class namecolour(interactions.Extension):
     def __init__(self, client) -> None:
         self.client = client
     
@@ -49,4 +49,4 @@ class Kleur(interactions.Extension):
         await ctx.send("Kleur veranderd!")
 
 def setup(client):
-    Kleur(client)
+    namecolour(client)
