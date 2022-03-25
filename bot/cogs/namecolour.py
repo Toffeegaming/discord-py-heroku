@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import string
 from typing import Hashable
 import interactions
@@ -47,7 +48,8 @@ class Kleur(interactions.Extension):
             input.ljust(8)
 
             currentGuild = interactions.Guild(**await self.client._http.get_guild(956152709034164224))
-            user_role_id = self.data.index(int(ctx.author.id) + 1)
+            
+            user_role_id = self.data[self.data.index(ctx.author.id) + 1]
 
             await currentGuild.modify_role(role_id=user_role_id, color = input, reason="Deze persoon wilde een andere kleur")
             await ctx.send(f"Kleur veranderd in {input}")
