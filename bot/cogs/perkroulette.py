@@ -498,3 +498,6 @@
 
 # def setup(bot: Bot):
 #     bot.add_cog( Roulette(bot) )
+
+#     #@cog_ext.cog_subcommand(base="Music", name="",guild_ids=guild_ids)
+#     #_Music

@@ -6,7 +6,7 @@ live = 956152709034164224
 guild_ids = [test]
 
 class Kleur(interactions.Extension):
-    def __init__(self, client):
+    def __init__(self, client) -> None:
         self.client = client
     
     # person id - role id
@@ -20,7 +20,10 @@ class Kleur(interactions.Extension):
         199147443722518528, 956206917942935602
     ]
 
-    @command(name='Kleur', description='Verander de kleur van je nickname', scope=guild_ids,
+    @interactions.extension_command(
+        name='Kleur',
+        description='Verander de kleur van je nickname',
+        scope=guild_ids,
         options=[
             interactions.Option(
                     name="input",
