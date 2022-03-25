@@ -30,8 +30,7 @@ async def on_ready():
 # load cogs
 for filename in os.listdir(dir_path + '/cogs'):
     if filename.endswith('.py'):
-        bot.load(name=f'{filename[:-3]}')
-        #bot.load_extension(f'cogs.{filename[:-3]}')
+        bot.load(f'cogs.{filename[:-3]}')
         print(f"[COGS] loaded {filename[:-3]}")
     else:
         print(f'[COGS] Unable to load {filename}')
