@@ -53,7 +53,7 @@ class Kleur(interactions.Extension):
             user_role_id = self.data[user_id_index + 1]
             print(user_role_id)
 
-            await currentGuild.modify_role(role_id=user_role_id, color = input, reason="Deze persoon wilde een andere kleur")
+            await currentGuild.modify_role(role_id=user_role_id, color = input, reason="Deze persoon wilde een andere kleur", _client=self.client._http)
             await ctx.send(f"Kleur veranderd in {input}")
 
 def setup(client: interactions.Client):
