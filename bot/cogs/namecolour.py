@@ -5,7 +5,7 @@ test = 477506300947857418
 live = 956152709034164224
 guild_ids = [test]
 
-class Kleur(interactions.Extension):
+class namecolour(interactions.Extension):
     def __init__(self, client) -> None:
         self.client = client
     
@@ -33,7 +33,7 @@ class Kleur(interactions.Extension):
                 ),
         ],
     )
-    async def ChangeColour(self,ctx: interactions.CommandContext, input=None):
+    async def _Kleur(self,ctx: interactions.CommandContext, input=None):
         # user_role_id = self.data.index(ctx.author_id) + 1
 
 
@@ -49,4 +49,4 @@ class Kleur(interactions.Extension):
         await ctx.send("Kleur veranderd!")
 
 def setup(client: interactions.Client):
-    Kleur(client)
+    namecolour(client)
