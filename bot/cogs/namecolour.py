@@ -1,17 +1,13 @@
-from os import getuid
-from xmlrpc import client
-from discord.ext.commands import Bot, Cog
-from discord_slash import cog_ext, SlashContext
-from discord_slash.utils.manage_commands import create_option
-from discord.utils import get
+import interactions
+# from discord.utils import get
 
 test = 477506300947857418
 live = 956152709034164224
 guild_ids = [test]
 
-class Kleur(Cog):
-    def __init__(self, bot: Bot):
-        self.bot = bot
+class Kleur(interactions.Extension):
+    def __init__(self, client):
+        self.client = client
     
     # person id - role id
     data = [
@@ -24,20 +20,21 @@ class Kleur(Cog):
         199147443722518528, 956206917942935602
     ]
 
-    @cog_ext.cog_slash(name='Kleur', description='Verander de kleur van je nickname', guild_ids=guild_ids,
+    @command(name='Kleur', description='Verander de kleur van je nickname', scope=guild_ids,
         options=[
-            create_option(
+            interactions.Option(
                     name="input",
                     description="Hex code van de kleur die je wilt",
-                    option_type=4,
-                    required=True
-                )
-        ])
-    async def _Kleur(self,ctx: SlashContext, input=None):
-        user_role_id = self.data.index(ctx.author_id) + 1
+                    type=interactions.OptionType.STRING,
+                    required=True,
+                ),
+        ],
+    )
+    async def ChangeColour(self,ctx: interactions.CommandContext, input=None):
+        # user_role_id = self.data.index(ctx.author_id) + 1
 
 
-        role = get(ctx.guild.roles, id=user_role_id)
+        # role = get(ctx.guild.roles, id=user_role_id)
 
         # guild = self.bot.get_guild(ctx.guild_id)
         # for role in guild.roles:
@@ -45,8 +42,8 @@ class Kleur(Cog):
         #         await self.bot.
         # role = ctx.guild.get_role(user_role_id)
 
-        await role.edit(color=input, reason="Deze persoon wilde een andere kleur")
+        #await role.modify(color=input, reason="Deze persoon wilde een andere kleur")
         await ctx.send("Kleur veranderd!")
 
-def setup(bot: Bot):
-    bot.add_cog( Kleur(bot) )
+def setup(client):
+    Kleur(client)
