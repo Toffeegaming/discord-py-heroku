@@ -1,8 +1,10 @@
-discord-py-interactions == 4.1.0
+https://github.com/interactions-py/library/archive/refs/tags/4.1.0.zip
 mcstatus
 requests
 gspread
 youtube-dl
 PyNaCl
 ffmpeg-python
+
 discord.py
+discord-py-interactions
