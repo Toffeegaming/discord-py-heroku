@@ -21,7 +21,7 @@ def getNumberGuilds():
 
 @bot.event 
 async def on_ready():
-    print(f"Logged in as {bot.user.name}({bot.user.id})")
+    print(f"Logged in as {bot.me.name}({bot.me.id})")
     time = datetime.datetime.utcnow()
     getNumberGuilds()
     await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in in {len(list_guild_ids)} servers!{os.linesep}{list_guild_ids}")
