@@ -30,11 +30,11 @@ class Kleur(interactions.Extension):
                     name="input",
                     description="Hex code van de kleur die je wilt",
                     type=interactions.OptionType.STRING,
-                    required=True,
+                    required=False,
                 ),
         ],
     )
-    async def kleur(self,ctx: interactions.CommandContext, input:string):
+    async def kleur(self,ctx: interactions.CommandContext, input:string = '0x000000'):
         hasHash = False
         has0X = False
         
