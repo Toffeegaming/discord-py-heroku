@@ -47,7 +47,7 @@ class Kleur(interactions.Extension):
             input.ljust(8)
 
             currentGuild = await ctx.get_guild()
-            user_role_id = self.data.index(int(ctx.message.author.user.id)) + 1
+            user_role_id = self.data.index(int(ctx.author_id)) + 1
 
             await currentGuild.modify_role(role_id=user_role_id, color = input, reason="Deze persoon wilde een andere kleur")
             await ctx.send(f"Kleur veranderd in {input}")
