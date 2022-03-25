@@ -1,11 +1,12 @@
+import string
+from typing import Hashable
 import interactions
-# from discord.utils import get
 
 test = 477506300947857418
 live = 956152709034164224
 guild_ids = [test]
 
-class namecolour(interactions.Extension):
+class Kleur(interactions.Extension):
     def __init__(self, client) -> None:
         self.client = client
     
@@ -21,7 +22,7 @@ class namecolour(interactions.Extension):
     ]
 
     @interactions.extension_command(
-        name='Kleur',
+        name='kleur',
         description='Verander de kleur van je nickname',
         scope=guild_ids,
         options=[
@@ -33,20 +34,35 @@ class namecolour(interactions.Extension):
                 ),
         ],
     )
-    async def _Kleur(self,ctx: interactions.CommandContext, input=None):
-        # user_role_id = self.data.index(ctx.author_id) + 1
+    async def kleur(self,ctx: interactions.CommandContext, input:string):
+        hasHash = False
+        has0X = False
+        
+        if "#" in input:
+            hasHash = True
+        if "0x" in input:
+            has0X = True
+
+        if not has0X and not hasHash:
+            await ctx.send("Geef een geldige code, beginnend met # of 0x")
+        else:
+            if hasHash:
+                input.replace('#','0x')
+            input.ljust(8)
+
+            #user_role_id = self.data.index(ctx.author_id) + 1
 
 
-        # role = get(ctx.guild.roles, id=user_role_id)
+            # role = get(ctx.guild.roles, id=user_role_id)
 
-        # guild = self.bot.get_guild(ctx.guild_id)
-        # for role in guild.roles:
-        #     if role.id == user_role_id:
-        #         await self.bot.
-        # role = ctx.guild.get_role(user_role_id)
+            # guild = self.bot.get_guild(ctx.guild_id)
+            # for role in guild.roles:
+            #     if role.id == user_role_id:
+            #         await self.bot.
+            # role = ctx.guild.get_role(user_role_id)
 
-        #await role.modify(color=input, reason="Deze persoon wilde een andere kleur")
-        await ctx.send("Kleur veranderd!")
+            #await role.modify(color=input, reason="Deze persoon wilde een andere kleur")
+            await ctx.send(f"Kleur veranderd in {input}")
 
 def setup(client: interactions.Client):
-    namecolour(client)
+    Kleur(client)
