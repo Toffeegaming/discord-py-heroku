@@ -48,7 +48,7 @@ class Kleur(interactions.Extension):
 
             currentGuild = interactions.Guild(**await self.client._http.get_guild(956152709034164224))
 
-            user_id_index = int(self.data.index(ctx.author.id) )
+            user_id_index = int( self.data.index( int( ctx.author.id) ) )
             print(user_id_index)
             user_role_id = self.data[user_id_index + 1]
             print(user_role_id)
