@@ -1,68 +1,40 @@
-import string
-from typing import Hashable
-import interactions
+# import discord, os, sys, datetime
+# from discord.ext.commands import Bot
+# from discord_slash import SlashCommand
 
-test = 477506300947857418
-live = 956152709034164224
-guild_ids = [test]
+import interactions, os, sys, datetime
 
-class Kleur(interactions.Extension):
-    def __init__(self, client) -> None:
-        self.client = client
-    
-    # person id - role id
-    data = [
-        126674618575618048, 956172644481368064,
-        318770388374913025, 956206878063489075,
-        193690170669793280, 956206814146482246,
-        193416532125155329, 956206857108725860,
-        277129696469188620, 956206897558593626,
-        294031838291296258, 956206986679160904,
-        199147443722518528, 956206917942935602
-    ]
+dir_path = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(dir_path)
 
-    @interactions.extension_command(
-        name='kleur',
-        description='Verander de kleur van je nickname',
-        scope=guild_ids,
-        options=[
-            interactions.Option(
-                    name="input",
-                    description="Hex code van de kleur die je wilt",
-                    type=interactions.OptionType.STRING,
-                    required=True,
-                ),
-        ],
-    )
-    async def kleur(self,ctx: interactions.CommandContext, input:string):
-        hasHash = False
-        has0X = False
-        
-        if "#" in input:
-            hasHash = True
-        if "0x" in input:
-            has0X = True
+bot = interactions.Client(token=os.getenv("DISCORD_TOKEN"))
 
-        if not has0X and not hasHash:
-            await ctx.send("Geef een geldige code, beginnend met # of 0x")
-        else:
-            if hasHash:
-                input.replace('#','0x')
-            input.ljust(8)
+# bot = Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
+# slash = SlashCommand(bot, sync_commands=True)
 
-            #user_role_id = self.data.index(ctx.author_id) + 1
+global list_guild_ids
+list_guild_ids = []
 
+def getNumberGuilds():
+    for guild in bot.guilds:
+        list_guild_ids.append(guild.id)
 
-            # role = get(ctx.guild.roles, id=user_role_id)
+@bot.event 
+async def on_ready():
+    print(f"Logged in as {bot.user.name}({bot.user.id})")
+    time = datetime.datetime.utcnow()
+    getNumberGuilds()
+    await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in in {len(list_guild_ids)} servers!{os.linesep}{list_guild_ids}")
+    #await bot.change_presence(activity=discord.Game(name=f'in {len(list_guild_ids)} servers'),status=discord.Status.online)
 
-            # guild = self.bot.get_guild(ctx.guild_id)
-            # for role in guild.roles:
-            #     if role.id == user_role_id:
-            #         await self.bot.
-            # role = ctx.guild.get_role(user_role_id)
+# load cogs
+for filename in os.listdir(dir_path + '/cogs'):
+    if filename.endswith('.py'):
+        bot.load(f'cogs.{filename[:-3]}')
+        print(f"[COGS] loaded {filename[:-3]}")
+    else:
+        print(f'[COGS] Unable to load {filename}')
 
-            #await role.modify(color=input, reason="Deze persoon wilde een andere kleur")
-            await ctx.send(f"Kleur veranderd in {input}")
-
-def setup(client: interactions.Client):
-    Kleur(client)
+# Create bot
+bot.start()
+#bot.run(os.getenv("DISCORD_TOKEN"))
