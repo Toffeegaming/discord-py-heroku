@@ -3,17 +3,21 @@ import interactions, os, sys, datetime
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
 
-bot = interactions.Client(token=os.getenv("DISCORD_TOKEN"))
+intents = interactions.Intents.GUILD_MEMBERS | interactions.Intents.GUILD_MESSAGES | interactions.Intents.GUILD_MESSAGE_REACTIONS | interactions.Intents.DIRECT_MESSAGES | interactions.Intents.GUILDS
+presence = interactions.PresenceActivity(name="with code", type=interactions.PresenceActivityType.GAME)
+
+
+bot = interactions.Client(token=os.getenv("DISCORD_TOKEN"), intents=intents, presence=interactions.ClientPresence(activities=[presence]), disable_sync=False)
 
 # bot = Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
 # slash = SlashCommand(bot, sync_commands=True)
 
-global list_guild_ids
-list_guild_ids = []
+#global list_guild_ids
+#list_guild_ids = []
 
-def getNumberGuilds():
-    for guild in bot.guilds:
-        list_guild_ids.append(guild.id)
+# def getNumberGuilds():
+#     for guild in bot.guilds:
+#         list_guild_ids.append(guild.id)
 
 @bot.event 
 async def on_ready():
