@@ -30,11 +30,14 @@ class Kleur(interactions.Extension):
     async def kleur(self,ctx: interactions.CommandContext, input=''):
         hasHash = False
         has0X = False
+        hexcode = ''
         if "#" in input:
+            hexcode = input
             input = input.replace('#','0x')
             hasHash = True
             print("has hash")
         if "0x" in input:
+            hexcode = input.replace('0x','#')
             has0X = True
             print("has 0x")
         if not has0X and not hasHash:
@@ -51,8 +54,6 @@ class Kleur(interactions.Extension):
             user_role_id = self.data[user_id_index + 1]
             input = int(input, 16)
             await self.client._http.modify_guild_role(guild_id=ctx.guild_id, role_id=user_role_id, data={"color": input})
-
-            hexcode = input.replace('0x','#')
             textEmbed = interactions.Embed(
                 title=f"",
                 description=f"Kleur veranderd. {hexcode}",
