@@ -36,17 +36,21 @@ class Kleur(interactions.Extension):
         
         if "#" in input:
             hasHash = True
+            print("has hash")
         if "0x" in input:
             has0X = True
+            print("has 0x")
 
         if not has0X and not hasHash:
             await ctx.send("Geef een geldige code, beginnend met # of 0x")
+            print("invalid input")
         else:
             if hasHash:
                 input.replace('#','0x')
             input.ljust(8)
 
-            currentGuild = await ctx.get_guild(guild_id=956152709034164224)
+            currentGuild = await ctx.get_guild()
+            print("guild retrieved")
             #currentGuild = interactions.Guild(**await self.client._http.get_guild(956152709034164224, client = self.client._http) )
 
             user_id_index = int( self.data.index( int( ctx.author.id) ) )
