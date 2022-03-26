@@ -57,6 +57,9 @@ class Kleur(interactions.Extension):
             print(user_id_index)
             user_role_id = self.data[user_id_index + 1]
             print(user_role_id)
+            
+            testRole = await ctx.guild.get_role(user_role_id)
+            await testRole.modify(color = input, reason="Deze persoon wilde een andere kleur")
 
             roles = await currentGuild.get_all_roles()
             for role in roles:
