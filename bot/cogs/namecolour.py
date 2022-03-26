@@ -49,28 +49,32 @@ class Kleur(interactions.Extension):
                 input.replace('#','0x')
             input.ljust(8)
 
-            currentGuild = await ctx.get_guild()
-            print("guild retrieved")
-            #currentGuild = interactions.Guild(**await self.client._http.get_guild(956152709034164224, client = self.client._http) )
-
+            
             user_id_index = int( self.data.index( int( ctx.author.id) ) )
             print(user_id_index)
             user_role_id = self.data[user_id_index + 1]
             print(user_role_id)
             
-            testRole = await ctx.guild.get_role(user_role_id)
-            await testRole.modify(color = input, reason="Deze persoon wilde een andere kleur")
+            await self.client.http.modify_guild_role(guild_id=ctx.guild_id, role_id=user_role_id, data={color=input})
+            #currentGuild = await ctx.get_guild()
+            #print("guild retrieved")
+            #currentGuild = interactions.Guild(**await self.client._http.get_guild(956152709034164224, client = self.client._http) )
 
-            roles = await currentGuild.get_all_roles()
-            for role in roles:
-                if role.id == user_role_id:
-                    r = role
-                    break
-                else:
-                    r = None
-            if r:
-                await r.modify(color = input, reason="Deze persoon wilde een andere kleur")
-                await ctx.send(f"Kleur veranderd in {input}")
+            
+            
+           # testRole = await ctx.guild.get_role(user_role_id)
+            #await testRole.modify(color = input, reason="Deze persoon wilde een andere kleur")
+
+            #roles = await currentGuild.get_all_roles()
+            #for role in roles:
+            #    if role.id == user_role_id:
+            #        r = role
+            #        break
+            #    else:
+            #        r = None
+            #if r:
+            #    await r.modify(color = input, reason="Deze persoon wilde een andere kleur")
+            await ctx.send(f"Kleur veranderd in {input}")
 
 def setup(client: interactions.Client):
     Kleur(client)
