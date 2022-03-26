@@ -51,9 +51,11 @@ class Kleur(interactions.Extension):
             user_role_id = self.data[user_id_index + 1]
             input = int(input, 16)
             await self.client._http.modify_guild_role(guild_id=ctx.guild_id, role_id=user_role_id, data={"color": input})
+
+            hexcode = input.replace('0x','#')
             textEmbed = interactions.Embed(
                 title=f"",
-                description=f"Kleur veranderd.",
+                description=f"Kleur veranderd. {hexcode}",
                 color=input)
             await ctx.send(embeds=textEmbed)
 
