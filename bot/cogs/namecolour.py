@@ -1,11 +1,8 @@
-import string
-from typing import Hashable
 import interactions
 
 class Kleur(interactions.Extension):
     def __init__(self, client) -> None:
         self.client = client
-    
     # person id - role id
     data = [
         126674618575618048, 956172644481368064,
@@ -30,10 +27,9 @@ class Kleur(interactions.Extension):
                 ),
         ],
     )
-    async def kleur(self,ctx: interactions.CommandContext, input:string = ''):
+    async def kleur(self,ctx: interactions.CommandContext, input=''):
         hasHash = False
         has0X = False
-        
         if "#" in input:
             input = input.replace('#','0x')
             hasHash = True
@@ -41,23 +37,20 @@ class Kleur(interactions.Extension):
         if "0x" in input:
             has0X = True
             print("has 0x")
-
         if not has0X and not hasHash:
-            await ctx.send("Geef een geldige code, beginnend met # of 0x")
-            print("invalid input")
+            errorKleur = "0xff0000"
+            errorKleur = int(errorKleur, 16)
+            textEmbed = interactions.Embed(
+                title=f"",
+                description=f"Geef een geldige code, beginnend met # of 0x.",
+                color=errorKleur)
+            await ctx.send(embeds=textEmbed)
         else:
             input.ljust(8)
-
             user_id_index = int( self.data.index( int( ctx.author.id) ) )
-            print(user_id_index)
             user_role_id = self.data[user_id_index + 1]
-            print(user_role_id)
-
             input = int(input, 16)
-
             await self.client._http.modify_guild_role(guild_id=ctx.guild_id, role_id=user_role_id, data={"color": input})
-
-
             textEmbed = interactions.Embed(
                 title=f"",
                 description=f"Kleur veranderd.",
