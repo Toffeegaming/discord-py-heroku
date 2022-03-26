@@ -35,7 +35,7 @@ class Kleur(interactions.Extension):
         has0X = False
         
         if "#" in input:
-            input.replace('#','0x')
+            input = input.replace('#','0x')
             hasHash = True
             print("has hash")
         if "0x" in input:
