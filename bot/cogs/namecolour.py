@@ -46,7 +46,7 @@ class Kleur(interactions.Extension):
                 input.replace('#','0x')
             input.ljust(8)
 
-            currentGuild = await ctx.get_guild()
+            currentGuild = await ctx.get_guild(guild_id=956152709034164224)
             #currentGuild = interactions.Guild(**await self.client._http.get_guild(956152709034164224, client = self.client._http) )
 
             user_id_index = int( self.data.index( int( ctx.author.id) ) )
