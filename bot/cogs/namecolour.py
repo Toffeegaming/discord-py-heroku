@@ -55,7 +55,7 @@ class Kleur(interactions.Extension):
             user_role_id = self.data[user_id_index + 1]
             print(user_role_id)
 
-            #input = int(input, 16)
+            input = int(input, 16)
 
             await self.client._http.modify_guild_role(guild_id=ctx.guild_id, role_id=user_role_id, data={"color": input})
             #currentGuild = await ctx.get_guild()
