@@ -18,7 +18,7 @@ list_guild_ids = []
 async def getNumberGuilds():
     guild_list = await bot._http.get_self_guilds()
     for guild in guild_list:
-        list_guild_ids.append( int( guild.id ) )
+        list_guild_ids.append( int( guild["id"] ) )
 
 @bot.event 
 async def on_ready():
