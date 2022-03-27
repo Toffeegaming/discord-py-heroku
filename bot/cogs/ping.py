@@ -7,11 +7,11 @@ class Ping(interactions.Extension):
         self.client = client
 
     @interactions.extension_command(
-        name='Ping',
+        name='ping',
         description='Pong!',
         scope=guild_ids
         )
-    async def _Ping(self,ctx:  interactions.CommandContext):
+    async def ping(self,ctx:  interactions.CommandContext):
         await ctx.send(f"Pong! ({self.client.latency*1000}ms)")
 
 def setup(client: interactions.Client):
