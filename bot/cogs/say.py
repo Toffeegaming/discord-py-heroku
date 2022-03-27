@@ -4,7 +4,7 @@ class Say(interactions.Extension):
     def __init__(self, client) -> None:
         self.client = client
 
-    @interactions.extension_command(name='Say', description='Zeg shit', scope=[477506300947857418]
+    @interactions.extension_command(name='say', description='Zeg shit', scope=[477506300947857418]
         # , options=[
         #     create_option(
         #             name="text",
