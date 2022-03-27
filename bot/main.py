@@ -15,9 +15,10 @@ bot = interactions.Client(token=os.getenv("DISCORD_TOKEN"), intents=intents, pre
 global list_guild_ids
 list_guild_ids = []
 
-def getNumberGuilds():
-    for guild in bot.guilds:
-        list_guild_ids.append(guild.id)
+async def getNumberGuilds():
+    guild_list = await bot._http.get_self_guilds()
+    for guild in guild_list:
+        list_guild_ids.append( int( guild.id ) )
 
 @bot.event 
 async def on_ready():
