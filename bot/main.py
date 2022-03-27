@@ -28,8 +28,8 @@ async def on_ready():
     await getNumberGuilds()
     time = datetime.datetime.utcnow()
     await channel.send(f"[{time}] [STARTUP] Logged in in {len(list_guild_ids)} servers!{os.linesep}{list_guild_ids}")
-    
-    #await bot.change_presence(activity=discord.Game(name=f'in {len(list_guild_ids)} servers'),status=discord.Status.online)
+    await bot.change_presence(presence=interactions.ClientPresence(status=interactions.StatusType.ONLINE,activities=[interactions.PresenceActivity(name=f'in {len(list_guild_ids)} servers',type=interactions.PresenceActivityType.GAME)]))
+
 
 # load cogs
 for filename in os.listdir(dir_path + '/cogs'):
