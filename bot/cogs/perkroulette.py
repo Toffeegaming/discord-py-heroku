@@ -447,14 +447,14 @@ class Roulette(interactions.Extension):
 
     #----------------------------------------------------------------------------------
     # Commands
-    @interactions.extension_command(name="Survivor", description='Krijg 4 random survivor perks!', scope=guild_ids)
-    async def _Survivor(self,ctx: interactions.CommandContext):
+    @interactions.extension_command(name="survivor", description='Krijg 4 random survivor perks!', scope=guild_ids)
+    async def survivor(self,ctx: interactions.CommandContext):
         # self.check_connection()
         # await self.PerkMaker(ctx,'Survivor')
         await ctx.send(f"Out of order")
 
-    @interactions.extension_command(name='Killer', description='Krijg 4 random killer perks!', scope=guild_ids)
-    async def _Killer(self,ctx: interactions.CommandContext):
+    @interactions.extension_command(name='killer', description='Krijg 4 random killer perks!', scope=guild_ids)
+    async def killer(self,ctx: interactions.CommandContext):
         # self.check_connection()
         # await self.PerkMaker(ctx,'Killer')
         await ctx.send(f"Out of order")
