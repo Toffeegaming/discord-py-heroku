@@ -25,7 +25,7 @@ async def on_ready():
     print(f"Logged in as {bot.me.name}({bot.me.id})")
     channel = interactions.Channel(**await bot._http.get_channel( int( os.getenv("LOGS")) ), _client=bot._http)
 
-    getNumberGuilds()
+    await getNumberGuilds()
     time = datetime.datetime.utcnow()
     await channel.send(f"[{time}] [STARTUP] Logged in in {len(list_guild_ids)} servers!{os.linesep}{list_guild_ids}")
     
