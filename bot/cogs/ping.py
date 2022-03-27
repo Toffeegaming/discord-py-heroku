@@ -1,6 +1,4 @@
-import interactions, main
-
-#guild_ids = main.list_guild_ids
+import interactions
 guild_ids = [956152709034164224, 831642131986776125, 477506300947857418]
 
 class Ping(interactions.Extension):
