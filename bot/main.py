@@ -12,21 +12,22 @@ bot = interactions.Client(token=os.getenv("DISCORD_TOKEN"), intents=intents, pre
 # bot = Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
 # slash = SlashCommand(bot, sync_commands=True)
 
-#global list_guild_ids
-#list_guild_ids = []
+global list_guild_ids
+list_guild_ids = []
 
-# def getNumberGuilds():
-#     for guild in bot.guilds:
-#         list_guild_ids.append(guild.id)
+def getNumberGuilds():
+    for guild in bot.guilds:
+        list_guild_ids.append(guild.id)
 
 @bot.event 
 async def on_ready():
     print(f"Logged in as {bot.me.name}({bot.me.id})")
     channel = interactions.Channel(**await bot._http.get_channel( int( os.getenv("LOGS")) ), _client=bot._http)
-    await channel.send(f"Logged in as {bot.me.name}({bot.me.id})")
-    #time = datetime.datetime.utcnow()
-    #getNumberGuilds()
-    #await bot.get_channel( int(os.getenv("LOGS")) ).send(f"[{time}] [STARTUP] Logged in in {len(list_guild_ids)} servers!{os.linesep}{list_guild_ids}")
+
+    getNumberGuilds()
+    time = datetime.datetime.utcnow()
+    await channel.send(f"[{time}] [STARTUP] Logged in in {len(list_guild_ids)} servers!{os.linesep}{list_guild_ids}")
+    
     #await bot.change_presence(activity=discord.Game(name=f'in {len(list_guild_ids)} servers'),status=discord.Status.online)
 
 # load cogs
