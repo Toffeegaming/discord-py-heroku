@@ -14,7 +14,7 @@ class Say(interactions.Extension):
         #         )
         # ]
         )
-    async def _Say(self,ctx: interactions.CommandContext):
+    async def say(self,ctx: interactions.CommandContext):
         await ctx.send(f"Out of order")
 
 def setup(client: interactions.Client):
