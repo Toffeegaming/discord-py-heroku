@@ -4,10 +4,8 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
 
 intents = interactions.Intents.GUILD_MEMBERS | interactions.Intents.GUILD_MESSAGES | interactions.Intents.GUILD_MESSAGE_REACTIONS | interactions.Intents.DIRECT_MESSAGES | interactions.Intents.GUILDS
-presence = interactions.PresenceActivity(name="with code", type=interactions.PresenceActivityType.GAME)
 
-
-bot = interactions.Client(token=os.getenv("DISCORD_TOKEN"), intents=intents, presence=interactions.ClientPresence(activities=[presence]), disable_sync=False)
+bot = interactions.Client(token=os.getenv("DISCORD_TOKEN"), intents=intents, disable_sync=False)
 
 # bot = Bot(command_prefix=os.getenv("DISCORD_PREFIX"), help_command=None, description=os.getenv("DISCORD_DESCRIPTION"), intents=discord.Intents.all())
 # slash = SlashCommand(bot, sync_commands=True)
@@ -28,8 +26,10 @@ async def on_ready():
     await getNumberGuilds()
     time = datetime.datetime.utcnow()
     await channel.send(f"[{time}] [STARTUP] Logged in in {len(list_guild_ids)} servers!{os.linesep}{list_guild_ids}")
-    await bot.change_presence(presence=interactions.ClientPresence(status=interactions.StatusType.ONLINE,activities=[interactions.PresenceActivity(name=f'in {len(list_guild_ids)} servers',type=interactions.PresenceActivityType.GAME)]))
-
+    #await bot.change_presence(presence=)
+    await bot._websocket._update_presence(
+        interactions.ClientPresence(status=interactions.StatusType.ONLINE,activities=[interactions.PresenceActivity(name=f'in {len(list_guild_ids)} servers',type=interactions.PresenceActivityType.GAME)])
+    )
 
 # load cogs
 for filename in os.listdir(dir_path + '/cogs'):
