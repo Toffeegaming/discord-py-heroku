@@ -5,14 +5,12 @@ sys.path.append(dir_path)
 
 
 def get_data(name):
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    file_location = dir_path + '/' + name + '.json'
+    file_location = dir_path + '/cogs/' + name + '.json'
     with open(file_location, 'r') as file:
         return json.loads(file.read())
 
 def set_data(data,name):
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    file_location = dir_path + '/' + name + '.json'
+    file_location = dir_path + '/cogs/' + name + '.json'
     with open(file_location, 'w') as file:
         file.write(json.dumps(data, indent=2))
 
@@ -27,8 +25,7 @@ def CreateGspread():
     data['client_x509_cert_url'] = os.getenv("G_API_CURL")
     set_data(data,g_file)
 
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    g_file_location = dir_path + '/' + g_file + '.json'
+    g_file_location = dir_path + '/cogs/' + g_file + '.json'
     gc = gspread.service_account(filename = g_file_location)
     sh = gc.open('DiscordUserdata')
     return sh.worksheet("Data")
