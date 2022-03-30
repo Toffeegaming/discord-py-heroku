@@ -93,9 +93,10 @@ async def on_guild_member_add(ctx):
         "color" : int(0xffffff,16),
         "position" : position
     }
-    await bot._http.create_guild_role(guild_id=guild_id,data=roleData)
 
-    googleData.update_acell(f'C21',str(counter+1))
+    newrole = await bot._http.create_guild_role(guild_id=guild_id,data=roleData)
+
+    googleData.update_acell(f'B{21+extent}',str(newrole.id))
 
 
 
