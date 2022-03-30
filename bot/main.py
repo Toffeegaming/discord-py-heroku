@@ -47,7 +47,6 @@ bot = interactions.Client(
     ), 
     disable_sync=False)
 
-global list_guild_ids
 list_guild_ids = []
 
 async def getNumberGuilds():
@@ -66,7 +65,33 @@ async def on_ready():
 
     time = datetime.datetime.utcnow()
     await channel.send(f"[{time}] [STARTUP] Logged in in {numberGuild} servers!{os.linesep}{list_guild_ids}")
-    #await bot._websocket._update_presence(interactions.ClientPresence(status=interactions.StatusType.ONLINE,activities=[interactions.PresenceActivity(name=f'in {len(list_guild_ids)} servers',type=interactions.PresenceActivityType.GAME)]))
+
+@bot.event
+async def on_guild_member_add(ctx):
+    guild = await ctx.get_guild()
+    guild_id = guild.id
+    if not guild_id == 956152709034164224:
+        return
+
+    row = googleData.find(str(ctx.member.id))
+    if row is not None:
+        return
+
+    counter = int( googleData.acell(f'C21').value )
+    extent = counter - 1 # to start counting from 20 and getting the correct value
+
+    googleData.update_acell(f'A{20+extent}',str(ctx.member.id))
+
+    list = await bot._http.get_all_roles(guild_id)
+    position = len(list) # position is the number of roles before it's made
+
+    roleData = {
+        "color" : int(0xffffff,16),
+        "position" : position
+    }
+    await bot._http.create_guild_role(guild_id=guild_id,data=roleData)
+
+
 
 # load cogs
 for filename in os.listdir(dir_path + '/cogs'):
