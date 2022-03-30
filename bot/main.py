@@ -1,6 +1,6 @@
 import interactions, os, sys, datetime, gspread, json
-from gspread.httpsession import HTTPSession
-from oauth2client.service_account import ServiceAccountCredentials
+#from gspread.httpsession import HTTPSession
+#from oauth2client.service_account import ServiceAccountCredentials
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
@@ -29,15 +29,15 @@ def CreateGspread():
 
     g_file_location = dir_path + '/cogs/' + g_file + '.json'
 
-    scope = ['https://spreadsheets.google.com/feeds']
-    key_name = g_file_location
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(key_name, scope)
+    # scope = ['https://spreadsheets.google.com/feeds']
+    # key_name = g_file_location
+    # credentials = ServiceAccountCredentials.from_json_keyfile_name(key_name, scope)
 
-    http_session = HTTPSession(headers={'Connection':'Keep-Alive'})
-    gc = gspread.Client(credentials, http_session)
-    gc.login()
+    # http_session = HTTPSession(headers={'Connection':'Keep-Alive'})
+    # gc = gspread.Client(credentials, http_session)
+    # gc.login()
 
-    #gc = gspread.service_account(filename = g_file_location)
+    gc = gspread.service_account(filename = g_file_location)
 
     sh = gc.open('DiscordUserdata')
     return sh.worksheet("Data")
