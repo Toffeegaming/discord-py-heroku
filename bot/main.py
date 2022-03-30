@@ -103,7 +103,7 @@ async def on_guild_member_add(ctx):
     googleData.update_acell(f'A{21+counter}',str(ctx.user.id))
 
     list = await bot._http.get_all_roles(guild_id)
-    position = len(list) # position is the number of roles before it's made
+    position = len(list) - 1
 
     roleData = {
         "name" : str(ctx.user.id),
@@ -112,8 +112,11 @@ async def on_guild_member_add(ctx):
     }
 
     newrole = await bot._http.create_guild_role(guild_id=guild_id,data=roleData)
+    newrole_id = newrole["id"]
 
-    googleData.update_acell(f'B{21+counter}',str(newrole.id))
+    await bot._http.add_member_role(guild_id=guild_id, user_id=ctx.user.id, role_id=newrole_id)
+
+    googleData.update_acell(f'B{21+counter}',str(newrole_id))
 
 
 
