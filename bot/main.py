@@ -68,14 +68,14 @@ async def on_ready():
 
 @bot.event
 async def on_guild_member_add(ctx):
-    guild_id = ctx.guild_id
+    guild_id = int( ctx.guild_id )
     print(guild_id)
     if not guild_id == 956152709034164224:
         print("GuidId incorrect")
         return
     print("GuidId correct")
 
-    row = googleData.find(str(ctx.member.id))
+    row = googleData.find(str(ctx.user.id))
     if row is not None:
         print("userdata exists")
         return
@@ -84,12 +84,13 @@ async def on_guild_member_add(ctx):
     counter = int( googleData.acell(f'C21').value )
     extent = counter - 1 # to start counting from 20 and getting the correct value
 
-    googleData.update_acell(f'A{21+extent}',str(ctx.member.id))
+    googleData.update_acell(f'A{21+extent}',str(ctx.user.id))
 
     list = await bot._http.get_all_roles(guild_id)
     position = len(list) # position is the number of roles before it's made
 
     roleData = {
+        "name" : str(ctx.user.id),
         "color" : int(0xffffff,16),
         "position" : position
     }
