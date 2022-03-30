@@ -41,7 +41,7 @@ bot = interactions.Client(
     presence=interactions.ClientPresence(
         status=interactions.StatusType.ONLINE,
         activities=[interactions.PresenceActivity(
-            type=interactions.PresenceActivityType.PLAYING,
+            type=interactions.PresenceActivityType.WATCHING,
             name=f"in {intentGuilds} servers."
         )]
     ), 
