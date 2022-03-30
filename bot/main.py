@@ -87,6 +87,8 @@ async def on_guild_member_add(ctx):
         return
     print("GuidId correct")
 
+    googleData = CreateGspread()
+
     row = googleData.find(str(ctx.user.id))
     print(type(row))
     print(row)
@@ -97,9 +99,8 @@ async def on_guild_member_add(ctx):
     print("userdata does not exist")
 
     counter = int( googleData.acell(f'C21').value )
-    extent = counter - 1 # to start counting from 20 and getting the correct value
 
-    googleData.update_acell(f'A{21+extent}',str(ctx.user.id))
+    googleData.update_acell(f'A{21+counter}',str(ctx.user.id))
 
     list = await bot._http.get_all_roles(guild_id)
     position = len(list) # position is the number of roles before it's made
@@ -112,7 +113,7 @@ async def on_guild_member_add(ctx):
 
     newrole = await bot._http.create_guild_role(guild_id=guild_id,data=roleData)
 
-    googleData.update_acell(f'B{21+extent}',str(newrole.id))
+    googleData.update_acell(f'B{21+counter}',str(newrole.id))
 
 
 
