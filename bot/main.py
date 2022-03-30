@@ -75,7 +75,7 @@ async def on_guild_member_add(ctx):
         return
     print("GuidId correct")
 
-    row = googleData.find(str(ctx.user.id)).row
+    row = googleData.find(str(ctx.user.id))
     print(type(row))
     print(row)
 
