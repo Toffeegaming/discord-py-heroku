@@ -68,8 +68,7 @@ async def on_ready():
 
 @bot.event
 async def on_guild_member_add(ctx):
-    guild = await ctx.get_guild()
-    guild_id = guild.id
+    guild_id = ctx.guild_id
     if not guild_id == 956152709034164224:
         print("GuidId incorrect")
         return
