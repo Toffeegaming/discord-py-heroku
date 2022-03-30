@@ -76,6 +76,9 @@ async def on_guild_member_add(ctx):
     print("GuidId correct")
 
     row = googleData.find(str(ctx.user.id))
+    print(type(row))
+    print(row)
+
     if row is not None:
         print("userdata exists")
         return
