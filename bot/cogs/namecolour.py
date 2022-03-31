@@ -61,7 +61,7 @@ class Kleur(interactions.Extension):
         else:
             googleData = self.CreateGspread()
             sheet = googleData.worksheet("RoleData")
-            user_id = ctx.user.id
+            user_id = ctx.author.id
             row = sheet.find(str(user_id)).row
             user_role_id = int( sheet.acell(f'B{row}').value )
 
