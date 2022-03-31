@@ -4,7 +4,7 @@ class Kleur(interactions.Extension):
     def __init__(self, client) -> None:
         self.client = client
 
-    def CreateGspread():
+    def CreateGspread(self):
         credentials = {
         "type": "service_account",
         "project_id": str(os.getenv("G_API_ID") ),
