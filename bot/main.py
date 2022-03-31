@@ -96,8 +96,6 @@ async def on_guild_member_add(ctx):
 
     await bot._http.add_member_role(guild_id=guild_id, user_id=ctx.user.id, role_id=newrole_id)
     print("added new role to user")  
-    await bot._http.modify_guild_role_position(guild_id=guild_id, role_id=newrole_id,position=position)
-    print("moved new role")
 
     sheet.update_acell(f'B{counter}',str(newrole_id))
     print("updated data")
