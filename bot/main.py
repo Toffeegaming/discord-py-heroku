@@ -1,49 +1,29 @@
-import interactions, os, sys, datetime, gspread, json
-#from gspread.httpsession import HTTPSession
-#from oauth2client.service_account import ServiceAccountCredentials
+import interactions, os, sys, datetime, gspread
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
 
+def CreateGspread(sheet: str):
+    credentials = {
+    "type": "service_account",
+    "project_id": os.getenv("G_API_ID"),
+    "private_key_id": os.getenv("G_API_KEY_ID"),
+    "private_key": os.getenv("G_API_KEY").replace('\\n', '\n'),
+    "client_email": os.getenv("G_API_MAIL"),
+    "client_id": os.getenv("G_API_C_ID"),
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": os.getenv("G_API_CURL")
+    }
 
-def get_data(name):
-    file_location = dir_path + '/cogs/' + name + '.json'
-    with open(file_location, 'r') as file:
-        return json.loads(file.read())
-
-def set_data(data,name):
-    file_location = dir_path + '/cogs/' + name + '.json'
-    with open(file_location, 'w') as file:
-        file.write(json.dumps(data, indent=2))
-
-def CreateGspread():
-    g_file = 'jsonfiles/google_api_secret'
-    data = get_data(g_file)
-    data['project_id'] = os.getenv("G_API_ID")
-    data['private_key_id'] = os.getenv("G_API_KEY_ID")
-    data['private_key'] = os.getenv("G_API_KEY").replace('\\n', '\n')
-    data['client_email'] = os.getenv("G_API_MAIL")
-    data['client_id'] = os.getenv("G_API_C_ID")
-    data['client_x509_cert_url'] = os.getenv("G_API_CURL")
-    set_data(data,g_file)
-
-    g_file_location = dir_path + '/cogs/' + g_file + '.json'
-
-    # scope = ['https://spreadsheets.google.com/feeds']
-    # key_name = g_file_location
-    # credentials = ServiceAccountCredentials.from_json_keyfile_name(key_name, scope)
-
-    # http_session = HTTPSession(headers={'Connection':'Keep-Alive'})
-    # gc = gspread.Client(credentials, http_session)
-    # gc.login()
-
-    gc = gspread.service_account(filename = g_file_location)
+    gc = gspread.service_account_from_dict(credentials)
 
     sh = gc.open('DiscordUserdata')
-    return sh.worksheet("Data")
+    return sh.worksheet(sheet)
 
-googleData = CreateGspread()
-intentGuilds = int( googleData.acell(f'A20').value )
+googleData = CreateGspread("ServerList")
+intentGuilds = int( googleData.acell(f'A1').value )
 
 intents = interactions.Intents.GUILD_MEMBERS | interactions.Intents.GUILD_MESSAGES | interactions.Intents.GUILD_MESSAGE_REACTIONS | interactions.Intents.DIRECT_MESSAGES | interactions.Intents.GUILDS
 
@@ -54,7 +34,7 @@ bot = interactions.Client(
         status=interactions.StatusType.ONLINE,
         activities=[interactions.PresenceActivity(
             type=interactions.PresenceActivityType.WATCHING,
-            name=f"in {intentGuilds} servers."
+            name=f"in {intentGuilds} servers"
         )]
     ), 
     disable_sync=False)
@@ -87,7 +67,7 @@ async def on_guild_member_add(ctx):
         return
     print("GuidId correct")
 
-    googleData = CreateGspread()
+    googleData = CreateGspread("RoleData")
 
     row = googleData.find(str(ctx.user.id))
     print(type(row))
@@ -98,25 +78,25 @@ async def on_guild_member_add(ctx):
         return
     print("userdata does not exist")
 
-    counter = int( googleData.acell(f'C21').value )
+    counter = int( googleData.acell(f'C1').value ) + 1
 
-    googleData.update_acell(f'A{21+counter}',str(ctx.user.id))
+    googleData.update_acell(f'A{counter}',str(ctx.user.id))
 
     list = await bot._http.get_all_roles(guild_id)
-    position = len(list) - 1
+    position = len(list) - 1 # position of the role, stored before it gets made to be the second to last role
 
     roleData = {
-        "name" : str(ctx.user.id),
+        "name" : str(ctx.user.username),
         "color" : int('0xffffff',16),
-        "position" : position
     }
 
     newrole = await bot._http.create_guild_role(guild_id=guild_id,data=roleData)
     newrole_id = newrole["id"]
 
+    await bot._http.modify_guild_role_position(guild_id=guild_id, role_id=newrole_id,position=position)
     await bot._http.add_member_role(guild_id=guild_id, user_id=ctx.user.id, role_id=newrole_id)
 
-    googleData.update_acell(f'B{21+counter}',str(newrole_id))
+    googleData.update_acell(f'B{counter}',str(newrole_id))
 
 
 
