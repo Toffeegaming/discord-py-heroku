@@ -6,15 +6,15 @@ sys.path.append(dir_path)
 def CreateGspread():
     credentials = {
     "type": "service_account",
-    "project_id": os.getenv("G_API_ID"),
-    "private_key_id": os.getenv("G_API_KEY_ID"),
-    "private_key": os.getenv("G_API_KEY").replace('\\n', '\n'),
-    "client_email": os.getenv("G_API_MAIL"),
-    "client_id": os.getenv("G_API_C_ID"),
+    "project_id": str(os.getenv("G_API_ID") ),
+    "private_key_id": str(os.getenv("G_API_KEY_ID") ),
+    "private_key": str(os.getenv("G_API_KEY").replace('\\n', '\n') ),
+    "client_email": str(os.getenv("G_API_MAIL") ),
+    "client_id": str(os.getenv("G_API_C_ID") ),
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
     "token_uri": "https://oauth2.googleapis.com/token",
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": os.getenv("G_API_CURL")
+    "client_x509_cert_url": str(os.getenv("G_API_CURL") )
     }
 
     gc = gspread.service_account_from_dict(credentials)
@@ -54,7 +54,7 @@ async def on_ready():
 
     await getNumberGuilds()
     numberGuild = len(list_guild_ids)
-    sheet.update_acell(f'A20',str(numberGuild))
+    sheet.update_acell(f'A1',str(numberGuild))
 
     time = datetime.datetime.utcnow()
     await channel.send(f"[{time}] [STARTUP] Logged in in {numberGuild} servers!{os.linesep}{list_guild_ids}")
