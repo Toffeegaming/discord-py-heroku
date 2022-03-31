@@ -1,22 +1,26 @@
-import interactions
+import interactions, os, gspread
 
 class Kleur(interactions.Extension):
     def __init__(self, client) -> None:
         self.client = client
-    # person id - role id
-    data = [
-        126674618575618048, 956172644481368064,
-        318770388374913025, 956206878063489075,
-        193690170669793280, 956206814146482246,
-        193416532125155329, 956206857108725860,
-        277129696469188620, 956206897558593626,
-        294031838291296258, 956206986679160904,
-        199147443722518528, 956206917942935602,
-        323712598036054018, 957568188269350962,
-        243371926993633280, 958034959862476860,
-        304934861737820162, 958451161998979122,
-        702874334880071820, 958613594440892463
-    ]
+
+    def CreateGspread():
+        credentials = {
+        "type": "service_account",
+        "project_id": str(os.getenv("G_API_ID") ),
+        "private_key_id": str(os.getenv("G_API_KEY_ID") ),
+        "private_key": str(os.getenv("G_API_KEY").replace('\\n', '\n') ),
+        "client_email": str(os.getenv("G_API_MAIL") ),
+        "client_id": str(os.getenv("G_API_C_ID") ),
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_x509_cert_url": str(os.getenv("G_API_CURL") )
+        }
+
+        gc = gspread.service_account_from_dict(credentials)
+        sh = gc.open('DiscordUserdata')
+        return sh
 
     @interactions.extension_command(
         name='kleur',
@@ -53,11 +57,17 @@ class Kleur(interactions.Extension):
                 color=errorKleur)
             await ctx.send(embeds=textEmbed)
         else:
+            googleData = self.CreateGspread()
+            sheet = googleData.worksheet("RoleData")
+
+            row = sheet.find(str(ctx.user.id)).row
+            user_role_id = int( sheet.acell(f'B{row}').value )
+
             input.ljust(8)
-            user_id_index = int( self.data.index( int( ctx.author.id) ) )
-            user_role_id = self.data[user_id_index + 1]
             input = int(input, 16)
+
             await self.client._http.modify_guild_role(guild_id=ctx.guild_id, role_id=user_role_id, data={"color": input})
+
             textEmbed = interactions.Embed(
                 title=f"",
                 description=f"Kleur veranderd. {hexcode}",
