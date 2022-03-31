@@ -3,7 +3,7 @@ import interactions, os, sys, datetime, gspread
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
 
-def CreateGspread(sheet = ''):
+def CreateGspread(sheet: str):
     credentials = {
     "type": "service_account",
     "project_id": os.getenv("G_API_ID"),
@@ -20,7 +20,7 @@ def CreateGspread(sheet = ''):
     gc = gspread.service_account_from_dict(credentials)
 
     sh = gc.open('DiscordUserdata')
-    return sh.worksheet(sheet)
+    return sh.worksheet(str(sheet))
 
 googleData = CreateGspread('ServerList')
 intentGuilds = int( googleData.acell(f'A1').value )
