@@ -72,8 +72,6 @@ async def on_guild_member_add(ctx):
     sheet = googleData.worksheet("RoleData")
 
     row = sheet.find(str(ctx.user.id))
-    print(type(row))
-    print(row)
 
     if row is not None:
         print("userdata exists")
@@ -84,15 +82,12 @@ async def on_guild_member_add(ctx):
 
     sheet.update_acell(f'A{counter}',str(ctx.user.id))
 
-    list = await bot._http.get_all_roles(guild_id)
-    print(list)
-    #position = len(list) - 2 # position of the role, stored before it gets made to be the second to last role
-    position = 7
-    print(position)
-
     roleData = {
         "name" : str(ctx.user.username),
         "color" : int('0xffffff',16),
+        "position" : 3,
+        'permissions': '0'
+    
     }
 
     newrole = await bot._http.create_guild_role(guild_id=guild_id,data=roleData)
