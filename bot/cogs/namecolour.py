@@ -39,15 +39,17 @@ class Kleur(interactions.Extension):
         hasHash = False
         has0X = False
         hexcode = ''
+
+        if "0x" in input:
+            hexcode = input.replace('0x','#')
+            has0X = True
+            print("has 0x")
         if "#" in input:
             hexcode = input
             input = input.replace('#','0x')
             hasHash = True
             print("has hash")
-        if "0x" in input:
-            hexcode = input.replace('0x','#')
-            has0X = True
-            print("has 0x")
+        
         if not has0X and not hasHash:
             errorKleur = "0xff0000"
             errorKleur = int(errorKleur, 16)
@@ -59,8 +61,8 @@ class Kleur(interactions.Extension):
         else:
             googleData = self.CreateGspread()
             sheet = googleData.worksheet("RoleData")
-
-            row = sheet.find(str(ctx.user.id)).row
+            user_id = ctx.user.id
+            row = sheet.find(str(user_id)).row
             user_role_id = int( sheet.acell(f'B{row}').value )
 
             input.ljust(8)
