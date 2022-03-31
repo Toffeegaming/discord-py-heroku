@@ -86,6 +86,7 @@ async def on_guild_member_add(ctx):
 
     list = await bot._http.get_all_roles(guild_id)
     position = len(list) - 1 # position of the role, stored before it gets made to be the second to last role
+    print(position)
 
     roleData = {
         "name" : str(ctx.user.username),
@@ -93,12 +94,16 @@ async def on_guild_member_add(ctx):
     }
 
     newrole = await bot._http.create_guild_role(guild_id=guild_id,data=roleData)
+    print("made new role")
     newrole_id = newrole["id"]
 
-    await bot._http.modify_guild_role_position(guild_id=guild_id, role_id=newrole_id,position=position)
     await bot._http.add_member_role(guild_id=guild_id, user_id=ctx.user.id, role_id=newrole_id)
+    print("added new role to user")  
+    await bot._http.modify_guild_role_position(guild_id=guild_id, role_id=newrole_id,position=position)
+    print("moved new role")
 
     sheet.update_acell(f'B{counter}',str(newrole_id))
+    print("updated data")
 
 
 
