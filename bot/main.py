@@ -3,7 +3,7 @@ import interactions, os, sys, datetime, gspread
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
 
-def CreateGspread(sheet: str):
+def CreateGspread(sheet = ''):
     credentials = {
     "type": "service_account",
     "project_id": os.getenv("G_API_ID"),
@@ -22,7 +22,7 @@ def CreateGspread(sheet: str):
     sh = gc.open('DiscordUserdata')
     return sh.worksheet(sheet)
 
-googleData = CreateGspread("ServerList")
+googleData = CreateGspread('ServerList')
 intentGuilds = int( googleData.acell(f'A1').value )
 
 intents = interactions.Intents.GUILD_MEMBERS | interactions.Intents.GUILD_MESSAGES | interactions.Intents.GUILD_MESSAGE_REACTIONS | interactions.Intents.DIRECT_MESSAGES | interactions.Intents.GUILDS
@@ -67,7 +67,7 @@ async def on_guild_member_add(ctx):
         return
     print("GuidId correct")
 
-    googleData = CreateGspread("RoleData")
+    googleData = CreateGspread('RoleData')
 
     row = googleData.find(str(ctx.user.id))
     print(type(row))
