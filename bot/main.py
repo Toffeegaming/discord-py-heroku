@@ -85,7 +85,7 @@ async def on_guild_member_add(ctx):
     sheet.update_acell(f'A{counter}',str(ctx.user.id))
 
     list = await bot._http.get_all_roles(guild_id)
-    position = len(list) - 1 # position of the role, stored before it gets made to be the second to last role
+    position = len(list) - 2 # position of the role, stored before it gets made to be the second to last role
     print(position)
 
     roleData = {
