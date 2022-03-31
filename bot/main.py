@@ -23,7 +23,7 @@ def CreateGspread(sheet: str):
     return sh.worksheet(str(sheet))
 
 googleData = CreateGspread('ServerList')
-intentGuilds = int( googleData.acell(f'A1').value )
+intentGuilds = googleData.acell(f'A1').value
 
 intents = interactions.Intents.GUILD_MEMBERS | interactions.Intents.GUILD_MESSAGES | interactions.Intents.GUILD_MESSAGE_REACTIONS | interactions.Intents.DIRECT_MESSAGES | interactions.Intents.GUILDS
 
