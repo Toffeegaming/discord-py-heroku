@@ -3,7 +3,7 @@ import interactions, os, sys, datetime, gspread
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
 
-def CreateGspread(sheet: str):
+def CreateGspread():
     credentials = {
     "type": "service_account",
     "project_id": os.getenv("G_API_ID"),
@@ -18,12 +18,13 @@ def CreateGspread(sheet: str):
     }
 
     gc = gspread.service_account_from_dict(credentials)
-
     sh = gc.open('DiscordUserdata')
-    return sh.worksheet(str(sheet))
+    return sh
 
-googleData = CreateGspread('ServerList')
-intentGuilds = googleData.acell(f'A1').value
+googleData = CreateGspread()
+sheet = googleData.worksheet("ServerList")
+
+intentGuilds = sheet.acell(f'A1').value
 
 intents = interactions.Intents.GUILD_MEMBERS | interactions.Intents.GUILD_MESSAGES | interactions.Intents.GUILD_MESSAGE_REACTIONS | interactions.Intents.DIRECT_MESSAGES | interactions.Intents.GUILDS
 
@@ -53,7 +54,7 @@ async def on_ready():
 
     await getNumberGuilds()
     numberGuild = len(list_guild_ids)
-    googleData.update_acell(f'A20',str(numberGuild))
+    sheet.update_acell(f'A20',str(numberGuild))
 
     time = datetime.datetime.utcnow()
     await channel.send(f"[{time}] [STARTUP] Logged in in {numberGuild} servers!{os.linesep}{list_guild_ids}")
@@ -67,9 +68,10 @@ async def on_guild_member_add(ctx):
         return
     print("GuidId correct")
 
-    googleData = CreateGspread('RoleData')
+    googleData = CreateGspread()
+    sheet = googleData.worksheet("RoleData")
 
-    row = googleData.find(str(ctx.user.id))
+    row = sheet.find(str(ctx.user.id))
     print(type(row))
     print(row)
 
@@ -78,9 +80,9 @@ async def on_guild_member_add(ctx):
         return
     print("userdata does not exist")
 
-    counter = int( googleData.acell(f'C1').value ) + 1
+    counter = int( sheet.acell(f'C1').value ) + 1
 
-    googleData.update_acell(f'A{counter}',str(ctx.user.id))
+    sheet.update_acell(f'A{counter}',str(ctx.user.id))
 
     list = await bot._http.get_all_roles(guild_id)
     position = len(list) - 1 # position of the role, stored before it gets made to be the second to last role
@@ -96,7 +98,7 @@ async def on_guild_member_add(ctx):
     await bot._http.modify_guild_role_position(guild_id=guild_id, role_id=newrole_id,position=position)
     await bot._http.add_member_role(guild_id=guild_id, user_id=ctx.user.id, role_id=newrole_id)
 
-    googleData.update_acell(f'B{counter}',str(newrole_id))
+    sheet.update_acell(f'B{counter}',str(newrole_id))
 
 
 
