@@ -40,6 +40,7 @@ bot = interactions.Client(
     ), 
     disable_sync=False)
 
+global list_guild_ids
 list_guild_ids = []
 
 async def getNumberGuilds():
