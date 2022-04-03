@@ -1,6 +1,4 @@
-import interactions, main
-
-guilds = main.list_guild_ids
+import interactions
 
 class Ping(interactions.Extension):
     def __init__(self, client) -> None:
@@ -8,8 +6,7 @@ class Ping(interactions.Extension):
 
     @interactions.extension_command(
         name='Ping',
-        description='Pong!',
-        scope=guilds
+        description='Pong!'
         )
     async def _Ping(self,ctx:  interactions.CommandContext):
         await ctx.send(f"Pong! ({self.client.latency*1000}ms)")
