@@ -24,7 +24,7 @@ def CreateGspread():
 googleData = CreateGspread()
 sheet = googleData.worksheet("ServerList")
 
-intentGuilds = sheet.acell(f'A1').value
+intentGuilds = sheet.acell(f'{ str(os.getenv("DISCORD_SERVERCOUNT") ) }').value
 
 intents = interactions.Intents.GUILD_MEMBERS | interactions.Intents.GUILD_MESSAGES | interactions.Intents.GUILD_MESSAGE_REACTIONS | interactions.Intents.DIRECT_MESSAGES | interactions.Intents.GUILDS
 
@@ -54,7 +54,7 @@ async def on_ready():
 
     await getNumberGuilds()
     numberGuild = len(list_guild_ids)
-    sheet.update_acell(f'A1',str(numberGuild))
+    sheet.update_acell(f'{ str(os.getenv("DISCORD_SERVERCOUNT") ) }',str(numberGuild))
 
     time = datetime.datetime.utcnow()
     await channel.send(f"[{time}] [STARTUP] Logged in in {numberGuild} servers!{os.linesep}{list_guild_ids}")
@@ -85,7 +85,7 @@ async def on_guild_member_add(ctx):
     roleData = {
         "name" : str(ctx.user.username),
         "color" : int('0xffffff',16),
-        "position" : 3,
+        "position" : 2,
         'permissions': '0'
     
     }
