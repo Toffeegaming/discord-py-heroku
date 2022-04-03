@@ -3,6 +3,8 @@ import interactions, os, gspread
 class Kleur(interactions.Extension):
     def __init__(self, client) -> None:
         self.client = client
+        self.RoleData = self.CreateGspread()
+        print(self.RoleData)
 
     def CreateGspread(self):
         credentials = {
@@ -20,7 +22,17 @@ class Kleur(interactions.Extension):
 
         gc = gspread.service_account_from_dict(credentials)
         sh = gc.open('DiscordUserdata')
-        return sh
+        googleData = sh.worksheet("RoleData")
+
+        List = []
+        counter = int( googleData.acell(f'C1').value )
+
+        for i in range(counter):
+            List.append( int( googleData.acell(f'A{i+1}').value ) )
+            List.append( int( googleData.acell(f'B{i+1}').value ) )
+            print(i+1)
+
+        return List
 
     @interactions.extension_command(
         name='kleur',
@@ -59,15 +71,11 @@ class Kleur(interactions.Extension):
                 color=errorKleur)
             await ctx.send(embeds=textEmbed)
         else:
-            googleData = self.CreateGspread()
-            sheet = googleData.worksheet("RoleData")
-            user_id = ctx.author.id
-            row = sheet.find(str(user_id)).row
-            user_role_id = int( sheet.acell(f'B{row}').value )
-
             input.ljust(8)
             input = int(input, 16)
 
+            user_id_index = int( self.RoleData.index( int( ctx.author.id) ) )
+            user_role_id = self.RoleData[user_id_index + 1]
             await self.client._http.modify_guild_role(guild_id=ctx.guild_id, role_id=user_role_id, data={"color": input})
 
             textEmbed = interactions.Embed(
