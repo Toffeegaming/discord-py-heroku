@@ -9,7 +9,7 @@ class Ping(interactions.Extension):
         description='Pong!'
         )
     async def ping(self,ctx:  interactions.CommandContext):
-        await ctx.send(f"Pong! ({self.client.latency*1000}ms)")
+        await ctx.send(f"Pong! ({self.client.latency}ms)")
 
 def setup(client: interactions.Client):
     Ping(client)
