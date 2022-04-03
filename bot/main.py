@@ -38,9 +38,8 @@ bot = interactions.Client(
             name=f"in {intentGuilds} servers"
         )]
     ), 
-    disable_sync=False)
+    disable_sync=True)
 
-global list_guild_ids
 list_guild_ids = []
 
 async def getNumberGuilds():
