@@ -74,15 +74,23 @@ class Kleur(interactions.Extension):
             input.ljust(8)
             input = int(input, 16)
 
-            user_id_index = int( self.RoleData.index( int( ctx.author.id) ) )
-            user_role_id = self.RoleData[user_id_index + 1]
-            await self.client._http.modify_guild_role(guild_id=ctx.guild_id, role_id=user_role_id, data={"color": input})
+            try:
+                user_id_index = int( self.RoleData.index( int( ctx.author.id) ) )
+                user_role_id = self.RoleData[user_id_index + 1]
+                await self.client._http.modify_guild_role(guild_id=ctx.guild_id, role_id=user_role_id, data={"color": input})
 
-            textEmbed = interactions.Embed(
-                title=f"",
-                description=f"Kleur veranderd. {hexcode}",
-                color=input)
-            await ctx.send(embeds=textEmbed)
+                textEmbed = interactions.Embed(
+                    title=f"",
+                    description=f"Kleur veranderd. {hexcode}",
+                    color=input)
+                await ctx.send(embeds=textEmbed)
+            except:
+                textEmbed = interactions.Embed(
+                    title=f"",
+                    description=f"Iets ging fout, probeer het later opnieuw",
+                    color=input)
+                await ctx.send(embeds=textEmbed)
+                self.RoleData = self.CreateGspread()
 
 def setup(client: interactions.Client):
     Kleur(client)
