@@ -38,7 +38,7 @@ bot = interactions.Client(
             name=f"in {intentGuilds} servers"
         )]
     ), 
-    disable_sync=True)
+    disable_sync=False)
 
 list_guild_ids = []
 
