@@ -1,5 +1,22 @@
+from flask import Flask
+from threading import Thread
+
+app = Flask('')
+
+@app.route('/')
+def main():
+    return "Bot is ready"
+
+def run():
+    app.run(host='0.0.0.0',port=8000)
+
+def keep_alive():
+    t= Thread(target=run)
+    t.start()
+keep_alive()
+
+
 import interactions, os, sys, datetime, gspread
-from KeepAlive import keep_alive
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
@@ -112,5 +129,4 @@ for filename in os.listdir(dir_path + '/cogs'):
         print(f'[COGS] Unable to load {filename}')
 
 # Create bot
-keep_alive()
 bot.start()
