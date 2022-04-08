@@ -1,21 +1,3 @@
-from flask import Flask
-from threading import Thread
-
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return "Bot is ready"
-
-def run():
-    app.run(host='0.0.0.0',port=5000)
-
-def keep_alive():
-    t= Thread(target=run)
-    t.start()
-keep_alive()
-
-
 import interactions, os, sys, datetime, gspread
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -130,3 +112,6 @@ for filename in os.listdir(dir_path + '/cogs'):
 
 # Create bot
 bot.start()
+
+from app import keep_alive
+keep_alive()
