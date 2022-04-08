@@ -1,4 +1,5 @@
 import interactions, os, sys, datetime, gspread
+from KeepAlive import keep_alive
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
@@ -111,4 +112,5 @@ for filename in os.listdir(dir_path + '/cogs'):
         print(f'[COGS] Unable to load {filename}')
 
 # Create bot
+keep_alive()
 bot.start()
