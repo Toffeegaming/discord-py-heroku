@@ -6,5 +6,4 @@ youtube-dl
 PyNaCl
 ffmpeg-python
 Flask
-Werkzeug
-aiocron
+gunicorn
