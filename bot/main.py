@@ -122,7 +122,7 @@ class ServerThread(threading.Thread):
         self.ctx.push()
 
     def run(self):
-        print('starting server')
+        print(f'starting server{os.linesep}')
         self.server.serve_forever()
 
     def shutdown(self):
@@ -134,10 +134,10 @@ def start_server():
     # App routes defined here
     @app.route('/')
     def index():
-        print(f'Bot is ready @{datetime.datetime.utnow()}')
+        return f'Bot is ready @{datetime.datetime.utnow()}{os.linesep}'
     server = ServerThread(app)
     server.start()
-    print('server started')
+    print(f'server started{os.linesep}')
 
 def stop_server():
     global server
