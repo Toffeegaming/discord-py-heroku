@@ -102,12 +102,12 @@ async def on_guild_member_add(ctx):
 
 
 # load cogs
-for filename in os.listdir(dir_path + '/cogs'):
-    if filename.endswith('.py'):
-        bot.load(f'cogs.{filename[:-3]}')
-        print(f"[COGS] loaded {filename[:-3]}")
-    else:
-        print(f'[COGS] Unable to load {filename}')
+# for filename in os.listdir(dir_path + '/cogs'):
+#     if filename.endswith('.py'):
+#         bot.load(f'cogs.{filename[:-3]}')
+#         print(f"[COGS] loaded {filename[:-3]}")
+#     else:
+#         print(f'[COGS] Unable to load {filename}')
 
 
 # Create bot
