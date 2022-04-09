@@ -128,22 +128,19 @@ class ServerThread(threading.Thread):
     def shutdown(self):
         self.server.shutdown()
 
-def start_server():
-    global server
-    app = flask.Flask('myapp')
-    # App routes defined here
-    @app.route('/')
-    def index():
-        return f'Bot is ready @{datetime.datetime.utnow()}'
-    server = ServerThread(app)
-    server.start()
-    print(f'server started{os.linesep}')
-
 def stop_server():
     global server
     server.shutdown()
 
-start_server()
+global server
+app = flask.Flask('myapp')
+# App routes defined here
+@app.route('/')
+def index():
+    return 'Bot is ready'
+server = ServerThread(app)
+server.start()
+print(f'server started{os.linesep}')
 
 # cronjob
 @aiocron.crontab('* * * * *')
