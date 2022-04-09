@@ -1,5 +1,4 @@
-import interactions, os, sys, datetime, gspread, aiocron
-from app import start_server, stop_server
+import interactions, os, sys, datetime, gspread, requests, aiocron
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
@@ -59,8 +58,6 @@ async def on_ready():
 
     time = datetime.datetime.utcnow()
     await channel.send(f"[{time}] [STARTUP] Logged in in {numberGuild} servers!{os.linesep}{list_guild_ids}")
-    
-    start_server()
 
 @bot.event
 async def on_guild_member_add(ctx):
@@ -113,14 +110,35 @@ for filename in os.listdir(dir_path + '/cogs'):
         print(f'[COGS] Unable to load {filename}')
 
 
+# Create bot
+bot.start()
+
 # cronjob
 @aiocron.crontab('* * * * *')
 async def message():
     try:
         print(bot.latency)
     except:
-        stop_server()
+        url = "https://discord.com/api/webhooks/962384422055837786/w8_hsZKKQfEBOlrI4j_Oznxagz74QQxuXueiiqs1kWg68IsurJey7ilSrzNpISGEOhwG"
 
+        #for all params, see https://discordapp.com/developers/docs/resources/webhook#execute-webhook
+        data = {}
 
-# Create bot
-bot.start()
+        #leave this out if you dont want an embed
+        #for all params, see https://discordapp.com/developers/docs/resources/channel#embed-object
+        data["embeds"] = [
+            {
+                "description" : "Bot is down",
+                "title" : "Uh oh!",
+                "color" : int(0xff0000,16)
+            }
+        ]
+
+        result = requests.post(url, json = data)
+
+        try:
+            result.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            print(err)
+        else:
+            print("Payload delivered successfully, code {}.".format(result.status_code))
