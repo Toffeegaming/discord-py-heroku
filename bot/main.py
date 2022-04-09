@@ -141,7 +141,7 @@ def index():
     return 'Bot is ready'
 
 def run():
-  app.run(host="0.0.0.0", port=5000)
+  app.run(host="0.0.0.0", port=8000)
 
 server = Thread(target=run)
 server.start()
