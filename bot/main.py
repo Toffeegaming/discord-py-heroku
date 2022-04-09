@@ -110,13 +110,15 @@ for filename in os.listdir(dir_path + '/cogs'):
         print(f'[COGS] Unable to load {filename}')
 
 
-# import aiocron, flask, threading
-# from werkzeug.serving import make_server
+import aiocron
+from flask import Flask
+from threading import Thread
+#from werkzeug.serving import make_server
 
-# class ServerThread(threading.Thread):
+# class ServerThread(Thread):
 
 #     def __init__(self, app):
-#         threading.Thread.__init__(self)
+#         Thread.__init__(self)
 #         self.server = make_server('0.0.0.0', 5000, app)
 #         self.ctx = app.app_context()
 #         self.ctx.push()
@@ -132,23 +134,30 @@ for filename in os.listdir(dir_path + '/cogs'):
 #     global server
 #     server.shutdown()
 
+
+app = Flask(__name__)
+@app.route('/')
+def index():
+    return 'Bot is ready'
+
+def run():
+  app.run(host="0.0.0.0", port=5000)
+
+server = Thread(target=run)
+server.start()
+
 # global server
-# app = flask.Flask(__name__)
-# # App routes defined here
-# @app.route('/')
-# def index():
-#     return 'Bot is ready'
 # server = ServerThread(app)
 # server.start()
-# print(f'server started')
+print(f'server started')
 
-# # cronjob
-# @aiocron.crontab('* * * * *')
-# async def message():
-#     try:
-#         print(bot.latency)
-#     except:
-#         stop_server()
+# cronjob
+@aiocron.crontab('* * * * *')
+async def message():
+    try:
+        print(bot.latency)
+    except:
+        server.join()
 
 
 # Create bot
