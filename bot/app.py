@@ -2,6 +2,15 @@ from flask import Flask
 from threading import Thread
 from werkzeug.serving import make_server
 
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return "Bot is ready"
+
+def run():
+    app.run(host='0.0.0.0',port=5000)
+
 class ServerThread(Thread):
     def __init__(self, app):
         Thread.__init__(self)
@@ -18,11 +27,6 @@ class ServerThread(Thread):
 
 def start_server():
     global server
-    app = Flask(__name__)
-    # App routes defined here
-    @app.route('/')
-    def index():
-        return "Bot is ready"
     server = ServerThread(app)
     server.start()
     print('server started')
