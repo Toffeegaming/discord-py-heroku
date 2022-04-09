@@ -134,7 +134,7 @@ def start_server():
     # App routes defined here
     @app.route('/')
     def index():
-        return f'Bot is ready @{datetime.datetime.utnow()}{os.linesep}'
+        return f'Bot is ready @{datetime.datetime.utnow()}'
     server = ServerThread(app)
     server.start()
     print(f'server started{os.linesep}')
