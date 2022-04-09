@@ -111,7 +111,7 @@ for filename in os.listdir(dir_path + '/cogs'):
 
 
 # Create bot
-bot.start()
+#bot.start()
 
 # cronjob
 @aiocron.crontab('* * * * *')
