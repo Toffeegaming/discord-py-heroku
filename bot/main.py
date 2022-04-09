@@ -117,12 +117,12 @@ class ServerThread(threading.Thread):
 
     def __init__(self, app):
         threading.Thread.__init__(self)
-        self.server = make_server('127.0.0.1', 5000, app)
+        self.server = make_server('0.0.0.0', 5000, app)
         self.ctx = app.app_context()
         self.ctx.push()
 
     def run(self):
-        print(f'starting server{os.linesep}')
+        print(f'starting server')
         self.server.serve_forever()
 
     def shutdown(self):
@@ -133,14 +133,14 @@ def stop_server():
     server.shutdown()
 
 global server
-app = flask.Flask('myapp')
+app = flask.Flask(__name__)
 # App routes defined here
 @app.route('/')
 def index():
     return 'Bot is ready'
 server = ServerThread(app)
 server.start()
-print(f'server started{os.linesep}')
+print(f'server started')
 
 # cronjob
 @aiocron.crontab('* * * * *')
