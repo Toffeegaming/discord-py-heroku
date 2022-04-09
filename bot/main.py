@@ -137,27 +137,32 @@ from threading import Thread
 
 app = Flask(__name__)
 @app.route('/')
-def index():
+def main():
     return 'Bot is ready'
 
 def run():
   app.run(host="0.0.0.0", port=8000)
 
-server = Thread(target=run)
-server.start()
+def keep_alive():
+    global t
+    t = Thread(target=run)
+    t.start()
+    print(f'server started')
+
 
 # global server
 # server = ServerThread(app)
 # server.start()
-print(f'server started')
 
+keep_alive()
 # cronjob
 @aiocron.crontab('* * * * *')
 async def message():
     try:
         print(bot.latency)
     except:
-        server.join()
+        global t
+        t.join()
 
 
 # Create bot
