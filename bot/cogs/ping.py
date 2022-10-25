@@ -1,5 +1,6 @@
 import interactions
 
+
 class Ping(interactions.Extension):
     def __init__(self, client) -> None:
         self.client = client
@@ -8,8 +9,9 @@ class Ping(interactions.Extension):
         name='ping',
         description='Pong!'
         )
-    async def ping(self,ctx:  interactions.CommandContext):
+    async def ping(self, ctx:  interactions.CommandContext):
         await ctx.send(f"Pong! ({self.client.latency}ms)")
+
 
 def setup(client: interactions.Client):
     Ping(client)
